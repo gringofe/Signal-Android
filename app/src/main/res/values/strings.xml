@@ -2964,6 +2964,10 @@
     <string name="GroupLinkBottomSheet_share">Share</string>
     <string name="GroupLinkBottomSheet_copied_to_clipboard">Copied to clipboard</string>
     <string name="GroupLinkBottomSheet_the_link_is_not_currently_active">The link is not currently active</string>
+    <string name="preferences_app_protection__fingerprint_success_animation_duration">If fingerprint is set up, this changes the duration of the animation after the fingerprint has successfully been authenticated</string>
+    <string name="preferences_app_protection__screen_lock_fingerprint_animation_duration">Screen lock animation duration (ms)</string>
+    <string name="preferences_app_protection__screen_lock_show_notification_content">Screen lock show notification content</string>
+    <string name="preferences_app_protection__show_notification_content">Show notification content, even if Signal is currently locked by screen lock</string>
 
     <!-- VoiceNotePlaybackPreparer -->
     <string name="VoiceNotePlaybackPreparer__could_not_start_playback">Could not start playback.</string>

@@ -354,7 +354,7 @@ public class PassphrasePromptActivity extends PassphraseActivity {
       Log.i(TAG, "onAuthenticationSucceeded");
       fingerprintPrompt.setImageResource(R.drawable.ic_check_white_48dp);
       fingerprintPrompt.getBackground().setColorFilter(getResources().getColor(R.color.green_500), PorterDuff.Mode.SRC_IN);
-      fingerprintPrompt.animate().setInterpolator(new BounceInterpolator()).scaleX(1.1f).scaleY(1.1f).setDuration(500).setListener(new AnimationCompleteListener() {
+      fingerprintPrompt.animate().setInterpolator(new BounceInterpolator()).scaleX(1.1f).scaleY(1.1f).setDuration(TextSecurePreferences.getScreenLockAnimationDuration(getBaseContext())).setListener(new AnimationCompleteListener() {
         @Override
         public void onAnimationEnd(Animator animation) {
           handleAuthenticated();

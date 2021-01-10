@@ -584,7 +584,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
       if (isUnreadMessage) {
         boolean canReply = false;
 
-        if (KeyCachingService.isLocked(context)) {
+        if (KeyCachingService.isLocked(context) && !TextSecurePreferences.isScreenLockShowNotificationContentEnabled(context)) {
           body = SpanUtil.italic(context.getString(R.string.MessageNotifier_locked_message));
         } else if (record.isMms() && !((MmsMessageRecord) record).getSharedContacts().isEmpty()) {
           Contact contact = ((MmsMessageRecord) record).getSharedContacts().get(0);
@@ -624,7 +624,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
             continue;
           }
 
-          if (KeyCachingService.isLocked(context)) {
+          if (KeyCachingService.isLocked(context) && !TextSecurePreferences.isScreenLockShowNotificationContentEnabled(context)) {
             body = SpanUtil.italic(context.getString(R.string.MessageNotifier_locked_message));
           } else {
             String   text  = SpanUtil.italic(getReactionMessageBody(context, record, originalBody)).toString();
