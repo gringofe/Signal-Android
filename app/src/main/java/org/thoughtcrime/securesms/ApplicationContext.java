@@ -79,6 +79,7 @@ import org.thoughtcrime.securesms.util.FeatureFlags;
 import org.thoughtcrime.securesms.util.SignalUncaughtExceptionHandler;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
 import org.thoughtcrime.securesms.util.Util;
+import org.thoughtcrime.securesms.util.VersionTracker;
 import org.thoughtcrime.securesms.util.dynamiclanguage.DynamicLanguageContextWrapper;
 import org.webrtc.voiceengine.WebRtcAudioManager;
 import org.webrtc.voiceengine.WebRtcAudioUtils;
@@ -136,13 +137,14 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
                             .addBlocking("app-migrations", this::initializeApplicationMigrations)
                             .addBlocking("ring-rtc", this::initializeRingRtc)
                             .addBlocking("mark-registration", () -> RegistrationUtil.maybeMarkRegistrationComplete(this))
+                            .addBlocking("lifecycle-observer", () -> ProcessLifecycleOwner.get().getLifecycle().addObserver(this))
+                            .addBlocking("message-retriever", this::initializeMessageRetrieval)
                             .addBlocking("dynamic-theme", () -> DynamicTheme.setDefaultDayNightMode(this))
                             .addBlocking("vector-compat", () -> {
                               if (Build.VERSION.SDK_INT < 21) {
                                 AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
                               }
                             })
-                            .addNonBlocking(this::initializeMessageRetrieval)
                             .addNonBlocking(this::initializeRevealableMessageManager)
                             .addNonBlocking(this::initializeGcmCheck)
                             .addNonBlocking(this::initializeSignedPreKeyCheck)
@@ -275,13 +277,16 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
 
   private void initializeFirstEverAppLaunch() {
     if (TextSecurePreferences.getFirstInstallVersion(this) == -1) {
-      if (!SQLCipherOpenHelper.databaseFileExists(this)) {
+      if (!SQLCipherOpenHelper.databaseFileExists(this) || VersionTracker.getDaysSinceFirstInstalled(this) < 365) {
         Log.i(TAG, "First ever app launch!");
         AppInitialization.onFirstEverAppLaunch(this);
       }
 
       Log.i(TAG, "Setting first install version to " + BuildConfig.CANONICAL_VERSION_CODE);
       TextSecurePreferences.setFirstInstallVersion(this, BuildConfig.CANONICAL_VERSION_CODE);
+    } else if (!TextSecurePreferences.isPasswordDisabled(this) && VersionTracker.getDaysSinceFirstInstalled(this) < 90) {
+      Log.i(TAG, "Detected a new install that doesn't have passphrases disabled -- assuming bad initialization.");
+      AppInitialization.onRepairFirstEverAppLaunch(this);
     }
   }
 

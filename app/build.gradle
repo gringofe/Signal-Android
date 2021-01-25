@@ -61,10 +61,10 @@ protobuf {
     }
 }
 
-def canonicalVersionCode = 764
-def canonicalVersionName = "5.1.4"
+def canonicalVersionCode = 778
+def canonicalVersionName = "5.3.5"
 
-def postFixSize = 10
+def postFixSize = 100
 def abiPostFix = ['universal'   : 0,
                   'armeabi-v7a' : 1,
                   'arm64-v8a'   : 2,
@@ -344,7 +344,7 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
     implementation 'org.signal:argon2:13.1@aar'
 
-    implementation 'org.signal:ringrtc-android:2.8.9'
+    implementation 'org.signal:ringrtc-android:2.8.10'
 
     implementation "me.leolin:ShortcutBadger:1.1.16"
     implementation 'se.emilsjolander:stickylistheaders:2.7.0'
