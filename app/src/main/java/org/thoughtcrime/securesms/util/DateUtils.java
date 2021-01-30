@@ -86,8 +86,10 @@ public class DateUtils extends android.text.format.DateUtils {
     return getDayFromTimestamp(timestamp) == getDayFromTimestamp(System.currentTimeMillis());
   }
 
-  private static long getDayFromTimestamp(long timestamp){
-    return timestamp / 60 / 60 / 24;
+  private static final long MS_TO_DAY = 1000 * 60 * 60 * 24;
+
+  private static long getDayFromTimestamp(long timestamp) {
+    return timestamp / MS_TO_DAY;
   }
 
   public static String getExtendedRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
