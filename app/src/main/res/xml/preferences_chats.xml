@@ -36,6 +36,12 @@
             android:summary="@string/preferences__display_contact_photos_from_your_address_book_if_available"
             android:title="@string/preferences__pref_use_address_book_photos"/>
 
+        <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_absolute_time"
+            android:title="@string/preferences__absolute_time"
+            android:summary="@string/preferences__use_absolute_time" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:layout="@layout/preference_divider"/>

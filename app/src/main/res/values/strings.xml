@@ -2877,6 +2877,8 @@
     <string name="WallpaperCropActivity__set_wallpaper_for_s">Set wallpaper for %s.</string>
     <string name="WallpaperCropActivity__error_setting_wallpaper">Error setting wallpaper.</string>
     <string name="WallpaperCropActivity__blur_photo">Blur photo</string>
+    <string name="preferences__absolute_time">Use absolute time</string>
+    <string name="preferences__use_absolute_time">Display the absolute time a message was sent instead of it being relative to the current time</string>
     <string name="media_preview__jump_to_msg_title">Jump to message</string>
 
     <!-- EOF -->
