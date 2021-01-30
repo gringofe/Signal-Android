@@ -66,7 +66,7 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getBriefRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
-    if (isWithin(timestamp, 1, TimeUnit.DAYS)) {
+    if (isSameDay(timestamp)) {
       return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
     } else if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "EEE", locale);
