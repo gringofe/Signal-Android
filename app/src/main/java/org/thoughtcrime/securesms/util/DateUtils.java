@@ -82,9 +82,17 @@ public class DateUtils extends android.text.format.DateUtils {
     else return "hh:mm a";
   }
 
+  private static boolean isSameDay(long timestamp){
+    return getDayFromTimestamp(timestamp) == getDayFromTimestamp(System.currentTimeMillis());
+  }
+
+  private static long getDayFromTimestamp(long timestamp){
+    return timestamp / 60 / 60 / 24;
+  }
+
   public static String getExtendedRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
     StringBuilder format = new StringBuilder();
-    if (!isWithin(timestamp, 1, TimeUnit.DAYS)) {
+    if (!isSameDay(timestamp)) {
       if (isWithin(timestamp, 6, TimeUnit.DAYS)) format.append("EEE ");
       else if (isWithin(timestamp, 365, TimeUnit.DAYS)) format.append("MMM d, ");
       else format.append("MMM d, yyyy, ");
