@@ -57,6 +57,7 @@ import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.animation.DepthPageTransformer;
 import org.thoughtcrime.securesms.attachments.DatabaseAttachment;
 import org.thoughtcrime.securesms.components.viewpager.ExtendedOnPageChangedListener;
+import org.thoughtcrime.securesms.conversation.ConversationIntents;
 import org.thoughtcrime.securesms.database.MediaDatabase;
 import org.thoughtcrime.securesms.database.MediaDatabase.MediaRecord;
 import org.thoughtcrime.securesms.database.loaders.PagingMediaLoader;
@@ -66,6 +67,7 @@ import org.thoughtcrime.securesms.mediapreview.MediaPreviewViewModel;
 import org.thoughtcrime.securesms.mediapreview.MediaRailAdapter;
 import org.thoughtcrime.securesms.mms.GlideApp;
 import org.thoughtcrime.securesms.mms.PartAuthority;
+import org.thoughtcrime.securesms.notifications.NotificationItem;
 import org.thoughtcrime.securesms.permissions.Permissions;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
@@ -378,6 +380,17 @@ public final class MediaPreviewActivity extends PassphraseRequiredActivity
     startActivity(MediaOverviewActivity.forThread(this, threadId));
   }
 
+  private void jumpToMessage() {
+    MediaItem mediaItem = getCurrentMediaItem();
+
+    if (mediaItem != null) {
+      ConversationIntents.Builder builder = ConversationIntents.createBuilder(this, mediaItem.recipient.getId(), threadId);
+      builder.withStartingPosition(NotificationItem.getStartingPosition(this, threadId, mediaItem.date));
+
+      startActivity(builder.build());
+    }
+  }
+
   private void forward() {
     MediaItem mediaItem = getCurrentMediaItem();
 
@@ -504,12 +517,13 @@ public final class MediaPreviewActivity extends PassphraseRequiredActivity
 
     int itemId = item.getItemId();
 
-    if (itemId == R.id.media_preview__overview) { showOverview(); return true; }
-    if (itemId == R.id.media_preview__forward)  { forward();      return true; }
-    if (itemId == R.id.media_preview__share)    { share();        return true; }
-    if (itemId == R.id.save)                    { saveToDisk();   return true; }
-    if (itemId == R.id.delete)                  { deleteMedia();  return true; }
-    if (itemId == android.R.id.home)            { finish();       return true; }
+    if (itemId == R.id.media_jump_to_msg)       { jumpToMessage(); return true; }
+    if (itemId == R.id.media_preview__overview) { showOverview();  return true; }
+    if (itemId == R.id.media_preview__forward)  { forward();       return true; }
+    if (itemId == R.id.media_preview__share)    { share();         return true; }
+    if (itemId == R.id.save)                    { saveToDisk();    return true; }
+    if (itemId == R.id.delete)                  { deleteMedia();   return true; }
+    if (itemId == android.R.id.home)            { finish();        return true; }
 
     return false;
   }

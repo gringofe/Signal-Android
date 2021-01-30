@@ -113,7 +113,7 @@ public class NotificationItem {
     return isJoin;
   }
 
-  private static int getStartingPosition(@NonNull Context context, long threadId, long receivedTimestampMs) {
+  public static int getStartingPosition(@NonNull Context context, long threadId, long receivedTimestampMs) {
     return DatabaseFactory.getMmsSmsDatabase(context).getMessagePositionInConversation(threadId, receivedTimestampMs);
   }
 

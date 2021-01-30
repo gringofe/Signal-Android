@@ -2877,6 +2877,7 @@
     <string name="WallpaperCropActivity__set_wallpaper_for_s">Set wallpaper for %s.</string>
     <string name="WallpaperCropActivity__error_setting_wallpaper">Error setting wallpaper.</string>
     <string name="WallpaperCropActivity__blur_photo">Blur photo</string>
+    <string name="media_preview__jump_to_msg_title">Jump to message</string>
 
     <!-- EOF -->
 
