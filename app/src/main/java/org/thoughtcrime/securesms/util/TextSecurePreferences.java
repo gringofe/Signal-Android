@@ -90,6 +90,8 @@ public class TextSecurePreferences {
   private static final String SHOW_INVITE_REMINDER_PREF        = "pref_show_invite_reminder";
   public  static final String MESSAGE_BODY_TEXT_SIZE_PREF      = "pref_message_body_text_size";
 
+  public  static final String ABSOLUTE_MESSAGE_TIME            = "pref_absolute_time";
+
   private static final String LOCAL_REGISTRATION_ID_PREF       = "pref_local_registration_id";
   private static final String SIGNED_PREKEY_REGISTERED_PREF    = "pref_signed_prekey_registered";
   private static final String WIFI_SMS_PREF                    = "pref_wifi_sms";
@@ -454,6 +456,14 @@ public class TextSecurePreferences {
 
   public static int getMessageBodyTextSize(Context context) {
     return Integer.valueOf(getStringPreference(context, MESSAGE_BODY_TEXT_SIZE_PREF, "16"));
+  }
+
+  public static boolean isAbsoluteMessageTime(Context context) {
+    return getBooleanPreference(context, ABSOLUTE_MESSAGE_TIME, true);
+  }
+
+  public static void setAbsoluteMessageTime(Context context, boolean absoluteTime){
+    setBooleanPreference(context, ABSOLUTE_MESSAGE_TIME, absoluteTime);
   }
 
   public static boolean isTurnOnly(Context context) {

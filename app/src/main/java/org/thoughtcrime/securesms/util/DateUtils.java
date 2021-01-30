@@ -66,9 +66,23 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getBriefRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
-    if (isSameDay(timestamp)) {
-      return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
-    } else if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
+    if(TextSecurePreferences.isAbsoluteMessageTime(c)){
+      if (isSameDay(timestamp)) {
+        return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
+      }
+    } else {
+      if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
+        return c.getString(R.string.DateUtils_just_now);
+      } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
+        int mins = convertDelta(timestamp, TimeUnit.MINUTES);
+        return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
+      } else if (isWithin(timestamp, 1, TimeUnit.DAYS)) {
+        int hours = convertDelta(timestamp, TimeUnit.HOURS);
+        return c.getResources().getQuantityString(R.plurals.hours_ago, hours, hours);
+      }
+    }
+
+    if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "EEE", locale);
     } else if (isWithin(timestamp, 365, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "MMM d", locale);
@@ -93,6 +107,15 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getExtendedRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
+    if(!TextSecurePreferences.isAbsoluteMessageTime(c)){
+      if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
+        return c.getString(R.string.DateUtils_just_now);
+      } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
+        int mins = (int)TimeUnit.MINUTES.convert(System.currentTimeMillis() - timestamp, TimeUnit.MILLISECONDS);
+        return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
+      }
+    }
+
     StringBuilder format = new StringBuilder();
     if (!isSameDay(timestamp)) {
       if (isWithin(timestamp, 6, TimeUnit.DAYS)) format.append("EEE ");
