@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import org.signal.core.util.logging.Log;
 import org.signal.ringrtc.CallException;
 import org.signal.ringrtc.CallId;
-import org.signal.ringrtc.CallManager;
+import org.thoughtcrime.securesms.components.webrtc.OrientationAwareVideoSink;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
 import org.thoughtcrime.securesms.database.RecipientDatabase;
 import org.thoughtcrime.securesms.events.CallParticipant;
@@ -88,8 +88,8 @@ public class IncomingCallActionProcessor extends DeviceAwareActionProcessor {
       webRtcInteractor.getCallManager().proceed(activePeer.getCallId(),
                                                 context,
                                                 videoState.requireEglBase(),
-                                                videoState.requireLocalSink(),
-                                                callParticipant.getVideoSink(),
+                                                new OrientationAwareVideoSink(videoState.requireLocalSink()),
+                                                new OrientationAwareVideoSink(callParticipant.getVideoSink()),
                                                 videoState.requireCamera(),
                                                 iceServers,
                                                 hideIp,
@@ -225,14 +225,6 @@ public class IncomingCallActionProcessor extends DeviceAwareActionProcessor {
                                                                 @NonNull ArrayList<IceCandidateParcel> iceCandidates)
   {
     return activeCallDelegate.handleSendIceCandidates(currentState, callMetadata, broadcast, iceCandidates);
-  }
-
-  @Override
-  protected @NonNull WebRtcServiceState handleReceivedIceCandidates(@NonNull WebRtcServiceState currentState,
-                                                                    @NonNull WebRtcData.CallMetadata callMetadata,
-                                                                    @NonNull ArrayList<IceCandidateParcel> iceCandidateParcels)
-  {
-    return activeCallDelegate.handleReceivedIceCandidates(currentState, callMetadata, iceCandidateParcels);
   }
 
   @Override

@@ -65,6 +65,8 @@
   <!--AttachmentUploadJob-->
   <string name="AttachmentUploadJob_uploading_media">Alŝuto de aŭdvidaĵo…</string>
   <string name="AttachmentUploadJob_compressing_video_start">Densigo de la videaĵo…</string>
+  <!--BackgroundMessageRetriever-->
+  <string name="BackgroundMessageRetriever_checking_for_messages">Kontrolo pri mesaĝoj…</string>
   <!--BlockedUsersActivity-->
   <string name="BlockedUsersActivity__blocked_users">Blokataj uzantoj</string>
   <string name="BlockedUsersActivity__add_blocked_user">Aldoni blokatan uzanton</string>
@@ -202,7 +204,7 @@
   <string name="ConversationActivity_unable_to_record_audio">Ne eblas registri sonaĵon!</string>
   <string name="ConversationActivity_you_cant_send_messages_to_this_group">Vi ne povas sendi mesaĝojn al tiu grupo, ĉar vi ne plu partoprenas en ĝi.</string>
   <string name="ConversationActivity_there_is_no_app_available_to_handle_this_link_on_your_device">Estas neniu aplikaĵo disponebla por trakti ĉi tiun ligilon ĉe via aparato.</string>
-  <string name="ConversationActivity_your_request_to_join_has_been_sent_to_the_group_admin">Via peto por aniĝi sendiĝis al grupadministranto. Oni diras al vi per sciigo, kiam ŝi aŭ ĝi respondas.</string>
+  <string name="ConversationActivity_your_request_to_join_has_been_sent_to_the_group_admin">Via peto por aniĝi sendiĝis al la grupadministranto. Oni diras al vi per sciigo, kiam ŝi aŭ ĝi respondas.</string>
   <string name="ConversationActivity_cancel_request">Nuligi la peton</string>
   <string name="ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone">Por registri aŭdajn mesaĝojn, donu al Signal permeson uzi vian mikrofonon.</string>
   <string name="ConversationActivity_signal_requires_the_microphone_permission_in_order_to_send_audio_messages">Signal bezonas la Mikrofono-permeson por sendi aŭdajn mesaĝojn, sed ĝi estis porĉiame malakceptita. Bonvolu daŭrigi al la aplikaĵaj agordoj, elekti „Permesoj“, kaj ŝalti „Mikrofono“.</string>
@@ -232,6 +234,7 @@
   <string name="ConversationActivity__more_options_now_in_group_settings">Pli da elektoj nun en „Grup-agordoj“</string>
   <string name="ConversationActivity_join">Aniĝi</string>
   <string name="ConversationActivity_full">Plena</string>
+  <string name="ConversationActivity_error_sending_media">Eraro dum sendado de aŭdvidaĵo</string>
   <!--ConversationAdapter-->
   <plurals name="ConversationAdapter_n_unread_messages">
     <item quantity="one">%d nelegita mesaĝo</item>
@@ -469,7 +472,7 @@
   <!--GroupsV1MigrationInitiationReminder-->
   <string name="GroupsV1MigrationInitiationReminder_to_access_new_features_like_mentions">Por uzi @menciojn kaj grupadministrantojn, ĝisdatigu tiun ĉi grupon.</string>
   <string name="GroupsV1MigrationInitiationReminder_not_now">Ne nun</string>
-  <string name="GroupsV1MigrationInitiationReminder_update_group">Aktualigi grupon</string>
+  <string name="GroupsV1MigrationInitiationReminder_upgrade_group">Ĝisdatigi la grupon</string>
   <!--GroupsV1MigrationSuggestionsReminder-->
   <plurals name="GroupsV1MigrationSuggestionsReminder_members_couldnt_be_added_to_the_new_group">
     <item quantity="one">%1$d ano ne povis re-aldoniĝi al la novtipa grupo. Ĉu vi volas aldoni ŝin aŭ lin nun?</item>
@@ -834,6 +837,11 @@
   <string name="NotificationBarManager__answer_call">Respondi alvokon</string>
   <string name="NotificationBarManager__end_call">Fini alvokon</string>
   <string name="NotificationBarManager__cancel_call">Nuligi alvokon</string>
+  <!--NotificationsMegaphone-->
+  <string name="NotificationsMegaphone_turn_on_notifications">Ĉu ŝalti sciigojn?</string>
+  <string name="NotificationsMegaphone_never_miss_a_message">Neniam preterlasu mesaĝon el viaj kontaktoj kaj grupoj.</string>
+  <string name="NotificationsMegaphone_turn_on">Aktivigi</string>
+  <string name="NotificationsMegaphone_not_now">Ne nun</string>
   <!--NotificationMmsMessageRecord-->
   <string name="NotificationMmsMessageRecord_multimedia_message">Aŭdvida mesaĝo</string>
   <string name="NotificationMmsMessageRecord_downloading_mms_message">Elŝutado de MMS-mesaĝo</string>
@@ -1091,7 +1099,7 @@
   <!--ExpirationDialog-->
   <string name="ExpirationDialog_disappearing_messages">Memviŝontaj mesaĝoj</string>
   <string name="ExpirationDialog_your_messages_will_not_expire">Viaj mesaĝoj ne senvalidiĝos.</string>
-  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Mesaĝoj senditaj kaj ricevitaj en tiu ĉi interparolo malaperos %s post ilia lego.</string>
+  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Mesaĝoj senditaj kaj ricevitaj en tiu ĉi interparolo malaperos %s post sia legiĝo.</string>
   <!--OutdatedBuildReminder-->
   <string name="OutdatedBuildReminder_update_now">Ĝisdatigi nun</string>
   <string name="OutdatedBuildReminder_your_version_of_signal_will_expire_today">Tiu versio de Signal senvalidiĝos hodiaŭ. Ĝisdatigu al plej nova versio.</string>
@@ -1105,6 +1113,7 @@
   <string name="PassphrasePromptActivity_ok_button_content_description">Sendi pasfrazon</string>
   <string name="PassphrasePromptActivity_invalid_passphrase_exclamation">Nevalida pasfrazo!</string>
   <string name="PassphrasePromptActivity_unlock_signal">Malŝlosi Signal-on</string>
+  <string name="PassphrasePromptActivity_signal_android_lock_screen">Signal Android — Ŝlosita ekrano</string>
   <!--PlacePickerActivity-->
   <string name="PlacePickerActivity_title">Mapo</string>
   <string name="PlacePickerActivity_drop_pin">Elekti tiun ĉi lokon</string>
@@ -1142,7 +1151,6 @@
   <string name="RatingManager_rate_now">Pritaksi nun!</string>
   <string name="RatingManager_no_thanks">Ne, dankon</string>
   <string name="RatingManager_later">Poste</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Nu, la aplikaĵo „Play Store“ ŝajne ne estas instalita sur via aparato.</string>
   <!--ReactionsBottomSheetDialogFragment-->
   <string name="ReactionsBottomSheetDialogFragment_all">Ĉiuj · %1$d</string>
   <!--ReactionsConversationView-->
@@ -1201,6 +1209,12 @@
   <string name="CallParticipantView__cant_receive_audio_video_from_s">Sono kaj video el %1$s ne riceveblas</string>
   <string name="CallParticipantView__cant_receive_audio_and_video_from_s">Sono kaj video el %1$s ne riceveblas</string>
   <string name="CallParticipantView__this_may_be_Because_they_have_not_verified_your_safety_number_change">Eble ili ne kontrolis vian ŝanĝon de sekuriga numero, aŭ estas problemo ĉe ilia aparato, aŭ ili blokis vin.</string>
+  <!--ProxyBottomSheetFragment-->
+  <string name="ProxyBottomSheetFragment_proxy_server">Prokura servilo</string>
+  <string name="ProxyBottomSheetFragment_proxy_address">Prokura adreso</string>
+  <string name="ProxyBottomSheetFragment_do_you_want_to_use_this_proxy_address">Ĉu vi volas uzi tiun prokuran adreson?</string>
+  <string name="ProxyBottomSheetFragment_use_proxy">Uzi prokurilon</string>
+  <string name="ProxyBottomSheetFragment_successfully_connected_to_proxy">Konektado al prokurilo sukcesis.</string>
   <!--RegistrationActivity-->
   <string name="RegistrationActivity_select_your_country">Elektu vian landon</string>
   <string name="RegistrationActivity_you_must_specify_your_country_code">Vi devas specifi vian
@@ -1236,6 +1250,7 @@
   <string name="RegistrationActivity_continue">Daŭrigi</string>
   <string name="RegistrationActivity_take_privacy_with_you_be_yourself_in_every_message">Kunprenu privatecon.\nEstu vi mem en ĉiu mesaĝo.</string>
   <string name="RegistrationActivity_enter_your_phone_number_to_get_started">Entajpu vian telefonnumeron unue</string>
+  <string name="RegistrationActivity_enter_your_phone_number">Entajpu vian telefonnumeron</string>
   <string name="RegistrationActivity_you_will_receive_a_verification_code">Vi ricevos konfirman kodon per SMS. Eble via sendrata provizanto pagigos al vi la SMS-on.</string>
   <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Bv. entajpi la kontrolkodon senditan al %s.</string>
   <string name="RegistrationActivity_make_sure_your_phone_has_a_cellular_signal">Kontrolu, ĉu via telefono havas ĉelan signalon por ricevi SMS-on aŭ alvokon</string>
@@ -1340,7 +1355,7 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="ThreadRecord_view_once_photo">Nurunufoje videbla foto</string>
   <string name="ThreadRecord_view_once_video">Nurunufoje videbla videaĵo</string>
   <string name="ThreadRecord_view_once_media">Nurunufoje videbla aŭdvidaĵo</string>
-  <string name="ThreadRecord_this_message_was_deleted">Tiu ĉi mesaĝo forviŝiĝis.</string>
+  <string name="ThreadRecord_this_message_was_deleted">Tiu ĉi mesaĝo estis forviŝita.</string>
   <string name="ThreadRecord_you_deleted_this_message">Vi forviŝis tiun mesaĝon.</string>
   <string name="ThreadRecord_s_is_on_signal">%s estas ĉe Signal!</string>
   <string name="ThreadRecord_disappearing_messages_disabled">Memviŝontaj mesaĝoj malŝaltita</string>
@@ -1449,7 +1464,7 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="MessageNotifier_reacted_s_to_your_audio">Reagis per %1$s al via aŭdaĵo.</string>
   <string name="MessageNotifier_reacted_s_to_your_view_once_media">Reagis per %1$s al via nurunufoje videbla videaĵo.</string>
   <string name="MessageNotifier_reacted_s_to_your_sticker">Reagis per %1$s al via glumarko.</string>
-  <string name="MessageNotifier_this_message_was_deleted">Tiu ĉi mesaĝo forviŝiĝis.</string>
+  <string name="MessageNotifier_this_message_was_deleted">Tiu ĉi mesaĝo estis forviŝita.</string>
   <string name="TurnOffContactJoinedNotificationsActivity__turn_off_contact_joined_signal">Ĉu malŝalti sciigojn pri aliĝo de kontakto al Signal? Vi povos reŝalti ilin ĉe Signal → Agordoj → Sciigoj.</string>
   <!--Notification Channels-->
   <string name="NotificationChannel_messages">Defaŭlta</string>
@@ -1700,7 +1715,7 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <!--EditAboutFragment-->
   <string name="EditAboutFragment_about">Pri</string>
   <string name="EditAboutFragment_write_a_few_words_about_yourself">Skribu kelkajn vortojn pri vi…</string>
-  <string name="EditAboutFragment_count">%d/%d</string>
+  <string name="EditAboutFragment_count">%1$d/%2$d</string>
   <string name="EditAboutFragment_speak_freely">Parolu libere</string>
   <string name="EditAboutFragment_encrypted">Ĉifrita</string>
   <string name="EditAboutFragment_be_kind">Estu afabla</string>
@@ -1771,11 +1786,19 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="HelpFragment__include_debug_log">Aldoni sencimigan protokolon.</string>
   <string name="HelpFragment__whats_this">Kio estas tio?</string>
   <string name="HelpFragment__how_do_you_feel">Kiel vi sentas vin? (malnepra)</string>
+  <string name="HelpFragment__tell_us_why_youre_reaching_out">Diru al ni, kial vi kontaktas nin.</string>
   <string name="HelpFragment__support_info">Helpinformo</string>
   <string name="HelpFragment__signal_android_support_request">Helpopeto pri Android-Signal</string>
   <string name="HelpFragment__debug_log">Sencimiga protokolo:</string>
   <string name="HelpFragment__could_not_upload_logs">Protokolo ne alŝutiĝis</string>
   <string name="HelpFragment__please_be_as_descriptive_as_possible">Priskribu laŭeble precize por helpi al ni kompreni la problemon.</string>
+  <string-array name="HelpFragment__categories">
+    <item>Io ne funkcias</item>
+    <item>Peto por nova funkcio</item>
+    <item>Demando</item>
+    <item>Prikomento</item>
+    <item>Alia</item>
+  </string-array>
   <!--ReactWithAnyEmojiBottomSheetDialogFragment-->
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__this_message">Tiu mesaĝo</string>
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__recently_used">Lastatempe uzitaj</string>
@@ -1969,6 +1992,22 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="preferences_communication__sealed_sender_allow_from_anyone_description">Ebligi la funkcion „Sekretigo de la sendinto“ ĉe envenaj mesaĝoj el ne-kontaktoj kaj personoj, kun kiuj vi ne kunhavigis vian profilon.</string>
   <string name="preferences_communication__sealed_sender_learn_more">Scii pli</string>
   <string name="preferences_setup_a_username">Krei uzantnomon</string>
+  <string name="preferences_proxy">Prokurilo</string>
+  <string name="preferences_use_proxy">Uzi prokurilon</string>
+  <string name="preferences_off">Malŝaltita</string>
+  <string name="preferences_on">Ŝaltita</string>
+  <string name="preferences_proxy_address">Prokura adreso</string>
+  <string name="preferences_only_use_a_proxy_if">Uzi prokurilon, nur se vi ne povas konekti al Signal per ĉela aŭ vifia konekto.</string>
+  <string name="preferences_share">Kunhavigi</string>
+  <string name="preferences_save">Konservi</string>
+  <string name="preferences_connecting_to_proxy">Konektado al prokurilo…</string>
+  <string name="preferences_connected_to_proxy">Konektita al prokurilo</string>
+  <string name="preferences_connection_failed">Konekto malsukcesis</string>
+  <string name="preferences_couldnt_connect_to_the_proxy">Konektado al prokurilo ne okazis. Kontrolu la prokuran adreson, kaj reprovu.</string>
+  <string name="preferences_you_are_connected_to_the_proxy">Vi estas konektita al la prokurilo. Vi povas malŝalti ĝin pere de la agordoj.</string>
+  <string name="preferences_success">Sukceso</string>
+  <string name="preferences_failed_to_connect">Malsukcesis konekto</string>
+  <string name="preferences_enter_proxy_address">Entajpi prokuran adreson</string>
   <string name="configurable_single_select__customize_option">Elekti opcion</string>
   <!--Internal only preferences-->
   <!--****************************************-->
@@ -2151,6 +2190,8 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="RegistrationLockFragment__incorrect_pin">Malĝusta PIN</string>
   <string name="RegistrationLockFragment__forgot_your_pin">Ĉu vi forgesis vian PIN?</string>
   <string name="RegistrationLockFragment__not_many_tries_left">Ne restas multe da provoj!</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v1_pin">Signal-registriĝo — Helpbezono pri PIN ĉe Android (PIN-v1)</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v2_pin">Signal-registriĝo — Helpbezono pri PIN ĉe Android (PIN-v2)</string>
   <plurals name="RegistrationLockFragment__for_your_privacy_and_security_there_is_no_way_to_recover">
     <item quantity="one">Pro via protekto kaj sekureco, tute ne eblas rehavi vian PIN. Se vi ne plu povas reprovi, vi povos re-kontroli vian konton per SMS post %1$d tago de neaktivaĵoj. Ĉi-okaze, via konto kaj ĉiu enhavo forviŝiĝos.</item>
     <item quantity="other">Pro via protekto kaj sekureco, tute ne eblas rehavi vian PIN. Se vi ne plu povas reprovi, vi povos re-kontroli vian konton per SMS post %1$d tagoj de neaktivaĵoj. Ĉi-okaze, via konto kaj ĉiu enhavo forviŝiĝos.</item>
@@ -2205,9 +2246,13 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="backup_enable_dialog__folder">Dosierujo</string>
   <string name="backup_enable_dialog__i_have_written_down_this_passphrase">Mi skribis tiun ĉi pasfrazon. Sen ĝi, mi ne povos restaŭri savkopion.</string>
   <string name="registration_activity__restore_backup">Restaŭri savkopion</string>
+  <string name="registration_activity__transfer_or_restore_account">Transigo aŭ restaŭro de la konto</string>
+  <string name="registration_activity__transfer_account">Transigi la konton</string>
   <string name="registration_activity__skip">Preterpasi</string>
   <string name="preferences_chats__chat_backups">Mesaĝaj savkopioj</string>
   <string name="preferences_chats__backup_chats_to_external_storage">Savkopii mesaĝojn al ekstera konservejo</string>
+  <string name="preferences_chats__transfer_account">Transigi la konton</string>
+  <string name="preferences_chats__transfer_account_to_a_new_android_device">Transigi la konton al nova Android-aparato</string>
   <string name="RegistrationActivity_enter_backup_passphrase">Entajpu la savkopian pasfrazon</string>
   <string name="RegistrationActivity_restore">Restaŭri</string>
   <string name="RegistrationActivity_backup_failure_downgrade">Ne eblas importi savkopiojn el pli novaj versioj de Signal</string>
@@ -2281,6 +2326,108 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="prompt_passphrase_activity__signal_is_locked">Signal estas ŝlosita</string>
   <string name="prompt_passphrase_activity__tap_to_unlock">TUŜETU POR MALŜLOSI</string>
   <string name="Recipient_unknown">Nekonata</string>
+  <!--TransferOrRestoreFragment-->
+  <string name="TransferOrRestoreFragment__transfer_or_restore_account">Transigo aŭ restaŭro de konto</string>
+  <string name="TransferOrRestoreFragment__if_you_have_previously_registered_a_signal_account">Se vi antaŭe registris Signal-konton, vi povas transigi aŭ restaŭri vian konton kaj viaj mesaĝojn.</string>
+  <string name="TransferOrRestoreFragment__transfer_from_android_device">Transigi el Android-aparato</string>
+  <string name="TransferOrRestoreFragment__restore_from_backup">Restaŭri el savkopio</string>
+  <!--NewDeviceTransferInstructionsFragment-->
+  <string name="NewDeviceTransferInstructions__open_signal_on_your_old_android_phone">Malfermi Signal ĉe via antaŭa Android-aparato.</string>
+  <string name="NewDeviceTransferInstructions__continue">Daŭrigi</string>
+  <string name="NewDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_your_profile_photo_in_the_top_left_to_open_settings">Tuŝetu vian profilfoton en la supra maldekstra angulo por malfermi la agordaĵojn</string>
+  <string name="NewDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_chats">Tuŝetu la linion „Interparoloj“</string>
+  <string name="NewDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="NewDeviceTransferInstructions__tap_transfer_account_and_then_continue_on_both_devices">Tuŝetu „Transigi la konton“ kaj poste „Sekva“ ĉe ambaŭ aparatoj</string>
+  <!--NewDeviceTransferSetupFragment-->
+  <string name="NewDeviceTransferSetup__preparing_to_connect_to_old_android_device">Preparado de la konekto al la antaŭa Android-aparato…</string>
+  <string name="NewDeviceTransferSetup__take_a_moment_should_be_ready_soon">Atendu momenton, baldaŭ estos preta</string>
+  <string name="NewDeviceTransferSetup__waiting_for_old_device_to_connect">Atendo de la konekto el la antaŭa Android-aparato…</string>
+  <string name="NewDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_old_device">Signal bezonas la Pozicio-permeson por malkovri vian antaŭan Android-aparaton kaj konekti al ĝi.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_old_device">Signal bezonas, ke la pozicio-servoj estas ŝaltitaj por malkovri vian antaŭan Android-aparaton kaj konekti al ĝi.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_old_device">Signal bezonas vifion por malkovri vian antaŭan Android-aparaton kaj konekti al ĝi. Vifio devas esti ŝaltita, sed ĝi ne bezonas esti konektita al vifia reto.</string>
+  <string name="NewDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Bedaŭrinde, ŝajne, ke tiu aparato ne subtenas „Wi-Fi Direct“ (senpera vifio). Signal uzas tion por malkovri vian antaŭan Android-aparaton kaj konekti al ĝi. Vi povas tamen restaŭri savkopion por restaŭri vian konton el via antaŭa Android-aparato.</string>
+  <string name="NewDeviceTransferSetup__restore_a_backup">Restaŭri savkopion</string>
+  <string name="NewDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Neatendita eraro okazis dum provo konekti al via antaŭa Android-aparato.</string>
+  <!--OldDeviceTransferSetupFragment-->
+  <string name="OldDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_new_device">Signal bezonas la Pozicio-permeson por malkovri vian novan Android-aparaton kaj konekti al ĝi.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_new_device">Signal bezonas, ke la pozicio-servoj estas ŝaltitaj por malkovri vian novan Android-aparaton kaj konekti al ĝi.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_new_device">Signal bezonas vifion por malkovri vian novan Android-aparaton kaj konekti al ĝi. Vifio devas esti ŝaltita, sed ĝi ne bezonas esti konektita al vifia reto.</string>
+  <string name="OldDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Bedaŭrinde, ŝajne, ke tiu aparato ne subtenas „Wi-Fi Direct“ (senpera vifio). Signal uzas tion por malkovri vian novan Android-aparaton kaj konekti al ĝi. Vi povas tamen restaŭri savkopion por restaŭri vian konton al via nova Android-aparato.</string>
+  <string name="OldDeviceTransferSetup__create_a_backup">Krei savkopion</string>
+  <string name="OldDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Neatendita eraro okazis dum provo konekti al via nova Android-aparato.</string>
+  <!--DeviceTransferSetupFragment-->
+  <string name="DeviceTransferSetup__unable_to_open_wifi_settings">Malfermo de la vifia agordo malsukcesis. Ŝaltu la vifion permane.</string>
+  <string name="DeviceTransferSetup__grant_location_permission">Doni la pozicio-permeson</string>
+  <string name="DeviceTransferSetup__turn_on_location_services">Ŝalti la pozicio-servojn</string>
+  <string name="DeviceTransferSetup__unable_to_open_location_settings">Malfermo de la vifia agordo malsukcesis.</string>
+  <string name="DeviceTransferSetup__turn_on_wifi">Ŝalti la vifion</string>
+  <string name="DeviceTransferSetup__error_connecting">Eraro de konekto</string>
+  <string name="DeviceTransferSetup__retry">Reprovi</string>
+  <string name="DeviceTransferSetup__submit_debug_logs">Sendi sencimigan protokolon</string>
+  <string name="DeviceTransferSetup__verify_code">Kontroli la kodon</string>
+  <string name="DeviceTransferSetup__verify_that_the_code_below_matches_on_both_of_your_devices">Kontrolu, ke la ĉi-suba kodo estas la sama ĉe ambaŭ aparatoj. Poste, tuŝetu „Sekva“.</string>
+  <string name="DeviceTransferSetup__the_numbers_do_not_match">La kodoj ne kongruas</string>
+  <string name="DeviceTransferSetup__continue">Daŭrigi</string>
+  <string name="DeviceTransferSetup__number_is_not_the_same">La kodo ne estas la samaj</string>
+  <string name="DeviceTransferSetup__if_the_numbers_on_your_devices_do_not_match_its_possible_you_connected_to_the_wrong_device">Se la kodoj en viaj aparatoj ne kongruas, eble vi ne konektas al via aparato. Por korekti tion, haltigu la transigon kaj reprovu, kaj metu ambaŭ aparatojn apude.</string>
+  <string name="DeviceTransferSetup__stop_transfer">Haltigi la transigon</string>
+  <string name="DeviceTransferSetup__unable_to_discover_old_device">Malkovro de la antaŭa aparato malsukcesis</string>
+  <string name="DeviceTransferSetup__unable_to_discover_new_device">Malkovro de la nova aparato malsukcesis</string>
+  <string name="DeviceTransferSetup__make_sure_the_following_permissions_are_enabled">Certigu, ke la jenaj permesoj kaj servoj estas ŝaltitaj:</string>
+  <string name="DeviceTransferSetup__location_permission">Pozicio-permeso</string>
+  <string name="DeviceTransferSetup__location_services">Pozicio-servoj</string>
+  <string name="DeviceTransferSetup__wifi">Vifio</string>
+  <string name="DeviceTransferSetup__on_the_wifi_direct_screen_remove_all_remembered_groups_and_unlink_any_invited_or_connected_devices">En la ekrano pri „WI-Fi Direct“ (senpera vifio), forigu ĉiujn enmemorigitajn grupojn kaj malligu invititajn aŭ konektitajn aparatojn.</string>
+  <string name="DeviceTransferSetup__wifi_direct_screen">Ekrano pri „Wi-Fi Direct“</string>
+  <string name="DeviceTransferSetup__try_turning_wifi_off_and_on_on_both_devices">Provu aktivigi kaj malaktivigi vifion ĉe ambaŭ aparatoj.</string>
+  <string name="DeviceTransferSetup__make_sure_both_devices_are_in_transfer_mode">Certigu, ke ambaŭ aparatoj estas en transiga reĝimo.</string>
+  <string name="DeviceTransferSetup__go_to_support_page">Iri al helppaĝo</string>
+  <string name="DeviceTransferSetup__try_again">Provi denove</string>
+  <!--NewDeviceTransferFragment-->
+  <string name="NewDeviceTransfer__cannot_transfer_from_a_newer_version_of_signal">Ne eblas transigi el pli nova versio de Signal</string>
+  <!--DeviceTransferFragment-->
+  <string name="DeviceTransfer__transferring_data">Transigo de datumoj</string>
+  <string name="DeviceTransfer__keep_both_devices_near_each_other">Tenu ambaŭ aparatojn apude. Ne malŝaltu la aparatojn, kaj lasu Signal-on malfermita. Transigo estas tutvoje ĉifrita.</string>
+  <string name="DeviceTransfer__d_messages_so_far">%1$d mesaĝoj ĝis nun…</string>
+  <string name="DeviceTransfer__cancel">Nuligi</string>
+  <string name="DeviceTransfer__try_again">Provi denove</string>
+  <string name="DeviceTransfer__stop_transfer_question">Ĉu haltigi la transigon?</string>
+  <string name="DeviceTransfer__stop_transfer">Haltigi la transigon</string>
+  <string name="DeviceTransfer__all_transfer_progress_will_be_lost">La transigo estos nuligita kaj neniu datumo estos transigita.</string>
+  <string name="DeviceTransfer__transfer_failed">La transigo malsukcesis</string>
+  <string name="DeviceTransfer__unable_to_transfer">La transigo ne eblis</string>
+  <!--OldDeviceTransferInstructionsFragment-->
+  <string name="OldDeviceTransferInstructions__transfer_account">Transigi la konton</string>
+  <string name="OldDeviceTransferInstructions__you_can_transfer_your_signal_account_when_setting_up_signal_on_a_new_android_device">Vi povas transigi vian Signal-konton, kiam vi agordas Signal-on ĉe nova Android-aparato. Antaŭ ol plui:</string>
+  <string name="OldDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="OldDeviceTransferInstructions__download_signal_on_your_new_android_device">Elŝutu Signal-on ĉe via nova Android-aparato</string>
+  <string name="OldDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="OldDeviceTransferInstructions__tap_on_transfer_or_restore_account">Tusêtu „Transigo aŭ restaŭro de konto“</string>
+  <string name="OldDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="OldDeviceTransferInstructions__select_transfer_from_android_device_when_prompted_and_then_continue">Tuŝetu „Transigi el Android-aparato“ kiam oni petas al vi, kaj poste „Sekva“. Tenu ambaŭ aparatojn apude.</string>
+  <string name="OldDeviceTransferInstructions__continue">Daŭrigi</string>
+  <!--OldDeviceTransferComplete-->
+  <string name="OldDeviceTransferComplete__transfer_complete">Transigo plenumita</string>
+  <string name="OldDeviceTransferComplete__go_to_your_new_device">Iru al via nova aparato</string>
+  <string name="OldDeviceTransferComplete__your_signal_data_has_Been_transferred_to_your_new_device">Viaj Signal-datumoj transiĝis al via nova aparato. Por kompletigi la transigon, vi devas plu registriĝi ĉe via nova aparato. </string>
+  <string name="OldDeviceTransferComplete__close">Fermi</string>
+  <!--NewDeviceTransferComplete-->
+  <string name="NewDeviceTransferComplete__transfer_successful">Sukcesa transigo.</string>
+  <string name="NewDeviceTransferComplete__transfer_complete">Transigo plenumita</string>
+  <string name="NewDeviceTransferComplete__to_complete_the_transfer_process_you_must_continue_registration">Por kompletigi la transigon, vi devas plu registriĝi. </string>
+  <string name="NewDeviceTransferComplete__continue_registration">Plu registriĝi</string>
+  <!--DeviceToDeviceTransferService-->
+  <string name="DeviceToDeviceTransferService_content_title">Transigo de konto</string>
+  <string name="DeviceToDeviceTransferService_status_ready">Preparado de la konekto al via alia Android-aparato…</string>
+  <string name="DeviceToDeviceTransferService_status_starting_up">Preparado de la konekto al via alia Android-aparato…</string>
+  <string name="DeviceToDeviceTransferService_status_discovery">Serĉo de via alia Android-aparato…</string>
+  <string name="DeviceToDeviceTransferService_status_network_connected">Konektado al via alia Android-aparato…</string>
+  <string name="DeviceToDeviceTransferService_status_verification_required">Kontrolo bezonata</string>
+  <string name="DeviceToDeviceTransferService_status_service_connected">Transigo de la konto…</string>
+  <!--OldDeviceTransferLockedDialog-->
+  <string name="OldDeviceTransferLockedDialog__done">Farita</string>
   <!--RecipientBottomSheet-->
   <string name="RecipientBottomSheet_block">Bloki</string>
   <string name="RecipientBottomSheet_unblock">Malbloki</string>
@@ -2311,6 +2458,8 @@ Ricevis mesaĝon pri interŝanĝo de ŝlosiloj por nevalida protokola versio.
   <string name="GroupsLearnMore_paragraph_2">Malnovtipaj grupoj ankoraŭ ne konverteblas al novtipaj grupoj, sed vi povas krei novtipan grupon kun la samaj anoj, se ili havas la lastan version de Signal.</string>
   <string name="GroupsLearnMore_paragraph_3">Signal permesos novtipigi malnovtipajn grupojn estonte.</string>
   <!--GroupLinkBottomSheetDialogFragment-->
+  <string name="GroupLinkBottomSheet_share_hint_requiring_approval">Per tiu ligilo, ĉiu ajn povas vidi la nomon kaj la foton de la grupo, kaj peti aniĝon. Kunhavigu la ligilon kun homoj, kiujn vi fidas.</string>
+  <string name="GroupLinkBottomSheet_share_hint_not_requiring_approval">Per tiu ligilo, ĉiu ajn povas vidi la nomon kaj la foton de la grupo, kaj  povas aniĝi. Kunhavigu la ligilon kun homoj, kiujn vi fidas.</string>
   <string name="GroupLinkBottomSheet_share_via_signal">Kunhavi per Signal</string>
   <string name="GroupLinkBottomSheet_copy">Kopii</string>
   <string name="GroupLinkBottomSheet_qr_code">QR-kodo</string>

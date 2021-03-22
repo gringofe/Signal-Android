@@ -65,6 +65,8 @@
   <!--AttachmentUploadJob-->
   <string name="AttachmentUploadJob_uploading_media">Laddar upp media…</string>
   <string name="AttachmentUploadJob_compressing_video_start">Komprimerar video…</string>
+  <!--BackgroundMessageRetriever-->
+  <string name="BackgroundMessageRetriever_checking_for_messages">Söker efter meddelanden…</string>
   <!--BlockedUsersActivity-->
   <string name="BlockedUsersActivity__blocked_users">Blockerade användare</string>
   <string name="BlockedUsersActivity__add_blocked_user">Lägg till blockerad användare</string>
@@ -232,6 +234,7 @@
   <string name="ConversationActivity__more_options_now_in_group_settings">Fler alternativ nu i \"Gruppinställningar\"</string>
   <string name="ConversationActivity_join">Gå med</string>
   <string name="ConversationActivity_full">Fullt</string>
+  <string name="ConversationActivity_error_sending_media">Fel vid sändning av media</string>
   <!--ConversationAdapter-->
   <plurals name="ConversationAdapter_n_unread_messages">
     <item quantity="one">%d oläst meddelande</item>
@@ -469,7 +472,7 @@
   <!--GroupsV1MigrationInitiationReminder-->
   <string name="GroupsV1MigrationInitiationReminder_to_access_new_features_like_mentions">För att få tillgång till nya funktioner som @omnämnanden och administratörer, uppgradera denna grupp.</string>
   <string name="GroupsV1MigrationInitiationReminder_not_now">Inte nu</string>
-  <string name="GroupsV1MigrationInitiationReminder_update_group">Uppdatera grupp</string>
+  <string name="GroupsV1MigrationInitiationReminder_upgrade_group">Uppgradera grupp</string>
   <!--GroupsV1MigrationSuggestionsReminder-->
   <plurals name="GroupsV1MigrationSuggestionsReminder_members_couldnt_be_added_to_the_new_group">
     <item quantity="one">%1$d medlem kunde inte läggas till igen i den Nya gruppen. Vill du lägga till medlemmen nu?</item>
@@ -560,9 +563,9 @@
   <string name="AddGroupDetailsFragment__create">Skapa</string>
   <string name="AddGroupDetailsFragment__members">Medlemmar</string>
   <string name="AddGroupDetailsFragment__you_can_add_or_invite_friends_after_creating_this_group">Du kan lägga till eller bjuda in vänner efter att du har skapat denna grupp.</string>
-  <string name="AddGroupDetailsFragment__group_name_required">Gruppnamn (krävs)</string>
+  <string name="AddGroupDetailsFragment__group_name_required">Gruppnamn (obligatoriskt)</string>
   <string name="AddGroupDetailsFragment__group_name_optional">Gruppnamn (valfritt)</string>
-  <string name="AddGroupDetailsFragment__this_field_is_required">Detta fält krävs.</string>
+  <string name="AddGroupDetailsFragment__this_field_is_required">Detta fält är obligatoriskt.</string>
   <string name="AddGroupDetailsFragment__group_creation_failed">Det gick inte att skapa grupp.</string>
   <string name="AddGroupDetailsFragment__try_again_later">Försök igen senare.</string>
   <string name="AddGroupDetailsFragment__youve_selected_a_contact_that_doesnt">Du har valt en kontakt som inte stöder Signal-grupper, så denna grupp kommer använda MMS.</string>
@@ -644,7 +647,7 @@
   <string name="ManageProfileFragment_failed_to_set_avatar">Misslyckades med att ställa in avatar</string>
   <!--ManageRecipientActivity-->
   <string name="ManageRecipientActivity_add_to_system_contacts">Lägg till i systemkontakter</string>
-  <string name="ManageRecipientActivity_this_person_is_in_your_contacts">Denna person är i dina kontakter</string>
+  <string name="ManageRecipientActivity_this_person_is_in_your_contacts">Denna person finns i dina kontakter</string>
   <string name="ManageRecipientActivity_disappearing_messages">Försvinnande meddelanden</string>
   <string name="ManageRecipientActivity_chat_color">Chattfärg</string>
   <string name="ManageRecipientActivity_chat_wallpaper">Chattbakgrund</string>
@@ -834,6 +837,11 @@
   <string name="NotificationBarManager__answer_call">Svara på samtal</string>
   <string name="NotificationBarManager__end_call">Avsluta samtal</string>
   <string name="NotificationBarManager__cancel_call">Avbryt samtal</string>
+  <!--NotificationsMegaphone-->
+  <string name="NotificationsMegaphone_turn_on_notifications">Slå på notiser?</string>
+  <string name="NotificationsMegaphone_never_miss_a_message">Missa aldrig ett meddelande från dina kontakter och grupper.</string>
+  <string name="NotificationsMegaphone_turn_on">Aktivera</string>
+  <string name="NotificationsMegaphone_not_now">Inte nu</string>
   <!--NotificationMmsMessageRecord-->
   <string name="NotificationMmsMessageRecord_multimedia_message">Multimediameddelande</string>
   <string name="NotificationMmsMessageRecord_downloading_mms_message">Hämtar av MMS-meddelande</string>
@@ -1104,6 +1112,7 @@
   <string name="PassphrasePromptActivity_ok_button_content_description">Skicka lösenord</string>
   <string name="PassphrasePromptActivity_invalid_passphrase_exclamation">Fel lösenord!</string>
   <string name="PassphrasePromptActivity_unlock_signal">Lås upp Signal</string>
+  <string name="PassphrasePromptActivity_signal_android_lock_screen">Signal Android - Låsskärm</string>
   <!--PlacePickerActivity-->
   <string name="PlacePickerActivity_title">Karta</string>
   <string name="PlacePickerActivity_drop_pin">Släpp stift</string>
@@ -1141,7 +1150,6 @@
   <string name="RatingManager_rate_now">Betygsätt nu!</string>
   <string name="RatingManager_no_thanks">Nej tack</string>
   <string name="RatingManager_later">Senare</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Ojoj, appen Play Butik verkar inte finnas installerad på din enhet.</string>
   <!--ReactionsBottomSheetDialogFragment-->
   <string name="ReactionsBottomSheetDialogFragment_all">Alla · %1$d</string>
   <!--ReactionsConversationView-->
@@ -1200,6 +1208,12 @@
   <string name="CallParticipantView__cant_receive_audio_video_from_s">Kan inte ta emot ljud &amp; video från %1$s</string>
   <string name="CallParticipantView__cant_receive_audio_and_video_from_s">Kan inte ta emot ljud och video från %1$s</string>
   <string name="CallParticipantView__this_may_be_Because_they_have_not_verified_your_safety_number_change">Det kan bero på att de inte har verifierat ditt säkerhetsnummerbyte, det finns ett problem med deras enhet eller att de har blockerat dig.</string>
+  <!--ProxyBottomSheetFragment-->
+  <string name="ProxyBottomSheetFragment_proxy_server">Proxyserver</string>
+  <string name="ProxyBottomSheetFragment_proxy_address">Proxyadress</string>
+  <string name="ProxyBottomSheetFragment_do_you_want_to_use_this_proxy_address">Vill du använda denna proxyadress?</string>
+  <string name="ProxyBottomSheetFragment_use_proxy">Använd proxy</string>
+  <string name="ProxyBottomSheetFragment_successfully_connected_to_proxy">Ansluten till proxy.</string>
   <!--RegistrationActivity-->
   <string name="RegistrationActivity_select_your_country">Välj ditt land</string>
   <string name="RegistrationActivity_you_must_specify_your_country_code">Du måste ange din 
@@ -1232,6 +1246,7 @@ angav (%s) är ogiltigt.</string>
   <string name="RegistrationActivity_continue">Fortsätt</string>
   <string name="RegistrationActivity_take_privacy_with_you_be_yourself_in_every_message">Ta med dig sekretess.\nVar dig själv i varje meddelande.</string>
   <string name="RegistrationActivity_enter_your_phone_number_to_get_started">Ange ditt telefonnummer för att komma igång</string>
+  <string name="RegistrationActivity_enter_your_phone_number">Ange ditt telefonnummer</string>
   <string name="RegistrationActivity_you_will_receive_a_verification_code">Du kommer att få en verifieringskod. Din operatör kan ta betalt för det. </string>
   <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Ange koden vi skickade till %s</string>
   <string name="RegistrationActivity_make_sure_your_phone_has_a_cellular_signal">Se till att din telefon har en mobilsignal för att ta emot ditt SMS eller samtal</string>
@@ -1686,7 +1701,7 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="prompt_mms_activity__signal_requires_mms_settings_to_deliver_media_and_group_messages">Signal kräver MMS-inställningar för att leverera medie- och gruppmeddelanden via din mobiloperatör. Din enhet gör inte denna information tillgänglig, vilket ibland stämmer för låsta enheter och andra restriktiva konfigurationer.</string>
   <string name="prompt_mms_activity__to_send_media_and_group_messages_tap_ok">För att skicka medie- och gruppmeddelande, tryck på \"OK\" och slutför de begärda inställningarna. MMS-inställningarna för din operatör kan i allmänhet hittas genom att söka efter \"din operatör-APN\". Du kommer bara att behöva göra detta en gång.</string>
   <!--profile_create_activity-->
-  <string name="CreateProfileActivity_first_name_required">Förnamn (krävs)</string>
+  <string name="CreateProfileActivity_first_name_required">Förnamn (obligatoriskt)</string>
   <string name="CreateProfileActivity_last_name_optional">Efternamn (valfritt)</string>
   <string name="CreateProfileActivity_next">Nästa</string>
   <string name="CreateProfileActivity__username">Användarnamn</string>
@@ -1695,7 +1710,7 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <!--EditAboutFragment-->
   <string name="EditAboutFragment_about">Om</string>
   <string name="EditAboutFragment_write_a_few_words_about_yourself">Skriv några ord om dig själv…</string>
-  <string name="EditAboutFragment_count">%d/%d</string>
+  <string name="EditAboutFragment_count">%1$d/%2$d</string>
   <string name="EditAboutFragment_speak_freely">Tala fritt</string>
   <string name="EditAboutFragment_encrypted">Krypterad</string>
   <string name="EditAboutFragment_be_kind">Var snäll</string>
@@ -1766,11 +1781,19 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="HelpFragment__include_debug_log">Inkludera felsökningslogg.</string>
   <string name="HelpFragment__whats_this">Vad är detta?</string>
   <string name="HelpFragment__how_do_you_feel">Hur mår du? (valfritt)</string>
+  <string name="HelpFragment__tell_us_why_youre_reaching_out">Berätta varför du tar kontakt.</string>
   <string name="HelpFragment__support_info">Supportinformation</string>
   <string name="HelpFragment__signal_android_support_request">Signal Android-supportförfrågan</string>
   <string name="HelpFragment__debug_log">Felsökningslogg:</string>
   <string name="HelpFragment__could_not_upload_logs">Det gick inte att ladda upp loggar</string>
   <string name="HelpFragment__please_be_as_descriptive_as_possible">Vänligen var så beskrivande som möjligt för att hjälpa oss att förstå problemet.</string>
+  <string-array name="HelpFragment__categories">
+    <item>Något fungerar inte</item>
+    <item>Funktionsbegäran</item>
+    <item>Fråga</item>
+    <item>Återkoppling</item>
+    <item>Annat</item>
+  </string-array>
   <!--ReactWithAnyEmojiBottomSheetDialogFragment-->
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__this_message">Detta meddelande</string>
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__recently_used">Senaste använda</string>
@@ -1964,6 +1987,22 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="preferences_communication__sealed_sender_allow_from_anyone_description">Aktivera dold avsändare för inkommande meddelanden från icke-kontakter och personer som du inte delat din profil med.</string>
   <string name="preferences_communication__sealed_sender_learn_more">Läs mer</string>
   <string name="preferences_setup_a_username">Ställ in ett användarnamn</string>
+  <string name="preferences_proxy">Proxy</string>
+  <string name="preferences_use_proxy">Använd proxy</string>
+  <string name="preferences_off">Av</string>
+  <string name="preferences_on">På</string>
+  <string name="preferences_proxy_address">Proxyadress</string>
+  <string name="preferences_only_use_a_proxy_if">Använd endast en proxy om du inte kan ansluta till Signal på mobil eller Wi-Fi.</string>
+  <string name="preferences_share">Dela</string>
+  <string name="preferences_save">Spara</string>
+  <string name="preferences_connecting_to_proxy">Ansluter till proxy…</string>
+  <string name="preferences_connected_to_proxy">Ansluten till proxy</string>
+  <string name="preferences_connection_failed">Anslutningen misslyckades</string>
+  <string name="preferences_couldnt_connect_to_the_proxy">Det gick inte att ansluta till proxyen. Kontrollera proxyadressen och försök igen.</string>
+  <string name="preferences_you_are_connected_to_the_proxy">Du är ansluten till proxyen. Du kan stänga av proxyn när som helst från Inställningar.</string>
+  <string name="preferences_success">Lyckades</string>
+  <string name="preferences_failed_to_connect">Det gick inte att ansluta</string>
+  <string name="preferences_enter_proxy_address">Ange proxyadress</string>
   <string name="configurable_single_select__customize_option">Anpassa alternativet</string>
   <!--Internal only preferences-->
   <!--****************************************-->
@@ -2146,6 +2185,8 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="RegistrationLockFragment__incorrect_pin">Felaktig PIN-kod</string>
   <string name="RegistrationLockFragment__forgot_your_pin">Har du glömt din PIN-kod?</string>
   <string name="RegistrationLockFragment__not_many_tries_left">Inte många försök kvar!</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v1_pin">Signalregistrering - Behöver du hjälp med PIN-kod för Android (v1 PIN)</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v2_pin">Signalregistrering - Behöver du hjälp med PIN-kod för Android (v2 PIN)</string>
   <plurals name="RegistrationLockFragment__for_your_privacy_and_security_there_is_no_way_to_recover">
     <item quantity="one">För din integritet och säkerhet finns det inget sätt att återställa din PIN-kod. Om du inte kan komma ihåg din PIN-kod kan du verifiera med SMS efter %1$d dag av inaktivitet. I detta fall kommer ditt konto att rensas och allt innehåll tas bort.</item>
     <item quantity="other">För din integritet och säkerhet finns det inget sätt att återställa din PIN-kod. Om du inte kan komma ihåg din PIN-kod kan du återverifiera med SMS efter %1$d dagar av inaktivitet. I detta fall kommer ditt konto att rensas och allt innehåll tas bort.</item>
@@ -2186,7 +2227,7 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="transport_selection_list_item__transport_icon">Transportikon</string>
   <string name="ConversationListFragment_loading">Hämtar in…</string>
   <string name="CallNotificationBuilder_connecting">Ansluter…</string>
-  <string name="Permissions_permission_required">Behörighet saknas</string>
+  <string name="Permissions_permission_required">Behörighet krävs</string>
   <string name="ConversationActivity_signal_needs_sms_permission_in_order_to_send_an_sms">Signal behöver behörigheten SMS för att skicka SMS men det har avvisats permanent. Vänligen fortsätt till inställningsmenyn för Appar och aviseringar, välj \"Behörigheter\" och aktivera \"SMS\".</string>
   <string name="Permissions_continue">Fortsätt</string>
   <string name="Permissions_not_now">Inte nu</string>
@@ -2200,9 +2241,13 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="backup_enable_dialog__folder">Mapp</string>
   <string name="backup_enable_dialog__i_have_written_down_this_passphrase">Jag har skrivit ner lösenordet. Utan det kommer jag inte att kunna återställa en säkerhetskopia.</string>
   <string name="registration_activity__restore_backup">Återställ säkerhetskopia</string>
+  <string name="registration_activity__transfer_or_restore_account">Överför eller återställ konto</string>
+  <string name="registration_activity__transfer_account">Överför konto</string>
   <string name="registration_activity__skip">Hoppa över</string>
   <string name="preferences_chats__chat_backups">Säkerhetskopior av chattar</string>
   <string name="preferences_chats__backup_chats_to_external_storage">Säkerhetskopiera chattar till externt lagringsutrymme</string>
+  <string name="preferences_chats__transfer_account">Överför konto</string>
+  <string name="preferences_chats__transfer_account_to_a_new_android_device">Överför konto till en ny Android-enhet</string>
   <string name="RegistrationActivity_enter_backup_passphrase">Ange lösenord för säkerhetskopian</string>
   <string name="RegistrationActivity_restore">Återställ</string>
   <string name="RegistrationActivity_backup_failure_downgrade">Det går inte att importera säkerhetskopior från nyare versioner av Signal</string>
@@ -2276,6 +2321,114 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="prompt_passphrase_activity__signal_is_locked">Signal är låst</string>
   <string name="prompt_passphrase_activity__tap_to_unlock">TRYCK FÖR ATT LÅSA UPP</string>
   <string name="Recipient_unknown">Okänt</string>
+  <!--TransferOrRestoreFragment-->
+  <string name="TransferOrRestoreFragment__transfer_or_restore_account">Överför eller återställ konto</string>
+  <string name="TransferOrRestoreFragment__if_you_have_previously_registered_a_signal_account">Om du tidigare har registrerat ett Signal-konto kan du överföra eller återställa ditt konto och dina meddelanden</string>
+  <string name="TransferOrRestoreFragment__transfer_from_android_device">Överför från Android-enhet</string>
+  <string name="TransferOrRestoreFragment__transfer_your_account_and_messages_from_your_old_android_device">Överför ditt konto och dina meddelanden från din gamla Android-enhet. Du behöver åtkomst till din gamla enhet.</string>
+  <string name="TransferOrRestoreFragment__you_need_access_to_your_old_device">Du behöver åtkomst till din gamla enhet.</string>
+  <string name="TransferOrRestoreFragment__restore_from_backup">Återställ från säkerhetskopia</string>
+  <string name="TransferOrRestoreFragment__restore_your_messages_from_a_local_backup">Återställ dina meddelanden från en lokal säkerhetskopia. Om du inte återställer nu kan du inte återställa senare.</string>
+  <!--NewDeviceTransferInstructionsFragment-->
+  <string name="NewDeviceTransferInstructions__open_signal_on_your_old_android_phone">Öppna Signal på din gamla Android-telefon</string>
+  <string name="NewDeviceTransferInstructions__continue">Fortsätt</string>
+  <string name="NewDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_your_profile_photo_in_the_top_left_to_open_settings">Tryck på ditt profilfoto längst upp till vänster för att öppna Inställningar</string>
+  <string name="NewDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_chats">Tryck på \"Chattar\"</string>
+  <string name="NewDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="NewDeviceTransferInstructions__tap_transfer_account_and_then_continue_on_both_devices">Tryck på \"Överför konto\" och sedan på \"Fortsätt\" på båda enheterna</string>
+  <!--NewDeviceTransferSetupFragment-->
+  <string name="NewDeviceTransferSetup__preparing_to_connect_to_old_android_device">Förbereder för anslutning till gammal Android-enhet…</string>
+  <string name="NewDeviceTransferSetup__take_a_moment_should_be_ready_soon">Det tar ett stund, borde vara klart snart</string>
+  <string name="NewDeviceTransferSetup__waiting_for_old_device_to_connect">Väntar på att en gammal Android-enhet ska ansluta…</string>
+  <string name="NewDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_old_device">Signal behöver platsbehörighet för att upptäcka och ansluta till din gamla Android-enhet.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_old_device">Signal behöver platstjänster aktiverade för att upptäcka och ansluta till din gamla Android-enhet.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_old_device">Wi-Fi behöver vara aktiverat för att Signal ska upptäcka och ansluta till din gamla Android-enhet. Wi-Fi måste vara på men det behöver inte vara anslutet till ett Wi-Fi-nätverk.</string>
+  <string name="NewDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Tyvärr verkar den här enheten inte stöda Wi-Fi Direct. Signal använder Wi-Fi Direct för att upptäcka och ansluta till din gamla Android-enhet. Du kan fortfarande återställa en säkerhetskopia för att återställa ditt konto från din gamla Android-enhet.</string>
+  <string name="NewDeviceTransferSetup__restore_a_backup">Återställ en säkerhetskopia</string>
+  <string name="NewDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Ett oväntat fel uppstod när du försökte ansluta till din gamla Android-enhet.</string>
+  <!--OldDeviceTransferSetupFragment-->
+  <string name="OldDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_new_device">Signal behöver platsbehörighet för att upptäcka och ansluta till din nya Android-enhet.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_new_device">Signal behöver platstjänster aktiverade för att upptäcka och ansluta till din nya Android-enhet.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_new_device">Wi-Fi behöver vara aktiverat för att Signal ska upptäcka och ansluta till din nya Android-enhet. Wi-Fi måste vara aktiverat men det behöver inte vara anslutet till ett Wi-Fi-nätverk.</string>
+  <string name="OldDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Tyvärr verkar den här enheten inte stöda Wi-Fi Direct. Signal använder Wi-Fi Direct för att upptäcka och ansluta till din nya Android-enhet. Du kan fortfarande skapa en säkerhetskopia för att återställa ditt konto på din nya Android-enhet.</string>
+  <string name="OldDeviceTransferSetup__create_a_backup">Skapa en säkerhetskopia</string>
+  <string name="OldDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Ett oväntat fel uppstod när du försökte ansluta till din nya Android-enhet.</string>
+  <!--DeviceTransferSetupFragment-->
+  <string name="DeviceTransferSetup__unable_to_open_wifi_settings">Det gick inte att öppna Wi-Fi-inställningar. Aktivera Wi-Fi manuellt.</string>
+  <string name="DeviceTransferSetup__grant_location_permission">Bevilja platsbehörighet</string>
+  <string name="DeviceTransferSetup__turn_on_location_services">Aktivera platstjänster</string>
+  <string name="DeviceTransferSetup__unable_to_open_location_settings">Det går inte att öppna platsinställningar.</string>
+  <string name="DeviceTransferSetup__turn_on_wifi">Aktivera Wi-Fi</string>
+  <string name="DeviceTransferSetup__error_connecting">Fel vid anslutning</string>
+  <string name="DeviceTransferSetup__retry">Försök igen</string>
+  <string name="DeviceTransferSetup__submit_debug_logs">Skicka in felsökningsloggar</string>
+  <string name="DeviceTransferSetup__verify_code">Verifiera koden</string>
+  <string name="DeviceTransferSetup__verify_that_the_code_below_matches_on_both_of_your_devices">Verifiera att koden nedan matchar på båda dina enheter. Tryck sedan på fortsätt.</string>
+  <string name="DeviceTransferSetup__the_numbers_do_not_match">Siffrorna matchar inte</string>
+  <string name="DeviceTransferSetup__continue">Fortsätt</string>
+  <string name="DeviceTransferSetup__number_is_not_the_same">Numret är inte detsamma</string>
+  <string name="DeviceTransferSetup__if_the_numbers_on_your_devices_do_not_match_its_possible_you_connected_to_the_wrong_device">Om siffrorna på dina enheter inte matchar är det möjligt att du har anslutit till fel enhet. För att åtgärda detta, stoppa överföringen och försök igen och håll båda dina enheter nära.</string>
+  <string name="DeviceTransferSetup__stop_transfer">Stoppa överföringen</string>
+  <string name="DeviceTransferSetup__unable_to_discover_old_device">Det gick inte att upptäcka gammal enhet</string>
+  <string name="DeviceTransferSetup__unable_to_discover_new_device">Det gick inte att upptäcka ny enhet</string>
+  <string name="DeviceTransferSetup__make_sure_the_following_permissions_are_enabled">Se till att följande behörigheter och tjänster är aktiverade:</string>
+  <string name="DeviceTransferSetup__location_permission">Platsbehörighet</string>
+  <string name="DeviceTransferSetup__location_services">Platstjänster</string>
+  <string name="DeviceTransferSetup__wifi">Wi-Fi</string>
+  <string name="DeviceTransferSetup__on_the_wifi_direct_screen_remove_all_remembered_groups_and_unlink_any_invited_or_connected_devices">Ta bort alla ihågkomna grupper på WiFi Direct-skärmen och ta bort länken till alla inbjudna eller anslutna enheter.</string>
+  <string name="DeviceTransferSetup__wifi_direct_screen">WiFi Direct-skärm</string>
+  <string name="DeviceTransferSetup__try_turning_wifi_off_and_on_on_both_devices">Försök med att inaktivera och aktivera Wi-Fi på båda enheterna.</string>
+  <string name="DeviceTransferSetup__make_sure_both_devices_are_in_transfer_mode">Se till att båda enheterna är i överföringsläge.</string>
+  <string name="DeviceTransferSetup__go_to_support_page">Gå till supportsidan</string>
+  <string name="DeviceTransferSetup__try_again">Försök igen</string>
+  <string name="DeviceTransferSetup__waiting_for_other_device">Väntar på annan enhet</string>
+  <string name="DeviceTransferSetup__tap_continue_on_your_other_device_to_start_the_transfer">Tryck på Fortsätt på din andra enhet för att starta överföringen.</string>
+  <string name="DeviceTransferSetup__tap_continue_on_your_other_device">Tryck på Fortsätt på din andra enhet…</string>
+  <!--NewDeviceTransferFragment-->
+  <string name="NewDeviceTransfer__cannot_transfer_from_a_newer_version_of_signal">Det går inte att överföra från en nyare version av Signal</string>
+  <!--DeviceTransferFragment-->
+  <string name="DeviceTransfer__transferring_data">Överför data</string>
+  <string name="DeviceTransfer__keep_both_devices_near_each_other">Håll båda enheterna nära varandra. Stäng inte av enheterna och håll Signal öppen. Överföringarna är ände-till-ände-krypterade.</string>
+  <string name="DeviceTransfer__d_messages_so_far">%1$d meddelanden hittills…</string>
+  <string name="DeviceTransfer__cancel">Avbryt</string>
+  <string name="DeviceTransfer__try_again">Försök igen</string>
+  <string name="DeviceTransfer__stop_transfer_question">Stoppa överföringen?</string>
+  <string name="DeviceTransfer__stop_transfer">Stoppa överföringen</string>
+  <string name="DeviceTransfer__all_transfer_progress_will_be_lost">Alla överföringsförlopp kommer att gå förlorade.</string>
+  <string name="DeviceTransfer__transfer_failed">Överföringen misslyckades</string>
+  <string name="DeviceTransfer__unable_to_transfer">Det gick inte att överföra</string>
+  <!--OldDeviceTransferInstructionsFragment-->
+  <string name="OldDeviceTransferInstructions__transfer_account">Överför konto</string>
+  <string name="OldDeviceTransferInstructions__you_can_transfer_your_signal_account_when_setting_up_signal_on_a_new_android_device">Du kan överföra ditt Signal-konto när du ställer in Signal på en ny Android-enhet. Innan du fortsätter:</string>
+  <string name="OldDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="OldDeviceTransferInstructions__download_signal_on_your_new_android_device">Hämta Signal på din nya Android-enhet</string>
+  <string name="OldDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="OldDeviceTransferInstructions__tap_on_transfer_or_restore_account">Tryck på \"Överför eller återställ konto\"</string>
+  <string name="OldDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="OldDeviceTransferInstructions__select_transfer_from_android_device_when_prompted_and_then_continue">Välj \"Överför från Android-enhet\" när du uppmanas till det och sedan \"Fortsätt\". Håll båda enheterna i närheten.</string>
+  <string name="OldDeviceTransferInstructions__continue">Fortsätt</string>
+  <!--OldDeviceTransferComplete-->
+  <string name="OldDeviceTransferComplete__transfer_complete">Överföringen är klar</string>
+  <string name="OldDeviceTransferComplete__go_to_your_new_device">Gå till din nya enhet</string>
+  <string name="OldDeviceTransferComplete__your_signal_data_has_Been_transferred_to_your_new_device">Dina Signal-data har överförts till din nya enhet. För att slutföra överföringsprocessen måste du fortsätta registrera dig på din nya enhet.</string>
+  <string name="OldDeviceTransferComplete__close">Stäng</string>
+  <!--NewDeviceTransferComplete-->
+  <string name="NewDeviceTransferComplete__transfer_successful">Överföringen lyckades</string>
+  <string name="NewDeviceTransferComplete__transfer_complete">Överföringen är klar</string>
+  <string name="NewDeviceTransferComplete__to_complete_the_transfer_process_you_must_continue_registration">För att slutföra överföringsprocessen måste du fortsätta registrera dig.</string>
+  <string name="NewDeviceTransferComplete__continue_registration">Fortsätt registrera dig</string>
+  <!--DeviceToDeviceTransferService-->
+  <string name="DeviceToDeviceTransferService_content_title">Kontoöverföring</string>
+  <string name="DeviceToDeviceTransferService_status_ready">Förbereder för anslutning till din andra Android-enhet…</string>
+  <string name="DeviceToDeviceTransferService_status_starting_up">Förbereder för anslutning till din andra Android-enhet…</string>
+  <string name="DeviceToDeviceTransferService_status_discovery">Söker efter din andra Android-enhet…</string>
+  <string name="DeviceToDeviceTransferService_status_network_connected">Ansluter till din andra Android-enhet…</string>
+  <string name="DeviceToDeviceTransferService_status_verification_required">Verifiering krävs</string>
+  <string name="DeviceToDeviceTransferService_status_service_connected">Överför konto…</string>
+  <!--OldDeviceTransferLockedDialog-->
+  <string name="OldDeviceTransferLockedDialog__done">Klar</string>
   <!--RecipientBottomSheet-->
   <string name="RecipientBottomSheet_block">Blockera</string>
   <string name="RecipientBottomSheet_unblock">Avblockera</string>
@@ -2306,6 +2459,8 @@ Tog emot meddelande för nyckelutbyte för ogiltig protokollversion.</string>
   <string name="GroupsLearnMore_paragraph_2">Äldre grupper kan ännu inte uppgraderas till Nya grupper, men du kan skapa en Ny grupp med samma medlemmar om de använder den senaste versionen av Signal.</string>
   <string name="GroupsLearnMore_paragraph_3">Signal kommer att erbjuda ett sätt att uppgradera Äldre grupper i framtiden.</string>
   <!--GroupLinkBottomSheetDialogFragment-->
+  <string name="GroupLinkBottomSheet_share_hint_requiring_approval">Alla med denna länk kan se gruppens namn och foto och begära att gå med. Dela det med personer du litar på.</string>
+  <string name="GroupLinkBottomSheet_share_hint_not_requiring_approval">Alla som har denna länk kan se gruppens namn och foto och gå med i gruppen. Dela det med personer du litar på.</string>
   <string name="GroupLinkBottomSheet_share_via_signal">Dela via Signal</string>
   <string name="GroupLinkBottomSheet_copy">Kopiera</string>
   <string name="GroupLinkBottomSheet_qr_code">QR Kod</string>

@@ -65,6 +65,8 @@
   <!--AttachmentUploadJob-->
   <string name="AttachmentUploadJob_uploading_media">Caricamento media…</string>
   <string name="AttachmentUploadJob_compressing_video_start">Compressione video…</string>
+  <!--BackgroundMessageRetriever-->
+  <string name="BackgroundMessageRetriever_checking_for_messages">Controllo messaggi in corso…</string>
   <!--BlockedUsersActivity-->
   <string name="BlockedUsersActivity__blocked_users">Utenti bloccati</string>
   <string name="BlockedUsersActivity__add_blocked_user">Aggiungi utente bloccato</string>
@@ -232,6 +234,7 @@
   <string name="ConversationActivity__more_options_now_in_group_settings">Altre opzioni ora in \"Impostazioni gruppo\"</string>
   <string name="ConversationActivity_join">Unisciti</string>
   <string name="ConversationActivity_full">Piena</string>
+  <string name="ConversationActivity_error_sending_media">Errore durante l\'invio del media</string>
   <!--ConversationAdapter-->
   <plurals name="ConversationAdapter_n_unread_messages">
     <item quantity="one">%d messaggio non letto</item>
@@ -469,7 +472,7 @@
   <!--GroupsV1MigrationInitiationReminder-->
   <string name="GroupsV1MigrationInitiationReminder_to_access_new_features_like_mentions">Per accedere a nuove funzionalità come @menzioni e amministratori, aggiorna questo gruppo.</string>
   <string name="GroupsV1MigrationInitiationReminder_not_now">Non ora</string>
-  <string name="GroupsV1MigrationInitiationReminder_update_group">Aggiorna gruppo</string>
+  <string name="GroupsV1MigrationInitiationReminder_upgrade_group">Aggiorna gruppo</string>
   <!--GroupsV1MigrationSuggestionsReminder-->
   <plurals name="GroupsV1MigrationSuggestionsReminder_members_couldnt_be_added_to_the_new_group">
     <item quantity="one">Non è stato possibile aggiungere di nuovo %1$d membro al Nuovo Gruppo. Vuoi aggiungerli adesso?</item>
@@ -510,11 +513,11 @@
   <string name="LeaveGroupDialog_choose_admin">Scegli amministratore</string>
   <!--LinkPreviewsMegaphone-->
   <string name="LinkPreviewsMegaphone_disable">Disabilita</string>
-  <string name="LinkPreviewsMegaphone_preview_any_link">Visualizza l\'anteprima di qualsiasi collegamento</string>
+  <string name="LinkPreviewsMegaphone_preview_any_link">Visualizza l\'anteprima di qualsiasi link</string>
   <string name="LinkPreviewsMegaphone_you_can_now_retrieve_link_previews_directly_from_any_website">È ora possibile recuperare le anteprime dei link direttamente da qualsiasi sito web per i messaggi che invii.</string>
   <!--LinkPreviewView-->
-  <string name="LinkPreviewView_no_link_preview_available">Nessuna anteprima del collegamento disponibile</string>
-  <string name="LinkPreviewView_this_group_link_is_not_active">Questo collegamento del gruppo non è attivo</string>
+  <string name="LinkPreviewView_no_link_preview_available">Nessuna anteprima del link disponibile</string>
+  <string name="LinkPreviewView_this_group_link_is_not_active">Questo link del gruppo non è attivo</string>
   <string name="LinkPreviewView_domain_date">%1$s · %2$s</string>
   <!--LinkPreviewRepository-->
   <plurals name="LinkPreviewRepository_d_members">
@@ -595,7 +598,7 @@
   <string name="ManageGroupActivity_edit_group_info">Modifica informazioni gruppo</string>
   <string name="ManageGroupActivity_who_can_add_new_members">Chi può aggiungere nuovi membri?</string>
   <string name="ManageGroupActivity_who_can_edit_this_groups_info">Chi può modificare le informazioni di questo gruppo?</string>
-  <string name="ManageGroupActivity_group_link">Collegamento del gruppo</string>
+  <string name="ManageGroupActivity_group_link">Link del gruppo</string>
   <string name="ManageGroupActivity_block_group">Blocca gruppo</string>
   <string name="ManageGroupActivity_unblock_group">Sblocca gruppo</string>
   <string name="ManageGroupActivity_leave_group">Abbandona il gruppo</string>
@@ -612,9 +615,9 @@
     <item quantity="one">%d membro aggiunto.</item>
     <item quantity="other">%d membri aggiunti.</item>
   </plurals>
-  <string name="ManageGroupActivity_only_admins_can_enable_or_disable_the_sharable_group_link">Solo gli amministratori possono attivare o disattivare il collegamento del gruppo condivisibile.</string>
+  <string name="ManageGroupActivity_only_admins_can_enable_or_disable_the_sharable_group_link">Solo gli amministratori possono attivare o disattivare il link del gruppo condivisibile.</string>
   <string name="ManageGroupActivity_only_admins_can_enable_or_disable_the_option_to_approve_new_members">Solo gli amministratori possono attivare o disattivare l\'opzione di approvare nuovi membri.</string>
-  <string name="ManageGroupActivity_only_admins_can_reset_the_sharable_group_link">Solo gli amministratori possono reimpostare il collegamento del gruppo condivisibile.</string>
+  <string name="ManageGroupActivity_only_admins_can_reset_the_sharable_group_link">Solo gli amministratori possono reimpostare il link del gruppo condivisibile.</string>
   <string name="ManageGroupActivity_you_dont_have_the_rights_to_do_this">Non hai i permessi per farlo</string>
   <string name="ManageGroupActivity_not_capable">Qualcuno che hai aggiunto non supporta i nuovi gruppi e deve aggiornare Signal</string>
   <string name="ManageGroupActivity_failed_to_update_the_group">Aggiornamento del gruppo fallito</string>
@@ -684,15 +687,15 @@
   <string name="CustomNotificationsDialogFragment__disabled">Non attiva</string>
   <string name="CustomNotificationsDialogFragment__default">Predefinita</string>
   <!--ShareableGroupLinkDialogFragment-->
-  <string name="ShareableGroupLinkDialogFragment__shareable_group_link">Collegamento del gruppo condivisibile</string>
+  <string name="ShareableGroupLinkDialogFragment__shareable_group_link">Link del gruppo condivisibile</string>
   <string name="ShareableGroupLinkDialogFragment__manage_and_share">Gestisci e condividi</string>
-  <string name="ShareableGroupLinkDialogFragment__group_link">Collegamento del gruppo</string>
+  <string name="ShareableGroupLinkDialogFragment__group_link">Link del gruppo</string>
   <string name="ShareableGroupLinkDialogFragment__share">Condividi</string>
-  <string name="ShareableGroupLinkDialogFragment__reset_link">Reimposta collegamento</string>
+  <string name="ShareableGroupLinkDialogFragment__reset_link">Reimposta link</string>
   <string name="ShareableGroupLinkDialogFragment__member_requests">Richieste di diventare membro</string>
   <string name="ShareableGroupLinkDialogFragment__approve_new_members">Approva nuovi membri</string>
-  <string name="ShareableGroupLinkDialogFragment__require_an_admin_to_approve_new_members_joining_via_the_group_link">Richiedi a un amministratore di approvare i nuovi membri che si uniscono tramite il collegamento del gruppo.</string>
-  <string name="ShareableGroupLinkDialogFragment__are_you_sure_you_want_to_reset_the_group_link">Sei sicuro di voler reimpostare il collegamento del gruppo? Le persone non saranno più in grado di unirsi al gruppo utilizzando il collegamento attuale.</string>
+  <string name="ShareableGroupLinkDialogFragment__require_an_admin_to_approve_new_members_joining_via_the_group_link">Richiedi a un amministratore di approvare i nuovi membri che si uniscono tramite il link del gruppo.</string>
+  <string name="ShareableGroupLinkDialogFragment__are_you_sure_you_want_to_reset_the_group_link">Sei sicuro di voler reimpostare il link del gruppo? Le persone non saranno più in grado di unirsi al gruppo utilizzando il link attuale.</string>
   <!--GroupLinkShareQrDialogFragment-->
   <string name="GroupLinkShareQrDialogFragment__qr_code">Codice QR</string>
   <string name="GroupLinkShareQrDialogFragment__people_who_scan_this_code_will">Le persone che scansioneranno questo codice potranno unirsi al tuo gruppo. Gli amministratori dovranno comunque approvare i nuovi membri se questa impostazione è attiva.</string>
@@ -718,19 +721,19 @@
     <item quantity="other">Gruppo · %1$d membri</item>
   </plurals>
   <!--GroupJoinUpdateRequiredBottomSheetDialogFragment-->
-  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_signal_to_use_group_links">Aggiorna Signal per utilizzare i collegamenti dei gruppi</string>
-  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_message">La versione di Signal che stai utilizzando non supporta questo link del gruppo. Aggiorna alla versione più recente per unirti a questo gruppo tramite collegamento.</string>
+  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_signal_to_use_group_links">Aggiorna Signal per utilizzare i link dei gruppi</string>
+  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_message">La versione di Signal che stai utilizzando non supporta questo link del gruppo. Aggiorna alla versione più recente per unirti a questo gruppo tramite link.</string>
   <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_signal">Aggiorna Signal</string>
-  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_linked_device_message">Uno o più dei tuoi dispositivi collegati eseguono una versione di Signal che non supporta i collegamenti dei gruppi. Aggiorna Signal sui tuoi dispositivi collegati per unirti a questo gruppo.</string>
-  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_group_link_is_not_valid">Il collegamento del gruppo non è valido</string>
+  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_update_linked_device_message">Uno o più dei tuoi dispositivi collegati eseguono una versione di Signal che non supporta i link dei gruppi. Aggiorna Signal sui tuoi dispositivi collegati per unirti a questo gruppo.</string>
+  <string name="GroupJoinUpdateRequiredBottomSheetDialogFragment_group_link_is_not_valid">Il link del gruppo non è valido</string>
   <!--GroupInviteLinkEnableAndShareBottomSheetDialogFragment-->
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_invite_friends">Invita amici</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_share_a_link_with_friends_to_let_them_quickly_join_this_group">Condividi un collegamento con gli amici per consentire loro di unirsi rapidamente a questo gruppo.</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_enable_and_share_link">Abilita e condividi collegamento</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_share_link">Condividi collegamento</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_unable_to_enable_group_link_please_try_again_later">Impossibile abilitare il collegamento del gruppo. Per favore riprova più tardi</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_share_a_link_with_friends_to_let_them_quickly_join_this_group">Condividi un link con gli amici per consentire loro di unirsi rapidamente a questo gruppo.</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_enable_and_share_link">Abilita e condividi link</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_share_link">Condividi link</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_unable_to_enable_group_link_please_try_again_later">Impossibile abilitare il link del gruppo. Per favore riprova più tardi</string>
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_encountered_a_network_error">Si è verificato un errore di rete.</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_dont_have_the_right_to_enable_group_link">Non hai i permessi per abilitare il collegamento del gruppo. Chiedi a un amministratore.</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_dont_have_the_right_to_enable_group_link">Non hai i permessi per abilitare il link del gruppo. Chiedi a un amministratore.</string>
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_are_not_currently_a_member_of_the_group">Attualmente non sei un membro del gruppo.</string>
   <!--GV2 Request confirmation dialog-->
   <string name="RequestConfirmationDialog_add_s_to_the_group">Aggiungere “%1$s” al gruppo?</string>
@@ -834,6 +837,11 @@
   <string name="NotificationBarManager__answer_call">Rispondi</string>
   <string name="NotificationBarManager__end_call">Termina chiamata</string>
   <string name="NotificationBarManager__cancel_call">Annulla chiamata</string>
+  <!--NotificationsMegaphone-->
+  <string name="NotificationsMegaphone_turn_on_notifications">Attivare le notifiche?</string>
+  <string name="NotificationsMegaphone_never_miss_a_message">Non perdere mai un messaggio dai tuoi contatti e gruppi.</string>
+  <string name="NotificationsMegaphone_turn_on">Attiva</string>
+  <string name="NotificationsMegaphone_not_now">Non ora</string>
   <!--NotificationMmsMessageRecord-->
   <string name="NotificationMmsMessageRecord_multimedia_message">Messaggio multimediale</string>
   <string name="NotificationMmsMessageRecord_downloading_mms_message">Scarico MMS</string>
@@ -971,31 +979,31 @@
   <string name="MessageRecord_s_changed_who_can_edit_group_membership_to_s">%1$s ha cambiato chi può modificare l\'appartenenza al gruppo in \"%2$s\".</string>
   <string name="MessageRecord_who_can_edit_group_membership_has_been_changed_to_s">Chi può modificare l\'appartenenza al gruppo è stato cambiato in \"%1$s\".</string>
   <!--GV2 group link invite access level change-->
-  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_off">Hai attivato il collegamento del gruppo senza l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_on">Hai attivato il collegamento del gruppo con l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_you_turned_off_the_group_link">Hai disattivato il collegamento del gruppo.</string>
-  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_off">%1$s ha attivato il collegamento del gruppo senza l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_on">%1$s ha attivato il collegamento del gruppo con l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_s_turned_off_the_group_link">%1$s ha disattivato il collegamento del gruppo.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_off">Il collegamento del gruppo è stato attivato senza l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_on">Il collegamento del gruppo è stato attivato con l\'approvazione degli amministratori.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_off">Il collegamento del gruppo è stato disattivato.</string>
-  <string name="MessageRecord_you_turned_off_admin_approval_for_the_group_link">Hai disattivato l\'approvazione degli amministratori per il collegamento del gruppo.</string>
-  <string name="MessageRecord_s_turned_off_admin_approval_for_the_group_link">%1$s ha disattivato l\'approvazione degli amministratori per il collegamento del gruppo.</string>
-  <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_off">L\'approvazione degli amministratori per il collegamento del gruppo è stata disattivata.</string>
-  <string name="MessageRecord_you_turned_on_admin_approval_for_the_group_link">Hai attivato l\'approvazione degli amministratori per il collegamento del gruppo.</string>
-  <string name="MessageRecord_s_turned_on_admin_approval_for_the_group_link">%1$s ha attivato l\'approvazione degli amministratori per il collegamento del gruppo.</string>
-  <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_on">L\'approvazione degli amministratori per il collegamento del gruppo è stata attivata.</string>
+  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_off">Hai attivato il link del gruppo senza l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_on">Hai attivato il link del gruppo con l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_you_turned_off_the_group_link">Hai disattivato il link del gruppo.</string>
+  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_off">%1$s ha attivato il link del gruppo senza l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_on">%1$s ha attivato il link del gruppo con l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_s_turned_off_the_group_link">%1$s ha disattivato il link del gruppo.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_off">Il link del gruppo è stato attivato senza l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_on">Il link del gruppo è stato attivato con l\'approvazione degli amministratori.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_off">Il link del gruppo è stato disattivato.</string>
+  <string name="MessageRecord_you_turned_off_admin_approval_for_the_group_link">Hai disattivato l\'approvazione degli amministratori per il link del gruppo.</string>
+  <string name="MessageRecord_s_turned_off_admin_approval_for_the_group_link">%1$s ha disattivato l\'approvazione degli amministratori per il link del gruppo.</string>
+  <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_off">L\'approvazione degli amministratori per il link del gruppo è stata disattivata.</string>
+  <string name="MessageRecord_you_turned_on_admin_approval_for_the_group_link">Hai attivato l\'approvazione degli amministratori per il link del gruppo.</string>
+  <string name="MessageRecord_s_turned_on_admin_approval_for_the_group_link">%1$s ha attivato l\'approvazione degli amministratori per il link del gruppo.</string>
+  <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_on">L\'approvazione degli amministratori per il link del gruppo è stata attivata.</string>
   <!--GV2 group link reset-->
-  <string name="MessageRecord_you_reset_the_group_link">Hai reimpostato il collegamento del gruppo.</string>
-  <string name="MessageRecord_s_reset_the_group_link">%1$s ha reimpostato il collegamento del gruppo.</string>
-  <string name="MessageRecord_the_group_link_has_been_reset">Il collegamento del gruppo è stato reimpostato.</string>
+  <string name="MessageRecord_you_reset_the_group_link">Hai reimpostato il link del gruppo.</string>
+  <string name="MessageRecord_s_reset_the_group_link">%1$s ha reimpostato il link del gruppo.</string>
+  <string name="MessageRecord_the_group_link_has_been_reset">Il link del gruppo è stato reimpostato.</string>
   <!--GV2 group link joins-->
-  <string name="MessageRecord_you_joined_the_group_via_the_group_link">Ti sei unito al gruppo tramite il collegamento del gruppo.</string>
-  <string name="MessageRecord_s_joined_the_group_via_the_group_link">%1$s si è unito al gruppo tramite il collegamento del gruppo.</string>
+  <string name="MessageRecord_you_joined_the_group_via_the_group_link">Ti sei unito al gruppo tramite il link del gruppo.</string>
+  <string name="MessageRecord_s_joined_the_group_via_the_group_link">%1$s si è unito al gruppo tramite il link del gruppo.</string>
   <!--GV2 group link requests-->
-  <string name="MessageRecord_you_sent_a_request_to_join_the_group">Hai inviato una richiesta a unirsi al gruppo.</string>
-  <string name="MessageRecord_s_requested_to_join_via_the_group_link">%1$s ha richiesto di unirsi tramite il collegamento del gruppo.</string>
+  <string name="MessageRecord_you_sent_a_request_to_join_the_group">Hai inviato una richiesta a unirti al gruppo.</string>
+  <string name="MessageRecord_s_requested_to_join_via_the_group_link">%1$s ha richiesto di unirsi tramite il link del gruppo.</string>
   <!--GV2 group link approvals-->
   <string name="MessageRecord_s_approved_your_request_to_join_the_group">%1$s ha approvato la tua richiesta di unirti al gruppo.</string>
   <string name="MessageRecord_s_approved_a_request_to_join_the_group_from_s">%1$s ha approvato una richiesta di unirsi al gruppo da %2$s.</string>
@@ -1105,6 +1113,7 @@
   <string name="PassphrasePromptActivity_ok_button_content_description">Inserisci password</string>
   <string name="PassphrasePromptActivity_invalid_passphrase_exclamation">Password non valida!</string>
   <string name="PassphrasePromptActivity_unlock_signal">Sblocca Signal</string>
+  <string name="PassphrasePromptActivity_signal_android_lock_screen">Signal Android - Blocco schermo</string>
   <!--PlacePickerActivity-->
   <string name="PlacePickerActivity_title">Mappa</string>
   <string name="PlacePickerActivity_drop_pin">Posiziona l\'indicatore</string>
@@ -1142,7 +1151,6 @@
   <string name="RatingManager_rate_now">Vota ora!</string>
   <string name="RatingManager_no_thanks">No grazie</string>
   <string name="RatingManager_later">Più tardi</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Oops, sembra che l\'app del Play Store non sia installata sul tuo dispositivo.</string>
   <!--ReactionsBottomSheetDialogFragment-->
   <string name="ReactionsBottomSheetDialogFragment_all">Tutte · %1$d</string>
   <!--ReactionsConversationView-->
@@ -1201,6 +1209,12 @@
   <string name="CallParticipantView__cant_receive_audio_video_from_s">Non è possibile ricevere audio &amp; video da %1$s</string>
   <string name="CallParticipantView__cant_receive_audio_and_video_from_s">Non è possibile ricevere audio e video da %1$s</string>
   <string name="CallParticipantView__this_may_be_Because_they_have_not_verified_your_safety_number_change">Ciò potrebbe essere dovuto al fatto che non hanno verificato la modifica del codice di sicurezza, c\'è un problema con il loro dispositivo o ti hanno bloccato.</string>
+  <!--ProxyBottomSheetFragment-->
+  <string name="ProxyBottomSheetFragment_proxy_server">Server proxy</string>
+  <string name="ProxyBottomSheetFragment_proxy_address">Indirizzo proxy</string>
+  <string name="ProxyBottomSheetFragment_do_you_want_to_use_this_proxy_address">Vuoi usare questo indirizzo proxy?</string>
+  <string name="ProxyBottomSheetFragment_use_proxy">Usa proxy</string>
+  <string name="ProxyBottomSheetFragment_successfully_connected_to_proxy">Connesso al proxy con successo.</string>
   <!--RegistrationActivity-->
   <string name="RegistrationActivity_select_your_country">Seleziona il tuo paese</string>
   <string name="RegistrationActivity_you_must_specify_your_country_code">È necessario specificare il
@@ -1236,6 +1250,7 @@
   <string name="RegistrationActivity_continue">Continua</string>
   <string name="RegistrationActivity_take_privacy_with_you_be_yourself_in_every_message">Porta la privacy con te.\nSii te stesso in ogni messaggio.</string>
   <string name="RegistrationActivity_enter_your_phone_number_to_get_started">Inserisci il tuo numero di telefono per iniziare</string>
+  <string name="RegistrationActivity_enter_your_phone_number">Inserisci il tuo numero di telefono</string>
   <string name="RegistrationActivity_you_will_receive_a_verification_code">Riceverai un codice di verifica. Potrebbero applicarsi costi del tuo gestore.</string>
   <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Inserisci il codice che abbiamo inviato a %s</string>
   <string name="RegistrationActivity_make_sure_your_phone_has_a_cellular_signal">Assicurati che il telefono sia connesso alla rete cellulare per ricevere il tuo SMS o la chiamata.</string>
@@ -1701,7 +1716,7 @@
   <!--EditAboutFragment-->
   <string name="EditAboutFragment_about">Info</string>
   <string name="EditAboutFragment_write_a_few_words_about_yourself">Scrivi qualche parola su di te…</string>
-  <string name="EditAboutFragment_count">%d/%d</string>
+  <string name="EditAboutFragment_count">%1$d/%2$d</string>
   <string name="EditAboutFragment_speak_freely">Parla liberamente</string>
   <string name="EditAboutFragment_encrypted">Criptato</string>
   <string name="EditAboutFragment_be_kind">Sii gentile</string>
@@ -1772,11 +1787,19 @@
   <string name="HelpFragment__include_debug_log">Includi log di debug.</string>
   <string name="HelpFragment__whats_this">Cos\'è?</string>
   <string name="HelpFragment__how_do_you_feel">Come ti senti? (Facoltativo)</string>
+  <string name="HelpFragment__tell_us_why_youre_reaching_out">Spiegaci perché ci stai contattando.</string>
   <string name="HelpFragment__support_info">Informazioni supporto</string>
   <string name="HelpFragment__signal_android_support_request">Richiesta di supporto Signal Android</string>
   <string name="HelpFragment__debug_log">Log di debug:</string>
   <string name="HelpFragment__could_not_upload_logs">Impossibile inviare i log</string>
   <string name="HelpFragment__please_be_as_descriptive_as_possible">Sii il più descrittivo possibile per aiutarci a capire il problema.</string>
+  <string-array name="HelpFragment__categories">
+    <item>Qualcosa non funziona</item>
+    <item>Richiesta di funzionalità</item>
+    <item>Domanda</item>
+    <item>Opinione</item>
+    <item>Altro</item>
+  </string-array>
   <!--ReactWithAnyEmojiBottomSheetDialogFragment-->
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__this_message">Questo messaggio</string>
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__recently_used">Usate di recente</string>
@@ -1829,8 +1852,8 @@
   <string name="preferences__pressing_the_enter_key_will_send_text_messages">Il tasto Invio manderà il messaggio</string>
   <string name="preferences__pref_use_address_book_photos">Usa le foto della rubrica</string>
   <string name="preferences__display_contact_photos_from_your_address_book_if_available">Mostra le foto dei contatti dalla tua rubrica se disponibili</string>
-  <string name="preferences__generate_link_previews">Genera anteprime dei collegamenti</string>
-  <string name="preferences__retrieve_link_previews_from_websites_for_messages">Recupera le anteprime dei collegamenti direttamente dai siti web per i messaggi che invii.</string>
+  <string name="preferences__generate_link_previews">Genera anteprime dei link</string>
+  <string name="preferences__retrieve_link_previews_from_websites_for_messages">Recupera le anteprime dei link direttamente dai siti web per i messaggi che invii.</string>
   <string name="preferences__choose_identity">Scegli identità</string>
   <string name="preferences__choose_your_contact_entry_from_the_contacts_list">Scegli il tuo contatto dalla rubrica.</string>
   <string name="preferences__change_passphrase">Cambia password</string>
@@ -1970,6 +1993,22 @@
   <string name="preferences_communication__sealed_sender_allow_from_anyone_description">Abilita il mittente sigillato per i messaggi in arrivo da non-contatti e persone con cui non hai condiviso il tuo profilo.</string>
   <string name="preferences_communication__sealed_sender_learn_more">Scopri di più</string>
   <string name="preferences_setup_a_username">Imposta un nome utente</string>
+  <string name="preferences_proxy">Proxy</string>
+  <string name="preferences_use_proxy">Usa proxy</string>
+  <string name="preferences_off">Off</string>
+  <string name="preferences_on">On</string>
+  <string name="preferences_proxy_address">Indirizzo proxy</string>
+  <string name="preferences_only_use_a_proxy_if">Usa un proxy solo se non sei in grado di connetterti a Signal su rete cellulare o Wi-Fi.</string>
+  <string name="preferences_share">Condividi</string>
+  <string name="preferences_save">Salva</string>
+  <string name="preferences_connecting_to_proxy">Connessione al proxy…</string>
+  <string name="preferences_connected_to_proxy">Connesso al proxy</string>
+  <string name="preferences_connection_failed">Connessione fallita</string>
+  <string name="preferences_couldnt_connect_to_the_proxy">Impossibile connettersi al proxy. Controlla l\'indirizzo proxy e riprova.</string>
+  <string name="preferences_you_are_connected_to_the_proxy">Sei connesso al proxy. Puoi disattivare il proxy in qualsiasi momento dalle impostazioni.</string>
+  <string name="preferences_success">Successo</string>
+  <string name="preferences_failed_to_connect">Connessione fallita</string>
+  <string name="preferences_enter_proxy_address">Inserisci indirizzo proxy</string>
   <string name="configurable_single_select__customize_option">Personalizza opzione</string>
   <!--Internal only preferences-->
   <!--****************************************-->
@@ -2152,6 +2191,8 @@
   <string name="RegistrationLockFragment__incorrect_pin">PIN errato</string>
   <string name="RegistrationLockFragment__forgot_your_pin">Hai dimenticato il tuo PIN?</string>
   <string name="RegistrationLockFragment__not_many_tries_left">Non molti tentativi rimanenti!</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v1_pin">Registrazione Signal - Ho bisogno di aiuto con il PIN per Android (PIN v1)</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v2_pin">Registrazione Signal - Ho bisogno di aiuto con il PIN per Android (PIN v2)</string>
   <plurals name="RegistrationLockFragment__for_your_privacy_and_security_there_is_no_way_to_recover">
     <item quantity="one">Per la tua privacy e sicurezza, non c\'è modo di recuperare il tuo PIN. Se non riesci a ricordare il tuo PIN, puoi ripetere la verifica con SMS dopo %1$d giorno di inattività. In questo caso, il tuo account sarà cancellato e tutti i contenuti eliminati.</item>
     <item quantity="other">Per la tua privacy e sicurezza, non c\'è modo di recuperare il tuo PIN. Se non riesci a ricordare il tuo PIN, puoi ripetere la verifica con SMS dopo %1$d giorni di inattività. In questo caso, il tuo account sarà cancellato e tutti i contenuti eliminati.</item>
@@ -2206,9 +2247,13 @@
   <string name="backup_enable_dialog__folder">Cartella</string>
   <string name="backup_enable_dialog__i_have_written_down_this_passphrase">Ho scritto questa passphrase. Senza di questa, non sarò in grado di ripristinare un backup.</string>
   <string name="registration_activity__restore_backup">Ripristina backup</string>
+  <string name="registration_activity__transfer_or_restore_account">Trasferisci o ripristina account</string>
+  <string name="registration_activity__transfer_account">Trasferisci account</string>
   <string name="registration_activity__skip">Salta</string>
   <string name="preferences_chats__chat_backups">Backup delle chat</string>
   <string name="preferences_chats__backup_chats_to_external_storage">Backup delle chat sulla memoria esterna</string>
+  <string name="preferences_chats__transfer_account">Trasferisci account</string>
+  <string name="preferences_chats__transfer_account_to_a_new_android_device">Trasferisci l\'account su un nuovo dispositivo Android</string>
   <string name="RegistrationActivity_enter_backup_passphrase">Inserire passphrase del backup</string>
   <string name="RegistrationActivity_restore">Ripristina</string>
   <string name="RegistrationActivity_backup_failure_downgrade">Impossibile importare backup da versioni più recenti di Signal</string>
@@ -2282,6 +2327,118 @@
   <string name="prompt_passphrase_activity__signal_is_locked">Signal è bloccato</string>
   <string name="prompt_passphrase_activity__tap_to_unlock">TOCCA PER SBLOCCARE</string>
   <string name="Recipient_unknown">Sconosciuto</string>
+  <!--TransferOrRestoreFragment-->
+  <string name="TransferOrRestoreFragment__transfer_or_restore_account">Trasferisci o ripristina account</string>
+  <string name="TransferOrRestoreFragment__if_you_have_previously_registered_a_signal_account">Se hai precedentemente registrato un account Signal, puoi trasferire o ripristinare il tuo account e i tuoi messaggi</string>
+  <string name="TransferOrRestoreFragment__transfer_from_android_device">Trasferisci da dispositivo Android</string>
+  <string name="TransferOrRestoreFragment__transfer_your_account_and_messages_from_your_old_android_device">Trasferisci il tuo account e i messaggi dal tuo vecchio dispositivo Android. Hai bisogno dell\'accesso al tuo vecchio dispositivo.</string>
+  <string name="TransferOrRestoreFragment__you_need_access_to_your_old_device">Hai bisogno dell\'accesso al tuo vecchio dispositivo.</string>
+  <string name="TransferOrRestoreFragment__restore_from_backup">Ripristina da backup</string>
+  <string name="TransferOrRestoreFragment__restore_your_messages_from_a_local_backup">Ripristina i tuoi messaggi da un backup locale. Se non lo ripristini ora, non sarai in grado di ripristinarlo in seguito</string>
+  <!--NewDeviceTransferInstructionsFragment-->
+  <string name="NewDeviceTransferInstructions__open_signal_on_your_old_android_phone">Apri Signal sul tuo vecchio telefono Android</string>
+  <string name="NewDeviceTransferInstructions__continue">Continua</string>
+  <string name="NewDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_your_profile_photo_in_the_top_left_to_open_settings">Clicca sull\'immagine del tuo profilo in alto a sinistra per aprire le Impostazioni</string>
+  <string name="NewDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="NewDeviceTransferInstructions__tap_on_chats">Clicca su \"Conversazioni\"</string>
+  <string name="NewDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="NewDeviceTransferInstructions__tap_transfer_account_and_then_continue_on_both_devices">Clicca \"Trasferisci account\" e poi \"Continua\" su entrambi i dispositivi</string>
+  <!--NewDeviceTransferSetupFragment-->
+  <string name="NewDeviceTransferSetup__preparing_to_connect_to_old_android_device">Preparazione alla connessione al vecchio dispositivo Android…</string>
+  <string name="NewDeviceTransferSetup__take_a_moment_should_be_ready_soon">Ci vorrà un momento, dovrebbe essere pronto tra poco</string>
+  <string name="NewDeviceTransferSetup__waiting_for_old_device_to_connect">In attesa che il vecchio dispositivo Android si connetta…</string>
+  <string name="NewDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_old_device">Signal necessita dell\'autorizzazione alla posizione per trovare e connettersi al tuo vecchio dispositivo Android.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_old_device">Signal ha bisogno che i servizi di localizzazione siano attivi per trovare e connettersi con il tuo vecchio dispositivo Android.</string>
+  <string name="NewDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_old_device">Signal ha bisogno che il Wi-Fi sia attivo per trovare e connettersi con il tuo vecchio dispositivo Android. Il Wi-Fi deve essere attivo ma non è necessario che sia connesso a una rete Wi-Fi.</string>
+  <string name="NewDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Spiacenti, sembra che questo dispositivo non supporti il Wi-Fi Direct. Signal utilizza il Wi-Fi Direct per trovare e connettersi con il tuo vecchio dispositivo Android. Puoi comunque ripristinare un backup per ripristinare il tuo account dal tuo vecchio dispositivo Android.</string>
+  <string name="NewDeviceTransferSetup__restore_a_backup">Ripristina un backup</string>
+  <string name="NewDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Si è verificato un errore imprevisto durante il tentativo di connessione al tuo vecchio dispositivo Android.</string>
+  <!--OldDeviceTransferSetupFragment-->
+  <string name="OldDeviceTransferSetup__searching_for_new_android_device">Ricerca del nuovo dispositivo Android…</string>
+  <string name="OldDeviceTransferSetup__signal_needs_the_location_permission_to_discover_and_connect_with_your_new_device">Signal necessita dell\'autorizzazione alla posizione per trovare e connettersi al tuo nuovo dispositivo Android.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_location_services_enabled_to_discover_and_connect_with_your_new_device">Signal ha bisogno che i servizi di localizzazione siano attivi per trovare e connettersi con il tuo nuovo dispositivo Android.</string>
+  <string name="OldDeviceTransferSetup__signal_needs_wifi_on_to_discover_and_connect_with_your_new_device">Signal ha bisogno che il Wi-Fi sia attivo per trovare e connettersi con il tuo nuovo dispositivo Android. Il Wi-Fi deve essere attivo ma non è necessario che sia connesso a una rete Wi-Fi.</string>
+  <string name="OldDeviceTransferSetup__sorry_it_appears_your_device_does_not_support_wifi_direct">Spiacenti, sembra che questo dispositivo non supporti il Wi-Fi Direct. Signal utilizza il Wi-Fi Direct per trovare e connettersi con il tuo nuovo dispositivo Android. Puoi comunque creare un backup per ripristinare il tuo account sul tuo nuovo dispositivo Android.</string>
+  <string name="OldDeviceTransferSetup__create_a_backup">Crea un backup</string>
+  <string name="OldDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Si è verificato un errore imprevisto durante il tentativo di connessione al tuo nuovo dispositivo Android.</string>
+  <!--DeviceTransferSetupFragment-->
+  <string name="DeviceTransferSetup__unable_to_open_wifi_settings">Impossibile aprire le impostazioni Wi-Fi. Attiva il Wi-Fi manualmente.</string>
+  <string name="DeviceTransferSetup__grant_location_permission">Concedi l\'autorizzazione alla posizione</string>
+  <string name="DeviceTransferSetup__turn_on_location_services">Attiva i servizi di localizzazione</string>
+  <string name="DeviceTransferSetup__unable_to_open_location_settings">Impossibile aprire le impostazioni della posizione.</string>
+  <string name="DeviceTransferSetup__turn_on_wifi">Attiva il Wi-Fi</string>
+  <string name="DeviceTransferSetup__error_connecting">Errore durante la connessione</string>
+  <string name="DeviceTransferSetup__retry">Riprova</string>
+  <string name="DeviceTransferSetup__submit_debug_logs">Invia log di debug</string>
+  <string name="DeviceTransferSetup__verify_code">Verifica codice</string>
+  <string name="DeviceTransferSetup__verify_that_the_code_below_matches_on_both_of_your_devices">Verifica che il codice sotto corrisponda su entrambi i tuoi dispositivi. Quindi clicca continua.</string>
+  <string name="DeviceTransferSetup__the_numbers_do_not_match">I numeri non corrispondono</string>
+  <string name="DeviceTransferSetup__continue">Continua</string>
+  <string name="DeviceTransferSetup__number_is_not_the_same">Il numero non è lo stesso</string>
+  <string name="DeviceTransferSetup__if_the_numbers_on_your_devices_do_not_match_its_possible_you_connected_to_the_wrong_device">Se i numeri sui tuoi dispositivi non corrispondono, è possibile che ti sia collegato al dispositivo sbagliato. Per risolvere questo problema, interrompi il trasferimento e riprova e tieni vicini entrambi i dispositivi.</string>
+  <string name="DeviceTransferSetup__stop_transfer">Interrompi trasferimento</string>
+  <string name="DeviceTransferSetup__unable_to_discover_old_device">Impossibile trovare il vecchio dispositivo</string>
+  <string name="DeviceTransferSetup__unable_to_discover_new_device">Impossibile trovare il nuovo dispositivo</string>
+  <string name="DeviceTransferSetup__make_sure_the_following_permissions_are_enabled">Assicurati che le seguenti autorizzazioni e servizi siano abilitati:</string>
+  <string name="DeviceTransferSetup__location_permission">Autorizzazione alla posizione</string>
+  <string name="DeviceTransferSetup__location_services">Servizi di localizzazione</string>
+  <string name="DeviceTransferSetup__wifi">Wi-Fi</string>
+  <string name="DeviceTransferSetup__on_the_wifi_direct_screen_remove_all_remembered_groups_and_unlink_any_invited_or_connected_devices">Nella schermata WiFi Direct, rimuovi tutti i gruppi salvati e scollega tutti i dispositivi invitati o collegati.</string>
+  <string name="DeviceTransferSetup__wifi_direct_screen">Schermata WiFi Direct</string>
+  <string name="DeviceTransferSetup__try_turning_wifi_off_and_on_on_both_devices">Prova a disattivare e attivare il Wi-Fi su entrambi i dispositivi.</string>
+  <string name="DeviceTransferSetup__make_sure_both_devices_are_in_transfer_mode">Assicurati che entrambi i dispositivi siano in modalità di trasferimento.</string>
+  <string name="DeviceTransferSetup__go_to_support_page">Vai alla pagina di supporto</string>
+  <string name="DeviceTransferSetup__try_again">Riprova</string>
+  <string name="DeviceTransferSetup__waiting_for_other_device">In attesa di un altro dispositivo</string>
+  <string name="DeviceTransferSetup__tap_continue_on_your_other_device_to_start_the_transfer">Clicca Continua sul tuo altro dispositivo per iniziare il trasferimento.</string>
+  <string name="DeviceTransferSetup__tap_continue_on_your_other_device">Clicca Continua sul tuo altro dispositivo…</string>
+  <!--NewDeviceTransferFragment-->
+  <string name="NewDeviceTransfer__cannot_transfer_from_a_newer_version_of_signal">Impossibile trasferire da una versione più recente di Signal</string>
+  <!--DeviceTransferFragment-->
+  <string name="DeviceTransfer__transferring_data">Trasferimento dati</string>
+  <string name="DeviceTransfer__keep_both_devices_near_each_other">Tieni entrambi i dispositivi vicini. Non spegnere i dispositivi e tieni aperto Signal. I trasferimenti sono crittografati end-to-end.</string>
+  <string name="DeviceTransfer__d_messages_so_far">%1$d messaggi finora…</string>
+  <string name="DeviceTransfer__cancel">Annulla</string>
+  <string name="DeviceTransfer__try_again">Riprova</string>
+  <string name="DeviceTransfer__stop_transfer_question">Interrompere il trasferimento?</string>
+  <string name="DeviceTransfer__stop_transfer">Interrompi trasferimento</string>
+  <string name="DeviceTransfer__all_transfer_progress_will_be_lost">Tutti i progressi del trasferimento andranno persi.</string>
+  <string name="DeviceTransfer__transfer_failed">Trasferimento fallito</string>
+  <string name="DeviceTransfer__unable_to_transfer">Impossibile trasferire</string>
+  <!--OldDeviceTransferInstructionsFragment-->
+  <string name="OldDeviceTransferInstructions__transfer_account">Trasferisci account</string>
+  <string name="OldDeviceTransferInstructions__you_can_transfer_your_signal_account_when_setting_up_signal_on_a_new_android_device">Puoi trasferire il tuo account Signal quando configuri Signal su un nuovo dispositivo Android. Prima di continuare:</string>
+  <string name="OldDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="OldDeviceTransferInstructions__download_signal_on_your_new_android_device">Scarica Signal sul tuo nuovo dispositivo Android</string>
+  <string name="OldDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="OldDeviceTransferInstructions__tap_on_transfer_or_restore_account">Clicca su \"Trasferisci o ripristina account\"</string>
+  <string name="OldDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="OldDeviceTransferInstructions__select_transfer_from_android_device_when_prompted_and_then_continue">Seleziona \"Trasferisci da dispositivo Android\" quando richiesto e poi \"Continua\". Tieni entrambi i dispositivi vicini.</string>
+  <string name="OldDeviceTransferInstructions__continue">Continua</string>
+  <!--OldDeviceTransferComplete-->
+  <string name="OldDeviceTransferComplete__transfer_complete">Trasferimento completato</string>
+  <string name="OldDeviceTransferComplete__go_to_your_new_device">Vai al tuo nuovo dispositivo</string>
+  <string name="OldDeviceTransferComplete__your_signal_data_has_Been_transferred_to_your_new_device">I tuoi dati di Signal sono stati trasferiti al tuo nuovo dispositivo. Per completare il processo di trasferimento, è necessario continuare la registrazione sul tuo nuovo dispositivo.</string>
+  <string name="OldDeviceTransferComplete__close">Chiudi</string>
+  <!--NewDeviceTransferComplete-->
+  <string name="NewDeviceTransferComplete__transfer_successful">Trasferimento riuscito</string>
+  <string name="NewDeviceTransferComplete__transfer_complete">Trasferimento completato</string>
+  <string name="NewDeviceTransferComplete__to_complete_the_transfer_process_you_must_continue_registration">Per completare il processo di trasferimento, è necessario continuare la registrazione.</string>
+  <string name="NewDeviceTransferComplete__continue_registration">Continua registrazione</string>
+  <!--DeviceToDeviceTransferService-->
+  <string name="DeviceToDeviceTransferService_content_title">Trasferimento account</string>
+  <string name="DeviceToDeviceTransferService_status_ready">Preparazione per la connessione all\'altro tuo dispositivo Android…</string>
+  <string name="DeviceToDeviceTransferService_status_starting_up">Preparazione per la connessione all\'altro tuo dispositivo Android…</string>
+  <string name="DeviceToDeviceTransferService_status_discovery">Ricerca dell\'altro tuo dispositivo Android in corso…</string>
+  <string name="DeviceToDeviceTransferService_status_network_connected">Connessione all\'altro tuo dispositivo Android…</string>
+  <string name="DeviceToDeviceTransferService_status_verification_required">Verifica richiesta</string>
+  <string name="DeviceToDeviceTransferService_status_service_connected">Trasferimento account…</string>
+  <!--OldDeviceTransferLockedDialog-->
+  <string name="OldDeviceTransferLockedDialog__complete_registration_on_your_new_device">Completa la registrazione sul tuo nuovo dispositivo</string>
+  <string name="OldDeviceTransferLockedDialog__your_signal_account_has_been_transferred_to_your_new_device">Il tuo account Signal è stato trasferito sul tuo nuovo dispositivo, ma devi completare la registrazione per continuare. Signal sarà inattivo su questo dispositivo.</string>
+  <string name="OldDeviceTransferLockedDialog__done">Fatto</string>
+  <string name="OldDeviceTransferLockedDialog__cancel_and_activate_this_device">Annulla e attiva questo dispositivo</string>
   <!--RecipientBottomSheet-->
   <string name="RecipientBottomSheet_block">Blocca</string>
   <string name="RecipientBottomSheet_unblock">Sblocca</string>
@@ -2312,12 +2469,14 @@
   <string name="GroupsLearnMore_paragraph_2">I Gruppi Legacy non possono ancora essere aggiornati a Nuovi Gruppi, ma puoi creare un Nuovo Gruppo con gli stessi membri se si trovano sull\'ultima versione di Signal.</string>
   <string name="GroupsLearnMore_paragraph_3">Signal offrirà un modo per aggiornare i Gruppi Legacy in futuro.</string>
   <!--GroupLinkBottomSheetDialogFragment-->
+  <string name="GroupLinkBottomSheet_share_hint_requiring_approval">Chiunque con questo link può vedere il nome e la foto del gruppo e inviare una richiesta di unirsi. Condividilo con persone di cui ti fidi.</string>
+  <string name="GroupLinkBottomSheet_share_hint_not_requiring_approval">Chiunque con questo link può vedere il nome e la foto del gruppo e unirsi al gruppo. Condividilo con persone di cui ti fidi.</string>
   <string name="GroupLinkBottomSheet_share_via_signal">Condividi tramite Signal</string>
   <string name="GroupLinkBottomSheet_copy">Copia</string>
   <string name="GroupLinkBottomSheet_qr_code">Codice QR</string>
   <string name="GroupLinkBottomSheet_share">Condividi</string>
   <string name="GroupLinkBottomSheet_copied_to_clipboard">Copiato negli appunti</string>
-  <string name="GroupLinkBottomSheet_the_link_is_not_currently_active">Il collegamento non è al momento attivo</string>
+  <string name="GroupLinkBottomSheet_the_link_is_not_currently_active">Il link non è al momento attivo</string>
   <!--VoiceNotePlaybackPreparer-->
   <!--VoiceNoteMediaDescriptionCompatFactory-->
   <string name="VoiceNoteMediaDescriptionCompatFactory__voice_message">Messaggio vocale · %1$s</string>
@@ -2403,7 +2562,7 @@
   <string name="ChatWallpaperFragment__clear_wallpaper_for_this_chat">Rimuovere lo sfondo per questa chat?</string>
   <string name="ChatWallpaperFragment__clear_wallpaper_this_will_not">Rimuovere lo sfondo? Questo non rimuoverà gli sfondi personalizzati che hai scelto per le tue chat.</string>
   <string name="ChatWallpaperFragment__reset_all_wallpapers">Resetta tutti gli sfondi</string>
-  <string name="ChatWallpaperFragment__reset_all_wallpapers_including_custom">Reimposta tutti gli sfondi, inclusi quelli personalizzati che hai scelto per le tue chat?</string>
+  <string name="ChatWallpaperFragment__reset_all_wallpapers_including_custom">Resettare tutti gli sfondi, inclusi quelli personalizzati che hai scelto per le tue chat?</string>
   <string name="ChatWallpaperFragment__contact_name">Nome contatto</string>
   <string name="ChatWallpaperFragment__reset">Resetta</string>
   <string name="ChatWallpaperFragment__clear">Rimuovi</string>
