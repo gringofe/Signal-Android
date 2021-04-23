@@ -47,6 +47,7 @@ import org.thoughtcrime.securesms.jobs.TrimThreadJob;
 import org.thoughtcrime.securesms.mms.IncomingMediaMessage;
 import org.thoughtcrime.securesms.mms.MmsException;
 import org.thoughtcrime.securesms.mms.OutgoingMediaMessage;
+import org.thoughtcrime.securesms.notifications.MarkReadReceiver;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.revealable.ViewOnceExpirationInfo;
@@ -68,6 +69,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +83,7 @@ import java.util.UUID;
  */
 public class SmsDatabase extends MessageDatabase {
 
-  private static final String TAG = SmsDatabase.class.getSimpleName();
+  private static final String TAG = Log.tag(SmsDatabase.class);
 
   public  static final String TABLE_NAME         = "sms";
   public  static final String PERSON             = "person";
@@ -468,13 +470,13 @@ public class SmsDatabase extends MessageDatabase {
   }
 
   @Override
-  public boolean incrementReceiptCount(SyncMessageId messageId, long timestamp, @NonNull ReceiptType receiptType) {
+  public @NonNull Set<ThreadUpdate> incrementReceiptCount(SyncMessageId messageId, long timestamp, @NonNull ReceiptType receiptType) {
     if (receiptType == ReceiptType.VIEWED) {
-      return false;
+      return Collections.emptySet();
     }
 
-    SQLiteDatabase database     = databaseHelper.getWritableDatabase();
-    boolean        foundMessage = false;
+    SQLiteDatabase    database      = databaseHelper.getWritableDatabase();
+    Set<ThreadUpdate> threadUpdates = new HashSet<>();
 
     try (Cursor cursor = database.query(TABLE_NAME, new String[] {ID, THREAD_ID, RECIPIENT_ID, TYPE, DELIVERY_RECEIPT_COUNT, READ_RECEIPT_COUNT},
                               DATE_SENT + " = ?", new String[] {String.valueOf(messageId.getTimetamp())},
@@ -484,41 +486,32 @@ public class SmsDatabase extends MessageDatabase {
         if (Types.isOutgoingMessageType(cursor.getLong(cursor.getColumnIndexOrThrow(TYPE)))) {
           RecipientId theirRecipientId = messageId.getRecipientId();
           RecipientId outRecipientId   = RecipientId.from(cursor.getLong(cursor.getColumnIndexOrThrow(RECIPIENT_ID)));
-          String      columnName       = receiptType.getColumnName();
-          boolean     isFirstIncrement = cursor.getLong(cursor.getColumnIndexOrThrow(columnName)) == 0;
 
           if (outRecipientId.equals(theirRecipientId)) {
-            long threadId = cursor.getLong(cursor.getColumnIndexOrThrow(THREAD_ID));
+            long    threadId         = cursor.getLong(cursor.getColumnIndexOrThrow(THREAD_ID));
+            String  columnName       = receiptType.getColumnName();
+            boolean isFirstIncrement = cursor.getLong(cursor.getColumnIndexOrThrow(columnName)) == 0;
 
             database.execSQL("UPDATE " + TABLE_NAME +
                              " SET " + columnName + " = " + columnName + " + 1 WHERE " +
                              ID + " = ?",
                              new String[] {String.valueOf(cursor.getLong(cursor.getColumnIndexOrThrow(ID)))});
 
-            DatabaseFactory.getThreadDatabase(context).update(threadId, false);
-
-            if (isFirstIncrement) {
-              notifyConversationListeners(threadId);
-            } else {
-              notifyVerboseConversationListeners(threadId);
-            }
-
-            foundMessage = true;
+            threadUpdates.add(new ThreadUpdate(threadId, !isFirstIncrement));
           }
         }
       }
 
-      if (!foundMessage && receiptType == ReceiptType.DELIVERY) {
+      if (threadUpdates.size() > 0 && receiptType == ReceiptType.DELIVERY) {
         earlyDeliveryReceiptCache.increment(messageId.getTimetamp(), messageId.getRecipientId());
-        return true;
       }
 
-      return foundMessage;
+      return threadUpdates;
     }
   }
 
   @Override
-  public List<Pair<Long, Long>> setTimestampRead(SyncMessageId messageId, long proposedExpireStarted) {
+  public List<Pair<Long, Long>> setTimestampRead(SyncMessageId messageId, long proposedExpireStarted, @NonNull Map<Long, Long> threadToLatestRead) {
     SQLiteDatabase         database = databaseHelper.getWritableDatabase();
     List<Pair<Long, Long>> expiring = new LinkedList<>();
     Cursor                 cursor   = null;
@@ -555,6 +548,9 @@ public class SmsDatabase extends MessageDatabase {
           DatabaseFactory.getThreadDatabase(context).updateReadState(threadId);
           DatabaseFactory.getThreadDatabase(context).setLastSeen(threadId);
           notifyConversationListeners(threadId);
+
+          Long latest = threadToLatestRead.get(threadId);
+          threadToLatestRead.put(threadId, (latest != null) ? Math.max(latest, messageId.getTimetamp()) : messageId.getTimetamp());
         }
       }
     } finally {

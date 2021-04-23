@@ -68,7 +68,6 @@ import com.annimon.stream.Stream;
 import org.signal.core.util.StreamUtil;
 import org.signal.core.util.concurrent.SignalExecutors;
 import org.signal.core.util.logging.Log;
-import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.ApplicationPreferencesActivity;
 import org.thoughtcrime.securesms.LoggingFragment;
 import org.thoughtcrime.securesms.PassphraseRequiredActivity;
@@ -77,6 +76,7 @@ import org.thoughtcrime.securesms.VerifyIdentityActivity;
 import org.thoughtcrime.securesms.attachments.Attachment;
 import org.thoughtcrime.securesms.components.ConversationScrollToView;
 import org.thoughtcrime.securesms.components.ConversationTypingView;
+import org.thoughtcrime.securesms.components.MaskView;
 import org.thoughtcrime.securesms.components.TooltipPopup;
 import org.thoughtcrime.securesms.components.TypingStatusRepository;
 import org.thoughtcrime.securesms.components.recyclerview.SmoothScrollingLinearLayoutManager;
@@ -88,6 +88,7 @@ import org.thoughtcrime.securesms.contactshare.SharedContactDetailsActivity;
 import org.thoughtcrime.securesms.conversation.ConversationAdapter.ItemClickListener;
 import org.thoughtcrime.securesms.conversation.ConversationAdapter.StickyHeaderViewHolder;
 import org.thoughtcrime.securesms.conversation.ConversationMessage.ConversationMessageFactory;
+import org.thoughtcrime.securesms.conversation.ui.error.EnableCallNotificationSettingsDialog;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
 import org.thoughtcrime.securesms.database.MessageDatabase;
 import org.thoughtcrime.securesms.database.MmsDatabase;
@@ -95,7 +96,12 @@ import org.thoughtcrime.securesms.database.SmsDatabase;
 import org.thoughtcrime.securesms.database.model.MediaMmsMessageRecord;
 import org.thoughtcrime.securesms.database.model.MessageRecord;
 import org.thoughtcrime.securesms.database.model.MmsMessageRecord;
+import org.thoughtcrime.securesms.database.model.ReactionRecord;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4PlaybackPolicy;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4ProjectionPlayerHolder;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4PlaybackController;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4ProjectionRecycler;
 import org.thoughtcrime.securesms.groups.GroupId;
 import org.thoughtcrime.securesms.groups.GroupMigrationMembershipChange;
 import org.thoughtcrime.securesms.groups.ui.invitesandrequests.invite.GroupLinkInviteFriendsBottomSheetDialogFragment;
@@ -147,6 +153,7 @@ import org.thoughtcrime.securesms.util.WindowUtil;
 import org.thoughtcrime.securesms.util.concurrent.SimpleTask;
 import org.thoughtcrime.securesms.util.task.ProgressDialogAsyncTask;
 import org.thoughtcrime.securesms.util.views.AdaptiveActionsToolbar;
+import org.thoughtcrime.securesms.video.exo.AttachmentMediaSourceFactory;
 import org.thoughtcrime.securesms.wallpaper.ChatWallpaper;
 import org.whispersystems.libsignal.util.guava.Optional;
 
@@ -161,7 +168,7 @@ import java.util.Set;
 
 @SuppressLint("StaticFieldLeak")
 public class ConversationFragment extends LoggingFragment {
-  private static final String TAG = ConversationFragment.class.getSimpleName();
+  private static final String TAG = Log.tag(ConversationFragment.class);
 
   private static final int SCROLL_ANIMATION_THRESHOLD = 50;
   private static final int CODE_ADD_EDIT_CONTACT      = 77;
@@ -176,6 +183,7 @@ public class ConversationFragment extends LoggingFragment {
   private boolean                     isReacting;
   private ActionMode                  actionMode;
   private Locale                      locale;
+  private FrameLayout                 videoContainer;
   private RecyclerView                list;
   private RecyclerView.ItemDecoration lastSeenDecoration;
   private RecyclerView.ItemDecoration inlineDateDecoration;
@@ -203,6 +211,8 @@ public class ConversationFragment extends LoggingFragment {
   private View                        toolbarShadow;
   private Stopwatch                   startupStopwatch;
 
+  private GiphyMp4ProjectionRecycler giphyMp4ProjectionRecycler;
+
   public static void prepare(@NonNull Context context) {
     FrameLayout parent = new FrameLayout(context);
     parent.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
@@ -225,6 +235,7 @@ public class ConversationFragment extends LoggingFragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle) {
     final View view = inflater.inflate(R.layout.conversation_fragment, container, false);
+    videoContainer          = view.findViewById(R.id.video_container);
     list                    = view.findViewById(android.R.id.list);
     composeDivider          = view.findViewById(R.id.compose_divider);
 
@@ -249,13 +260,16 @@ public class ConversationFragment extends LoggingFragment {
 
     typingView = (ConversationTypingView) inflater.inflate(R.layout.conversation_typing_view, container, false);
 
+    giphyMp4ProjectionRecycler = initializeGiphyMp4();
+
     new ConversationItemSwipeCallback(
             conversationMessage -> actionMode == null &&
                                    MenuState.canReplyToMessage(recipient.get(),
                                                                MenuState.isActionMessage(conversationMessage.getMessageRecord()),
                                                                conversationMessage.getMessageRecord(),
                                                                messageRequestViewModel.shouldShowMessageRequest()),
-            this::handleReplyMessage
+            this::handleReplyMessage,
+            giphyMp4ProjectionRecycler
     ).attachToRecyclerView(list);
 
     setupListLayoutListeners();
@@ -294,6 +308,26 @@ public class ConversationFragment extends LoggingFragment {
     updateToolbarDependentMargins();
 
     return view;
+  }
+
+  private @NonNull GiphyMp4ProjectionRecycler initializeGiphyMp4() {
+    int                                            maxPlayback = GiphyMp4PlaybackPolicy.maxSimultaneousPlaybackInConversation();
+    List<GiphyMp4ProjectionPlayerHolder>           holders     = GiphyMp4ProjectionPlayerHolder.injectVideoViews(requireContext(),
+                                                                                                                 getViewLifecycleOwner().getLifecycle(),
+                                                                                                                 videoContainer,
+                                                                                                                 maxPlayback);
+    GiphyMp4ProjectionRecycler callback = new GiphyMp4ProjectionRecycler(holders);
+
+    GiphyMp4PlaybackController.attach(list, callback, maxPlayback);
+
+    return callback;
+  }
+
+  private @NonNull MaskView.MaskTarget getMaskTarget(@NonNull View itemView) {
+    int  adapterPosition = list.getChildAdapterPosition(itemView);
+    View videoPlayer     = giphyMp4ProjectionRecycler.getVideoPlayerAtAdapterPosition(adapterPosition);
+
+    return new ConversationItemMaskTarget((ConversationItem) itemView, videoPlayer);
   }
 
   private void setupListLayoutListeners() {
@@ -556,7 +590,7 @@ public class ConversationFragment extends LoggingFragment {
   private void initializeListAdapter() {
     if (this.recipient != null && this.threadId != -1) {
       Log.d(TAG, "Initializing adapter for " + recipient.getId());
-      ConversationAdapter adapter = new ConversationAdapter(this, GlideApp.with(this), locale, selectionClickListener, this.recipient.get());
+      ConversationAdapter adapter = new ConversationAdapter(this, GlideApp.with(this), locale, selectionClickListener, this.recipient.get(), new AttachmentMediaSourceFactory(requireContext()));
       adapter.setPagingController(conversationViewModel.getPagingController());
       list.setAdapter(adapter);
       setInlineDateDecoration(adapter);
@@ -871,6 +905,7 @@ public class ConversationFragment extends LoggingFragment {
                                       attachment.getSize(),
                                       0,
                                       attachment.isBorderless(),
+                                      attachment.isVideoGif(),
                                       Optional.absent(),
                                       Optional.fromNullable(attachment.getCaption()),
                                       Optional.absent()));
@@ -1156,10 +1191,13 @@ public class ConversationFragment extends LoggingFragment {
     if (position >= (isTypingIndicatorShowing() ? 1 : 0)) {
       ConversationMessage item = getListAdapter().getItem(position);
       if (item != null) {
-        long timestamp = item.getMessageRecord()
-                             .getDateReceived();
+        MessageRecord record                 = item.getMessageRecord();
+        long          latestReactionReceived = Stream.of(record.getReactions())
+                                                     .map(ReactionRecord::getDateReceived)
+                                                     .max(Long::compareTo)
+                                                     .orElse(0L);
 
-        markReadHelper.onViewsRevealed(timestamp);
+        markReadHelper.onViewsRevealed(Math.max(record.getDateReceived(), latestReactionReceived));
       }
     }
   }
@@ -1186,14 +1224,14 @@ public class ConversationFragment extends LoggingFragment {
     void onMessageActionToolbarOpened();
     void onForwardClicked();
     void onMessageRequest(@NonNull MessageRequestViewModel viewModel);
-    void handleReaction(@NonNull View maskTarget,
+    void handleReaction(@NonNull MaskView.MaskTarget maskTarget,
                         @NonNull MessageRecord messageRecord,
                         @NonNull Toolbar.OnMenuItemClickListener toolbarListener,
                         @NonNull ConversationReactionOverlay.OnHideListener onHideListener);
     void onCursorChanged();
     void onListVerticalTranslationChanged(float translationY);
     void onMessageWithErrorClicked(@NonNull MessageRecord messageRecord);
-    void handleReactionDetails(@NonNull View maskTarget);
+    void handleReactionDetails(@NonNull MaskView.MaskTarget maskTarget);
   }
 
   private class ConversationScrollListener extends OnScrollListener {
@@ -1283,7 +1321,7 @@ public class ConversationFragment extends LoggingFragment {
     }
 
     @Override
-    public void onItemLongClick(View maskTarget, ConversationMessage conversationMessage) {
+    public void onItemLongClick(View itemView, ConversationMessage conversationMessage) {
 
       if (actionMode != null) return;
 
@@ -1299,7 +1337,7 @@ public class ConversationFragment extends LoggingFragment {
       {
         isReacting = true;
         list.setLayoutFrozen(true);
-        listener.handleReaction(maskTarget, messageRecord, new ReactionsToolbarListener(conversationMessage), () -> {
+        listener.handleReaction(getMaskTarget(itemView), messageRecord, new ReactionsToolbarListener(conversationMessage), () -> {
           isReacting = false;
           list.setLayoutFrozen(false);
           WindowUtil.setLightStatusBarFromTheme(requireActivity());
@@ -1381,9 +1419,7 @@ public class ConversationFragment extends LoggingFragment {
 
           DatabaseFactory.getAttachmentDatabase(requireContext()).deleteAttachmentFilesForViewOnceMessage(messageRecord.getId());
 
-          ApplicationContext.getInstance(requireContext())
-                            .getViewOnceMessageManager()
-                            .scheduleIfNecessary();
+          ApplicationDependencies.getViewOnceMessageManager().scheduleIfNecessary();
 
           ApplicationDependencies.getJobManager().add(new MultiDeviceViewOnceOpenJob(new MessageDatabase.SyncMessageId(messageRecord.getIndividualRecipient().getId(), messageRecord.getDateSent())));
 
@@ -1449,7 +1485,7 @@ public class ConversationFragment extends LoggingFragment {
     public void onReactionClicked(@NonNull View reactionTarget, long messageId, boolean isMms) {
       if (getContext() == null) return;
 
-      listener.handleReactionDetails(reactionTarget);
+      listener.handleReactionDetails(getMaskTarget(reactionTarget));
       ReactionsBottomSheetDialogFragment.create(messageId, isMms).show(requireFragmentManager(), null);
     }
 
@@ -1558,6 +1594,28 @@ public class ConversationFragment extends LoggingFragment {
     public void onInviteFriendsToGroupClicked(@NonNull GroupId.V2 groupId) {
       GroupLinkInviteFriendsBottomSheetDialogFragment.show(requireActivity().getSupportFragmentManager(), groupId);
     }
+
+    @Override
+    public void onEnableCallNotificationsClicked() {
+      EnableCallNotificationSettingsDialog.fixAutomatically(requireContext());
+      if (EnableCallNotificationSettingsDialog.shouldShow(requireContext())) {
+        EnableCallNotificationSettingsDialog.show(getChildFragmentManager());
+      } else {
+        refreshList();
+      }
+    }
+
+    @Override
+    public void onPlayInlineContent(ConversationMessage conversationMessage) {
+      getListAdapter().playInlineContent(conversationMessage);
+    }
+  }
+
+  public void refreshList() {
+    ConversationAdapter listAdapter = getListAdapter();
+    if (listAdapter != null) {
+      listAdapter.notifyDataSetChanged();
+    }
   }
 
   @Override
@@ -1599,6 +1657,12 @@ public class ConversationFragment extends LoggingFragment {
       }
 
       super.onItemRangeInserted(positionStart, itemCount);
+    }
+
+    @Override
+    public void onItemRangeChanged(int positionStart, int itemCount) {
+      super.onItemRangeChanged(positionStart, itemCount);
+      list.post(ConversationFragment.this::postMarkAsReadRequest);
     }
   }
 

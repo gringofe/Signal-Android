@@ -41,15 +41,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class IncomingMessageObserver {
 
-  private static final String TAG = IncomingMessageObserver.class.getSimpleName();
+  private static final String TAG = Log.tag(IncomingMessageObserver.class);
 
   public  static final  int FOREGROUND_ID            = 313399;
   private static final long REQUEST_TIMEOUT_MINUTES  = 1;
 
   private static final AtomicInteger INSTANCE_COUNT = new AtomicInteger(0);
 
-  private static SignalServiceMessagePipe pipe             = null;
-  private static SignalServiceMessagePipe unidentifiedPipe = null;
+  private static volatile SignalServiceMessagePipe pipe             = null;
+  private static volatile SignalServiceMessagePipe unidentifiedPipe = null;
 
   private final Application                context;
   private final SignalServiceNetworkAccess networkAccess;

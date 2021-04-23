@@ -51,7 +51,7 @@ import java.util.Objects;
  */
 class MediaSendViewModel extends ViewModel {
 
-  private static final String TAG = MediaSendViewModel.class.getSimpleName();
+  private static final String TAG = Log.tag(MediaSendViewModel.class);
 
   private final Application                        application;
   private final MediaRepository                    repository;
@@ -305,7 +305,7 @@ class MediaSendViewModel extends ViewModel {
     captionVisible = false;
 
     List<Media> uncaptioned = Stream.of(getSelectedMediaOrDefault())
-                                    .map(m -> new Media(m.getUri(), m.getMimeType(), m.getDate(), m.getWidth(), m.getHeight(), m.getSize(), m.getDuration(), m.isBorderless(), m.getBucketId(), Optional.absent(), Optional.absent()))
+                                    .map(m -> new Media(m.getUri(), m.getMimeType(), m.getDate(), m.getWidth(), m.getHeight(), m.getSize(), m.getDuration(), m.isBorderless(), m.isVideoGif(), m.getBucketId(), Optional.absent(), Optional.absent()))
                                     .toList();
 
     selectedMedia.setValue(uncaptioned);
@@ -408,7 +408,7 @@ class MediaSendViewModel extends ViewModel {
   }
 
   void onVideoBeginEdit(@NonNull Uri uri) {
-    cancelUpload(new Media(uri, "", 0, 0, 0, 0, 0, false, Optional.absent(), Optional.absent(), Optional.absent()));
+    cancelUpload(new Media(uri, "", 0, 0, 0, 0, 0, false, false, Optional.absent(), Optional.absent(), Optional.absent()));
   }
 
   void onMediaCaptured(@NonNull Media media) {
@@ -485,7 +485,7 @@ class MediaSendViewModel extends ViewModel {
 
       if (splitMessage.getTextSlide().isPresent()) {
         Slide slide = splitMessage.getTextSlide().get();
-        uploadRepository.startUpload(new Media(Objects.requireNonNull(slide.getUri()), slide.getContentType(), System.currentTimeMillis(), 0, 0, slide.getFileSize(), 0, slide.isBorderless(), Optional.absent(), Optional.absent(), Optional.absent()), recipient);
+        uploadRepository.startUpload(new Media(Objects.requireNonNull(slide.getUri()), slide.getContentType(), System.currentTimeMillis(), 0, 0, slide.getFileSize(), 0, slide.isBorderless(), slide.isVideoGif(), Optional.absent(), Optional.absent(), Optional.absent()), recipient);
       }
 
       uploadRepository.applyMediaUpdates(oldToNew, recipient);

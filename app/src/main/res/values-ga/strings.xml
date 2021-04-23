@@ -626,13 +626,13 @@ a shonrú</string>
   <string name="MessageNotifier_contact_message">%1$s %2$s</string>
   <string name="MessageNotifier_unknown_contact_message">Teagmhálaí</string>
   <!--Notification Channels-->
-  <string name="NotificationChannel_messages">An réamhshocrú</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_messages">An réamhshocrú</string> -->
   <string name="NotificationChannel_calls">Glaonna</string>
   <string name="NotificationChannel_failures">Teipeanna</string>
   <string name="NotificationChannel_backups">Cúltacaithe</string>
   <string name="NotificationChannel_app_updates">Cuir nuashonruithe leis</string>
   <string name="NotificationChannel_other">Eile</string>
-  <string name="NotificationChannel_group_messages">Teachtaireachtaí</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_group_messages">Teachtaireachtaí</string> -->
   <string name="NotificationChannel_missing_display_name">Anaithnid</string>
   <!--QuickResponseService-->
   <string name="QuickResponseService_quick_response_unavailable_when_Signal_is_locked">Níl freagairt tapa le fáil agus Signal faoi ghlas.</string>
@@ -789,7 +789,7 @@ a shonrú</string>
     <item quantity="other">%d eile</item>
   </plurals>
   <!--giphy_activity-->
-  <string name="giphy_activity_toolbar__search_gifs_and_stickers">Cuardaigh GIFs agus greamáin</string>
+  <!-- Removed by excludeNonTranslatables <string name="giphy_activity_toolbar__search_gifs_and_stickers">Cuardaigh GIFs agus greamáin</string> -->
   <!--giphy_fragment-->
   <string name="giphy_fragment__nothing_found">Níor aimsíodh dada</string>
   <!--log_submit_activity-->
@@ -891,10 +891,10 @@ a shonrú</string>
   <string name="arrays__use_default">Bain feidhm as an réamhshocrú</string>
   <string name="arrays__use_custom">Bain feidhm as saincheapú</string>
   <string name="arrays__mute_for_one_hour">Balbhaigh ar feadh 1 uair</string>
-  <string name="arrays__mute_for_two_hours">Balbhaigh ar feadh 2 uair a chloig</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_two_hours">Balbhaigh ar feadh 2 uair a chloig</string> -->
   <string name="arrays__mute_for_one_day">Balbhaigh ar feadh 1 lá</string>
   <string name="arrays__mute_for_seven_days">Balbhaigh ar feadh 7 lá</string>
-  <string name="arrays__mute_for_one_year">Balbhaigh ar feadh 1 bhliain</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_one_year">Balbhaigh ar feadh 1 bhliain</string> -->
   <string name="arrays__settings_default">Réamhshocruithe</string>
   <string name="arrays__enabled">Cumasaithe</string>
   <string name="arrays__disabled">Díchumasaithe</string>

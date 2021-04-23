@@ -76,7 +76,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class PushSendJob extends SendJob {
 
-  private static final String TAG                           = PushSendJob.class.getSimpleName();
+  private static final String TAG                           = Log.tag(PushSendJob.class);
   private static final long   CERTIFICATE_EXPIRATION_BUFFER = TimeUnit.DAYS.toMillis(1);
 
   protected PushSendJob(Job.Parameters parameters) {
@@ -158,6 +158,7 @@ public abstract class PushSendJob extends SendJob {
                                     .withFileName(attachment.getFileName())
                                     .withVoiceNote(attachment.isVoiceNote())
                                     .withBorderless(attachment.isBorderless())
+                                    .withGif(attachment.isVideoGif())
                                     .withWidth(attachment.getWidth())
                                     .withHeight(attachment.getHeight())
                                     .withCaption(attachment.getCaption())
@@ -247,6 +248,7 @@ public abstract class PushSendJob extends SendJob {
                                                 Optional.fromNullable(attachment.getFileName()),
                                                 attachment.isVoiceNote(),
                                                 attachment.isBorderless(),
+                                                attachment.isVideoGif(),
                                                 Optional.fromNullable(attachment.getCaption()),
                                                 Optional.fromNullable(attachment.getBlurHash()).transform(BlurHash::getHash),
                                                 attachment.getUploadTimestamp());

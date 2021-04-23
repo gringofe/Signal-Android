@@ -84,7 +84,7 @@ import java.util.List;
 
 public class MessageSender {
 
-  private static final String TAG = MessageSender.class.getSimpleName();
+  private static final String TAG = Log.tag(MessageSender.class);
 
   /**
    * Suitable for a 1:1 conversation or a GV1 group only.
@@ -472,7 +472,7 @@ public class MessageSender {
 
   private static void sendLocalMediaSelf(Context context, long messageId) {
     try {
-      ExpiringMessageManager expirationManager  = ApplicationContext.getInstance(context).getExpiringMessageManager();
+      ExpiringMessageManager expirationManager  = ApplicationDependencies.getExpiringMessageManager();
       MessageDatabase        mmsDatabase        = DatabaseFactory.getMmsDatabase(context);
       MmsSmsDatabase         mmsSmsDatabase     = DatabaseFactory.getMmsSmsDatabase(context);
       OutgoingMediaMessage   message            = mmsDatabase.getOutgoingMessage(messageId);
@@ -523,7 +523,7 @@ public class MessageSender {
 
   private static void sendLocalTextSelf(Context context, long messageId) {
     try {
-      ExpiringMessageManager expirationManager = ApplicationContext.getInstance(context).getExpiringMessageManager();
+      ExpiringMessageManager expirationManager = ApplicationDependencies.getExpiringMessageManager();
       MessageDatabase        smsDatabase       = DatabaseFactory.getSmsDatabase(context);
       MmsSmsDatabase         mmsSmsDatabase    = DatabaseFactory.getMmsSmsDatabase(context);
       SmsMessageRecord       message           = smsDatabase.getSmsMessage(messageId);

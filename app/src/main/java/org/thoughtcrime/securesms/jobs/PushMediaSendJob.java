@@ -53,7 +53,7 @@ public class PushMediaSendJob extends PushSendJob {
 
   public static final String KEY = "PushMediaSendJob";
 
-  private static final String TAG = PushMediaSendJob.class.getSimpleName();
+  private static final String TAG = Log.tag(PushMediaSendJob.class);
 
   private static final String KEY_MESSAGE_ID = "message_id";
 
@@ -107,7 +107,7 @@ public class PushMediaSendJob extends PushSendJob {
   public void onPushSend()
       throws IOException, MmsException, NoSuchMessageException, UndeliverableMessageException
   {
-    ExpiringMessageManager expirationManager = ApplicationContext.getInstance(context).getExpiringMessageManager();
+    ExpiringMessageManager expirationManager = ApplicationDependencies.getExpiringMessageManager();
     MessageDatabase        database          = DatabaseFactory.getMmsDatabase(context);
     OutgoingMediaMessage   message           = database.getOutgoingMessage(messageId);
     long                   threadId          = database.getMessageRecord(messageId).getThreadId();
