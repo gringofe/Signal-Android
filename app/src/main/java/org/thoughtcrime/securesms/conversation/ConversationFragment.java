@@ -1174,32 +1174,28 @@ public class ConversationFragment extends LoggingFragment {
   private void moveToPosition(int position, @Nullable Runnable onMessageNotFound) {
     Log.d(TAG, "moveToPosition(" + position + ")");
     conversationViewModel.getPagingController().onDataNeededAroundIndex(position);
-    snapToTopDataObserver.buildScrollPosition(position)
-                         .withOnPerformScroll(((layoutManager, p) ->
-                             list.post(() -> {
-                               if (Math.abs(layoutManager.findFirstVisibleItemPosition() - p) < SCROLL_ANIMATION_THRESHOLD) {
-                                 View child = layoutManager.findViewByPosition(position);
+    snapToTopDataObserver.buildScrollPosition(position).withOnPerformScroll(((layoutManager, p) ->
+        list.post(() -> {
+          if (Math.abs(layoutManager.findFirstVisibleItemPosition() - p) < SCROLL_ANIMATION_THRESHOLD) {
+            View child = layoutManager.findViewByPosition(position);
 
-                                 if (child != null && layoutManager.isViewPartiallyVisible(child, true, false)) {
-                                   getListAdapter().pulseAtPosition(position);
-                                 } else {
-                                   pulsePosition = position;
-                                 }
+            if (child != null && layoutManager.isViewPartiallyVisible(child, true, false)) {
+              getListAdapter().pulseAtPosition(p);
+            } else {
+              pulsePosition = position;
+            }
 
-                                 layoutManager.scrollToPositionWithOffset(p, list.getHeight() / 4);
-                               } else {
-                                 layoutManager.scrollToPositionWithOffset(p, list.getHeight() / 4);
-                                 getListAdapter().pulseAtPosition(position);
-                               }
-                             })
-                         ))
-                         .withOnInvalidPosition(() -> {
-                           if (onMessageNotFound != null) {
-                             onMessageNotFound.run();
-                           }
-                           Log.w(TAG, "[moveToMentionPosition] Tried to navigate to mention, but it wasn't found.");
-                         })
-                         .submit();
+            list.smoothScrollToPosition(p);
+          } else {
+            list.smoothScrollToPosition(p);
+            getListAdapter().pulseAtPosition(p);
+          }
+        }))).withOnInvalidPosition(() -> {
+      if (onMessageNotFound != null) {
+        onMessageNotFound.run();
+      }
+      Log.w(TAG, "[moveToMentionPosition] Tried to navigate to mention, but it wasn't found.");
+    }).submit();
   }
 
   private void maybeShowSwipeToReplyTooltip() {

@@ -382,12 +382,19 @@ public final class MediaPreviewActivity extends PassphraseRequiredActivity
 
   private void jumpToMessage() {
     MediaItem mediaItem = getCurrentMediaItem();
-
     if (mediaItem != null) {
-      ConversationIntents.Builder builder = ConversationIntents.createBuilder(this, mediaItem.recipient.getId(), threadId);
-      builder.withStartingPosition(NotificationItem.getStartingPosition(this, threadId, mediaItem.date));
+      long receivedTimestamp =
+//          DatabaseFactory.getMmsSmsDatabase(getApplicationContext()).getTimestampForFirstMessageAfterDate(
+          mediaItem.date;
+//      );
+      int position = NotificationItem.getStartingPosition(this, threadId, receivedTimestamp);
 
-      startActivity(builder.build());
+      ConversationIntents.Builder builder = ConversationIntents.createBuilder(this, mediaItem.recipient.getId(), threadId)
+                                                               .withStartingPosition(Math.max(position - 1, 0));
+
+
+      Intent intent = builder.build();
+      startActivity(intent);
     }
   }
 
