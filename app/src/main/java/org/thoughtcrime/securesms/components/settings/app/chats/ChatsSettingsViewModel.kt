@@ -21,7 +21,8 @@ class ChatsSettingsViewModel(private val repository: ChatsSettingsRepository) : 
       useAddressBook = SignalStore.settings().isPreferSystemContactPhotos,
       useSystemEmoji = SignalStore.settings().isPreferSystemEmoji,
       enterKeySends = SignalStore.settings().isEnterKeySends,
-      chatBackupsEnabled = SignalStore.settings().isBackupEnabled
+      chatBackupsEnabled = SignalStore.settings().isBackupEnabled,
+      absoluteMessageTime = SignalStore.settings().isAbsoluteMessageTime
     )
   )
 
@@ -49,6 +50,11 @@ class ChatsSettingsViewModel(private val repository: ChatsSettingsRepository) : 
   fun setEnterKeySends(enabled: Boolean) {
     store.update { it.copy(enterKeySends = enabled) }
     SignalStore.settings().isEnterKeySends = enabled
+  }
+
+  fun setUseAbsoluteMessageTime(enabled: Boolean) {
+    store.update { it.copy(absoluteMessageTime = enabled) }
+    SignalStore.settings().isAbsoluteMessageTime = enabled
   }
 
   class Factory(private val repository: ChatsSettingsRepository) : ViewModelProvider.Factory {

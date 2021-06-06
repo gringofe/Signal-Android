@@ -47,6 +47,7 @@ public final class SettingsValues extends SignalStoreValues {
   public static final  String LANGUAGE                                = "settings.language";
   public static final  String PREFER_SYSTEM_EMOJI                     = "settings.use.system.emoji";
   public static final  String ENTER_KEY_SENDS                         = "settings.enter.key.sends";
+  public static final  String ABSOLUTE_MESSAGE_TIME                   = "settings.absolute.msg.time";
   public static final  String BACKUPS_ENABLED                         = "settings.backups.enabled";
   public static final  String SMS_DELIVERY_REPORTS_ENABLED            = "settings.sms.delivery.reports.enabled";
   public static final  String WIFI_CALLING_COMPATIBILITY_MODE_ENABLED = "settings.wifi.calling.compatibility.mode.enabled";
@@ -218,6 +219,14 @@ public final class SettingsValues extends SignalStoreValues {
 
   public void setEnterKeySends(boolean enterKeySends) {
     putBoolean(ENTER_KEY_SENDS, enterKeySends);
+  }
+
+  public void setAbsoluteMessageTime(boolean absoluteMessageTime) {
+    putBoolean(ABSOLUTE_MESSAGE_TIME, absoluteMessageTime);
+  }
+
+  public boolean isAbsoluteMessageTime() {
+    return getBoolean(ABSOLUTE_MESSAGE_TIME, TextSecurePreferences.isAbsoluteMessageTime(ApplicationDependencies.getApplication()));
   }
 
   public boolean isBackupEnabled() {
