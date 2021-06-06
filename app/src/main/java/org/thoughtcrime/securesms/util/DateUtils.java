@@ -66,14 +66,8 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getBriefRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
-    if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
-      return c.getString(R.string.DateUtils_just_now);
-    } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
-      int mins = convertDelta(timestamp, TimeUnit.MINUTES);
-      return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
-    } else if (isWithin(timestamp, 1, TimeUnit.DAYS)) {
-      int hours = convertDelta(timestamp, TimeUnit.HOURS);
-      return c.getResources().getQuantityString(R.plurals.hours_ago, hours, hours);
+    if (isSameDay(timestamp)) {
+      return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
     } else if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "EEE", locale);
     } else if (isWithin(timestamp, 365, TimeUnit.DAYS)) {
@@ -83,35 +77,43 @@ public class DateUtils extends android.text.format.DateUtils {
     }
   }
 
+  private static String getTimeFormat(final Context c) {
+    if (DateFormat.is24HourFormat(c)) return "HH:mm";
+    else return "hh:mm a";
+  }
+
+  private static boolean isSameDay(long timestamp){
+    return getDayFromTimestamp(timestamp) == getDayFromTimestamp(System.currentTimeMillis());
+  }
+
+  private static final long MS_TO_DAY = 1000 * 60 * 60 * 24;
+
+  private static long getDayFromTimestamp(long timestamp) {
+    return timestamp / MS_TO_DAY;
+  }
+
   public static String getExtendedRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
-    if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
-      return c.getString(R.string.DateUtils_just_now);
-    } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
-      int mins = (int)TimeUnit.MINUTES.convert(System.currentTimeMillis() - timestamp, TimeUnit.MILLISECONDS);
-      return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
-    } else {
-      StringBuilder format = new StringBuilder();
-      if      (isWithin(timestamp,   6, TimeUnit.DAYS)) format.append("EEE ");
+    StringBuilder format = new StringBuilder();
+    if (!isSameDay(timestamp)) {
+      if (isWithin(timestamp, 6, TimeUnit.DAYS)) format.append("EEE ");
       else if (isWithin(timestamp, 365, TimeUnit.DAYS)) format.append("MMM d, ");
-      else                                              format.append("MMM d, yyyy, ");
-
-      if (DateFormat.is24HourFormat(c)) format.append("HH:mm");
-      else                              format.append("hh:mm a");
-
-      return getFormattedDateTime(timestamp, format.toString(), locale);
+      else format.append("MMM d, yyyy, ");
     }
+
+    format.append(getTimeFormat(c));
+    return getFormattedDateTime(timestamp, format.toString(), locale);
   }
 
   public static String getTimeString(final Context c, final Locale locale, final long timestamp) {
     StringBuilder format = new StringBuilder();
 
-    if      (isSameDay(System.currentTimeMillis(), timestamp)) format.append("");
-    else if (isWithinAbs(timestamp,   6, TimeUnit.DAYS))       format.append("EEE ");
-    else if (isWithinAbs(timestamp, 364, TimeUnit.DAYS))       format.append("MMM d, ");
-    else                                                       format.append("MMM d, yyyy, ");
+    if (isSameDay(System.currentTimeMillis(), timestamp)) format.append("");
+    else if (isWithinAbs(timestamp, 6, TimeUnit.DAYS)) format.append("EEE ");
+    else if (isWithinAbs(timestamp, 364, TimeUnit.DAYS)) format.append("MMM d, ");
+    else format.append("MMM d, yyyy, ");
 
     if (DateFormat.is24HourFormat(c)) format.append("HH:mm");
-    else                              format.append("hh:mm a");
+    else format.append("hh:mm a");
 
     return getFormattedDateTime(timestamp, format.toString(), locale);
   }
@@ -124,9 +126,9 @@ public class DateUtils extends android.text.format.DateUtils {
     } else {
       String format;
 
-      if      (isWithin(timestamp, 6, TimeUnit.DAYS))   format = "EEE ";
+      if (isWithin(timestamp, 6, TimeUnit.DAYS)) format = "EEE ";
       else if (isWithin(timestamp, 365, TimeUnit.DAYS)) format = "MMM d";
-      else                                              format = "MMM d, yyy";
+      else format = "MMM d, yyy";
 
       return getFormattedDateTime(timestamp, format, locale);
     }
