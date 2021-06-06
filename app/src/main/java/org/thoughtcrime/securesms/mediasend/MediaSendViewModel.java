@@ -105,7 +105,7 @@ class MediaSendViewModel extends ViewModel {
     this.hudState          = new MutableLiveData<>();
     this.error             = new SingleLiveEvent<>();
     this.event             = new SingleLiveEvent<>();
-    this.sentMediaQuality  = new MutableLiveData<>(SentMediaQuality.STANDARD);
+    this.sentMediaQuality  = new MutableLiveData<>(SentMediaQuality.HIGH);
     this.savedDrawState    = new HashMap<>();
     this.lastCameraCapture = Optional.absent();
     this.body              = "";
