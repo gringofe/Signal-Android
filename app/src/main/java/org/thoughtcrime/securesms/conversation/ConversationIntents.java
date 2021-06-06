@@ -7,6 +7,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.thoughtcrime.securesms.conversation.colors.ChatColors;
 import org.thoughtcrime.securesms.database.ThreadDatabase;
 import org.thoughtcrime.securesms.mediasend.Media;
 import org.thoughtcrime.securesms.recipients.Recipient;
@@ -16,6 +17,7 @@ import org.thoughtcrime.securesms.wallpaper.ChatWallpaper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 public class ConversationIntents {
@@ -66,8 +68,8 @@ public class ConversationIntents {
     private final StickerLocator   stickerLocator;
     private final boolean          isBorderless;
     private final int              distributionType;
-    private final int     startingPosition;
-    private final boolean firstTimeInSelfCreatedGroup;
+    private final int              startingPosition;
+    private final boolean          firstTimeInSelfCreatedGroup;
 
     static Args from(@NonNull Intent intent) {
       if (isBubbleIntent(intent)) {
@@ -154,6 +156,10 @@ public class ConversationIntents {
       // TODO [greyson][wallpaper] Is it worth it to do this beforehand?
       return Recipient.resolved(recipientId).getWallpaper();
     }
+
+    public @NonNull ChatColors getChatColors() {
+      return Recipient.resolved(recipientId).getChatColors();
+    }
   }
 
   public final static class Builder {
@@ -162,15 +168,15 @@ public class ConversationIntents {
     private final RecipientId                           recipientId;
     private final long                                  threadId;
 
-    private String           draftText;
-    private ArrayList<Media> media;
-    private StickerLocator   stickerLocator;
-    private boolean          isBorderless;
-    private int              distributionType = ThreadDatabase.DistributionTypes.DEFAULT;
-    private int              startingPosition = -1;
-    private Uri              dataUri;
-    private String           dataType;
-    private boolean          firstTimeInSelfCreatedGroup;
+    private String         draftText;
+    private List<Media>    media;
+    private StickerLocator stickerLocator;
+    private boolean        isBorderless;
+    private int            distributionType = ThreadDatabase.DistributionTypes.DEFAULT;
+    private int            startingPosition = -1;
+    private Uri            dataUri;
+    private String         dataType;
+    private boolean        firstTimeInSelfCreatedGroup;
 
     private Builder(@NonNull Context context,
                     @NonNull RecipientId recipientId,
@@ -265,7 +271,7 @@ public class ConversationIntents {
       }
 
       if (media != null) {
-        intent.putParcelableArrayListExtra(EXTRA_MEDIA, media);
+        intent.putParcelableArrayListExtra(EXTRA_MEDIA, new ArrayList<>(media));
       }
 
       if (stickerLocator != null) {

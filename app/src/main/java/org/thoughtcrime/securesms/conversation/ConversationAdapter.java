@@ -17,7 +17,6 @@
 package org.thoughtcrime.securesms.conversation;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,19 +36,29 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.source.MediaSource;
+
+import org.signal.core.util.ThreadUtil;
 import org.signal.core.util.logging.Log;
 import org.signal.paging.PagingController;
 import org.thoughtcrime.securesms.BindableConversationItem;
 import org.thoughtcrime.securesms.R;
+import org.thoughtcrime.securesms.conversation.colors.Colorizable;
+import org.thoughtcrime.securesms.conversation.colors.Colorizer;
 import org.thoughtcrime.securesms.database.model.MessageRecord;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4Playable;
+import org.thoughtcrime.securesms.giph.mp4.GiphyMp4PlaybackPolicyEnforcer;
+import org.thoughtcrime.securesms.util.Projection;
 import org.thoughtcrime.securesms.mms.GlideRequests;
 import org.thoughtcrime.securesms.recipients.Recipient;
+import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.util.CachedInflater;
 import org.thoughtcrime.securesms.util.DateUtils;
 import org.thoughtcrime.securesms.util.StickyHeaderDecoration;
 import org.thoughtcrime.securesms.util.ThemeUtil;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
+import org.thoughtcrime.securesms.video.exo.AttachmentMediaSourceFactory;
 import org.whispersystems.libsignal.util.guava.Optional;
 
 import java.security.MessageDigest;
@@ -100,11 +109,12 @@ public class ConversationAdapter
   private final Locale            locale;
   private final Recipient         recipient;
 
-  private final Set<ConversationMessage>  selected;
-  private final List<ConversationMessage> fastRecords;
-  private final Set<Long>                 releasedFastRecords;
-  private final Calendar                  calendar;
-  private final MessageDigest             digest;
+  private final Set<ConversationMessage>     selected;
+  private final List<ConversationMessage>    fastRecords;
+  private final Set<Long>                    releasedFastRecords;
+  private final Calendar                     calendar;
+  private final MessageDigest                digest;
+  private final AttachmentMediaSourceFactory attachmentMediaSourceFactory;
 
   private String              searchQuery;
   private ConversationMessage recordToPulse;
@@ -112,12 +122,17 @@ public class ConversationAdapter
   private View                footerView;
   private PagingController    pagingController;
   private boolean             hasWallpaper;
+  private boolean             isMessageRequestAccepted;
+  private ConversationMessage inlineContent;
+  private Colorizer           colorizer;
 
   ConversationAdapter(@NonNull LifecycleOwner lifecycleOwner,
                       @NonNull GlideRequests glideRequests,
                       @NonNull Locale locale,
                       @Nullable ItemClickListener clickListener,
-                      @NonNull Recipient recipient)
+                      @NonNull Recipient recipient,
+                      @NonNull AttachmentMediaSourceFactory attachmentMediaSourceFactory,
+                      @NonNull Colorizer colorizer)
   {
     super(new DiffUtil.ItemCallback<ConversationMessage>() {
       @Override
@@ -133,16 +148,19 @@ public class ConversationAdapter
 
     this.lifecycleOwner = lifecycleOwner;
 
-    this.glideRequests       = glideRequests;
-    this.locale              = locale;
-    this.clickListener       = clickListener;
-    this.recipient           = recipient;
-    this.selected            = new HashSet<>();
-    this.fastRecords         = new ArrayList<>();
-    this.releasedFastRecords = new HashSet<>();
-    this.calendar            = Calendar.getInstance();
-    this.digest              = getMessageDigestOrThrow();
-    this.hasWallpaper        = recipient.hasWallpaper();
+    this.glideRequests                = glideRequests;
+    this.locale                       = locale;
+    this.clickListener                = clickListener;
+    this.recipient                    = recipient;
+    this.selected                     = new HashSet<>();
+    this.fastRecords                  = new ArrayList<>();
+    this.releasedFastRecords          = new HashSet<>();
+    this.calendar                     = Calendar.getInstance();
+    this.digest                       = getMessageDigestOrThrow();
+    this.hasWallpaper                 = recipient.hasWallpaper();
+    this.isMessageRequestAccepted     = true;
+    this.attachmentMediaSourceFactory = attachmentMediaSourceFactory;
+    this.colorizer                    = colorizer;
 
     setHasStableIds(true);
   }
@@ -254,7 +272,11 @@ public class ConversationAdapter
                                                   recipient,
                                                   searchQuery,
                                                   conversationMessage == recordToPulse,
-                                                  hasWallpaper);
+                                                  hasWallpaper,
+                                                  isMessageRequestAccepted,
+                                                  attachmentMediaSourceFactory,
+                                                  conversationMessage == inlineContent,
+                                                  colorizer);
 
         if (conversationMessage == recordToPulse) {
           recordToPulse = null;
@@ -356,6 +378,10 @@ public class ConversationAdapter
 
   public void setPagingController(@Nullable PagingController pagingController) {
     this.pagingController = pagingController;
+  }
+
+  public boolean isForRecipientId(@NonNull RecipientId recipientId) {
+    return recipient.getId().equals(recipientId);
   }
 
   void onBindLastSeenViewHolder(StickyHeaderViewHolder viewHolder, int position) {
@@ -542,7 +568,7 @@ public class ConversationAdapter
 
   @MainThread
   private void cleanFastRecords() {
-    Util.assertMainThread();
+    ThreadUtil.assertMainThread();
 
     synchronized (releasedFastRecords) {
       Iterator<ConversationMessage> messageIterator = fastRecords.iterator();
@@ -592,16 +618,70 @@ public class ConversationAdapter
   }
 
   public @Nullable ConversationMessage getLastVisibleConversationMessage(int position) {
-    return getItem(position - ((hasFooter() && position == getItemCount() - 1) ? 1 : 0));
+    try {
+      return getItem(position - ((hasFooter() && position == getItemCount() - 1) ? 1 : 0));
+    } catch (IndexOutOfBoundsException e) {
+      Log.w(TAG, "Race condition changed size of conversation", e);
+      return null;
+    }
   }
 
-  static class ConversationViewHolder extends RecyclerView.ViewHolder {
+  public void setMessageRequestAccepted(boolean messageRequestAccepted) {
+    if (this.isMessageRequestAccepted != messageRequestAccepted) {
+      this.isMessageRequestAccepted = messageRequestAccepted;
+      notifyDataSetChanged();
+    }
+  }
+
+  public void playInlineContent(@Nullable ConversationMessage conversationMessage) {
+    if (this.inlineContent != conversationMessage) {
+      this.inlineContent = conversationMessage;
+      notifyDataSetChanged();
+    }
+  }
+
+  final static class ConversationViewHolder extends RecyclerView.ViewHolder implements GiphyMp4Playable, Colorizable {
     public ConversationViewHolder(final @NonNull View itemView) {
       super(itemView);
     }
 
     public BindableConversationItem getBindable() {
       return (BindableConversationItem) itemView;
+    }
+
+    @Override
+    public void showProjectionArea() {
+      getBindable().showProjectionArea();
+    }
+
+    @Override
+    public void hideProjectionArea() {
+      getBindable().hideProjectionArea();
+    }
+
+    @Override
+    public @Nullable MediaSource getMediaSource() {
+      return getBindable().getMediaSource();
+    }
+
+    @Override
+    public @Nullable GiphyMp4PlaybackPolicyEnforcer getPlaybackPolicyEnforcer() {
+      return getBindable().getPlaybackPolicyEnforcer();
+    }
+
+    @NonNull
+    public @Override Projection getProjection(@NonNull ViewGroup recyclerView) {
+      return getBindable().getProjection(recyclerView);
+    }
+
+    @Override
+    public boolean canPlayContent() {
+      return getBindable().canPlayContent();
+    }
+
+    @Override
+    public @NonNull List<Projection> getColorizerProjections() {
+      return getBindable().getColorizerProjections();
     }
   }
 
@@ -673,6 +753,6 @@ public class ConversationAdapter
 
   interface ItemClickListener extends BindableConversationItem.EventListener {
     void onItemClick(ConversationMessage item);
-    void onItemLongClick(View maskTarget, ConversationMessage item);
+    void onItemLongClick(View itemView, ConversationMessage item);
   }
 }

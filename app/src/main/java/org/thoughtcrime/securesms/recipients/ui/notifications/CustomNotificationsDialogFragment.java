@@ -24,15 +24,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.annimon.stream.function.Consumer;
 
+import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.database.RecipientDatabase;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.notifications.NotificationChannels;
 import org.thoughtcrime.securesms.recipients.RecipientId;
+import org.thoughtcrime.securesms.util.RingtoneUtil;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
 
 import java.util.Objects;
 
 public class CustomNotificationsDialogFragment extends DialogFragment {
+
+  private static final String TAG = Log.tag(CustomNotificationsDialogFragment.class);
 
   private static final short MESSAGE_RINGTONE_PICKER_REQUEST_CODE = 13562;
   private static final short CALL_RINGTONE_PICKER_REQUEST_CODE    = 23621;
@@ -224,8 +229,7 @@ public class CustomNotificationsDialogFragment extends DialogFragment {
     } else if (ringtone.toString().isEmpty()) {
       return context.getString(R.string.preferences__silent);
     } else {
-      Ringtone tone = RingtoneManager.getRingtone(getActivity(), ringtone);
-
+      Ringtone tone = RingtoneUtil.getRingtone(requireContext(), ringtone);
       if (tone != null) {
         return tone.getTitle(context);
       }
@@ -252,8 +256,8 @@ public class CustomNotificationsDialogFragment extends DialogFragment {
   private Uri defaultSound(boolean calls) {
     Uri defaultValue;
 
-    if (calls) defaultValue = TextSecurePreferences.getCallNotificationRingtone(requireContext());
-    else       defaultValue = TextSecurePreferences.getNotificationRingtone(requireContext());
+    if (calls) defaultValue = SignalStore.settings().getCallRingtone();
+    else       defaultValue = SignalStore.settings().getMessageNotificationSound();
     return defaultValue;
   }
 

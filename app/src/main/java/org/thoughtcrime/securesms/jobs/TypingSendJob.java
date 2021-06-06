@@ -12,6 +12,7 @@ import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.jobmanager.Data;
 import org.thoughtcrime.securesms.jobmanager.Job;
 import org.thoughtcrime.securesms.jobmanager.impl.NetworkConstraint;
+import org.thoughtcrime.securesms.net.NotPushRegisteredException;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientUtil;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
@@ -31,7 +32,7 @@ public class TypingSendJob extends BaseJob {
 
   public static final String KEY = "TypingSendJob";
 
-  private static final String TAG = TypingSendJob.class.getSimpleName();
+  private static final String TAG = Log.tag(TypingSendJob.class);
 
   private static final String KEY_THREAD_ID = "thread_id";
   private static final String KEY_TYPING    = "typing";
@@ -77,6 +78,10 @@ public class TypingSendJob extends BaseJob {
 
   @Override
   public void onRun() throws Exception {
+    if (!Recipient.self().isRegistered()) {
+      throw new NotPushRegisteredException();
+    }
+
     if (!TextSecurePreferences.isTypingIndicatorsEnabled(context)) {
       return;
     }
@@ -92,6 +97,12 @@ public class TypingSendJob extends BaseJob {
 
     if (recipient.isBlocked()) {
       Log.w(TAG, "Not sending typing indicators to blocked recipients.");
+      return;
+    }
+
+    if (recipient.isSelf()) {
+      Log.w(TAG, "Not sending typing indicators to self.");
+      return;
     }
 
     List<Recipient>  recipients = Collections.singletonList(recipient);
@@ -104,12 +115,18 @@ public class TypingSendJob extends BaseJob {
 
     recipients = RecipientUtil.getEligibleForSending(Stream.of(recipients)
                                                            .map(Recipient::resolve)
+                                                           .filter(r -> !r.isBlocked())
                                                            .toList());
 
     SignalServiceMessageSender             messageSender      = ApplicationDependencies.getSignalServiceMessageSender();
     List<SignalServiceAddress>             addresses          = RecipientUtil.toSignalServiceAddressesFromResolved(context, recipients);
     List<Optional<UnidentifiedAccessPair>> unidentifiedAccess = UnidentifiedAccessUtil.getAccessFor(context, recipients);
     SignalServiceTypingMessage             typingMessage      = new SignalServiceTypingMessage(typing ? Action.STARTED : Action.STOPPED, System.currentTimeMillis(), groupId);
+
+    if (addresses.isEmpty()) {
+      Log.w(TAG, "No one to send typing indicators to");
+      return;
+    }
 
     if (isCanceled()) {
       Log.w(TAG, "Canceled before send!");

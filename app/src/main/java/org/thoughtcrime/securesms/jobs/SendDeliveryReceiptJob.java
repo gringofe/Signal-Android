@@ -9,6 +9,7 @@ import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.jobmanager.Data;
 import org.thoughtcrime.securesms.jobmanager.Job;
 import org.thoughtcrime.securesms.jobmanager.impl.NetworkConstraint;
+import org.thoughtcrime.securesms.net.NotPushRegisteredException;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.recipients.RecipientUtil;
@@ -32,7 +33,7 @@ public class SendDeliveryReceiptJob extends BaseJob {
   private static final String KEY_MESSAGE_ID = "message_id";
   private static final String KEY_TIMESTAMP  = "timestamp";
 
-  private static final String TAG = SendReadReceiptJob.class.getSimpleName();
+  private static final String TAG = Log.tag(SendReadReceiptJob.class);
 
   private RecipientId recipientId;
   private long        messageId;
@@ -77,6 +78,10 @@ public class SendDeliveryReceiptJob extends BaseJob {
 
   @Override
   public void onRun() throws IOException, UntrustedIdentityException, UndeliverableMessageException {
+    if (!Recipient.self().isRegistered()) {
+      throw new NotPushRegisteredException();
+    }
+
     SignalServiceMessageSender  messageSender  = ApplicationDependencies.getSignalServiceMessageSender();
     Recipient                   recipient      = Recipient.resolved(recipientId);
     SignalServiceAddress        remoteAddress  = RecipientUtil.toSignalServiceAddress(context, recipient);

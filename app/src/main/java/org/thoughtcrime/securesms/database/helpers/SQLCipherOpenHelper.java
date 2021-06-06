@@ -16,26 +16,30 @@ import androidx.annotation.NonNull;
 
 import com.annimon.stream.Stream;
 import com.bumptech.glide.Glide;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteDatabaseHook;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
 import org.signal.core.util.logging.Log;
+import org.thoughtcrime.securesms.color.MaterialColor;
 import org.thoughtcrime.securesms.contacts.avatars.ContactColorsLegacy;
+import org.thoughtcrime.securesms.conversation.colors.AvatarColor;
+import org.thoughtcrime.securesms.conversation.colors.ChatColors;
+import org.thoughtcrime.securesms.conversation.colors.ChatColorsMapper;
 import org.thoughtcrime.securesms.crypto.DatabaseSecret;
 import org.thoughtcrime.securesms.crypto.MasterSecret;
 import org.thoughtcrime.securesms.database.AttachmentDatabase;
+import org.thoughtcrime.securesms.database.ChatColorsDatabase;
 import org.thoughtcrime.securesms.database.DraftDatabase;
+import org.thoughtcrime.securesms.database.EmojiSearchDatabase;
 import org.thoughtcrime.securesms.database.GroupDatabase;
 import org.thoughtcrime.securesms.database.GroupReceiptDatabase;
 import org.thoughtcrime.securesms.database.IdentityDatabase;
-import org.thoughtcrime.securesms.database.JobDatabase;
-import org.thoughtcrime.securesms.database.KeyValueDatabase;
-import org.thoughtcrime.securesms.database.MegaphoneDatabase;
 import org.thoughtcrime.securesms.database.MentionDatabase;
 import org.thoughtcrime.securesms.database.MmsDatabase;
 import org.thoughtcrime.securesms.database.OneTimePreKeyDatabase;
+import org.thoughtcrime.securesms.database.PaymentDatabase;
 import org.thoughtcrime.securesms.database.PushDatabase;
 import org.thoughtcrime.securesms.database.RecipientDatabase;
 import org.thoughtcrime.securesms.database.RemappedRecordsDatabase;
@@ -46,11 +50,13 @@ import org.thoughtcrime.securesms.database.SignedPreKeyDatabase;
 import org.thoughtcrime.securesms.database.SmsDatabase;
 import org.thoughtcrime.securesms.database.SqlCipherDatabaseHook;
 import org.thoughtcrime.securesms.database.StickerDatabase;
-import org.thoughtcrime.securesms.database.StorageKeyDatabase;
 import org.thoughtcrime.securesms.database.ThreadDatabase;
+import org.thoughtcrime.securesms.database.UnknownStorageIdDatabase;
+import org.thoughtcrime.securesms.database.model.databaseprotos.ReactionList;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.groups.GroupId;
 import org.thoughtcrime.securesms.jobs.RefreshPreKeysJob;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.notifications.NotificationChannels;
 import org.thoughtcrime.securesms.phonenumbers.PhoneNumberFormatter;
 import org.thoughtcrime.securesms.profiles.AvatarHelper;
@@ -72,16 +78,18 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatabase {
 
   @SuppressWarnings("unused")
-  private static final String TAG = SQLCipherOpenHelper.class.getSimpleName();
+  private static final String TAG = Log.tag(SQLCipherOpenHelper.class);
 
   private static final int RECIPIENT_CALL_RINGTONE_VERSION  = 2;
   private static final int MIGRATE_PREKEYS_VERSION          = 3;
@@ -171,8 +179,21 @@ public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatab
   private static final int LAST_RESET_SESSION_TIME          = 87;
   private static final int WALLPAPER                        = 88;
   private static final int ABOUT                            = 89;
+  private static final int SPLIT_SYSTEM_NAMES               = 90;
+  private static final int PAYMENTS                         = 91;
+  private static final int CLEAN_STORAGE_IDS                = 92;
+  private static final int MP4_GIF_SUPPORT                  = 93;
+  private static final int BLUR_AVATARS                     = 94;
+  private static final int CLEAN_STORAGE_IDS_WITHOUT_INFO   = 95;
+  private static final int CLEAN_REACTION_NOTIFICATIONS     = 96;
+  private static final int STORAGE_SERVICE_REFACTOR         = 97;
+  private static final int CLEAR_MMS_STORAGE_IDS            = 98;
+  private static final int SERVER_GUID                      = 99;
+  private static final int CHAT_COLORS                      = 100;
+  private static final int AVATAR_COLORS                    = 101;
+  private static final int EMOJI_SEARCH                     = 102;
 
-  private static final int    DATABASE_VERSION = 89;
+  private static final int    DATABASE_VERSION = 102;
   private static final String DATABASE_NAME    = "signal.db";
 
   private final Context        context;
@@ -201,8 +222,11 @@ public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatab
     db.execSQL(SignedPreKeyDatabase.CREATE_TABLE);
     db.execSQL(SessionDatabase.CREATE_TABLE);
     db.execSQL(StickerDatabase.CREATE_TABLE);
-    db.execSQL(StorageKeyDatabase.CREATE_TABLE);
+    db.execSQL(UnknownStorageIdDatabase.CREATE_TABLE);
     db.execSQL(MentionDatabase.CREATE_TABLE);
+    db.execSQL(PaymentDatabase.CREATE_TABLE);
+    db.execSQL(ChatColorsDatabase.CREATE_TABLE);
+    db.execSQL(EmojiSearchDatabase.CREATE_TABLE);
     executeStatements(db, SearchDatabase.CREATE_TABLE);
     executeStatements(db, RemappedRecordsDatabase.CREATE_TABLE);
 
@@ -215,8 +239,9 @@ public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatab
     executeStatements(db, GroupDatabase.CREATE_INDEXS);
     executeStatements(db, GroupReceiptDatabase.CREATE_INDEXES);
     executeStatements(db, StickerDatabase.CREATE_INDEXES);
-    executeStatements(db, StorageKeyDatabase.CREATE_INDEXES);
+    executeStatements(db, UnknownStorageIdDatabase.CREATE_INDEXES);
     executeStatements(db, MentionDatabase.CREATE_INDEXES);
+    executeStatements(db, PaymentDatabase.CREATE_INDEXES);
 
     if (context.getDatabasePath(ClassicOpenHelper.NAME).exists()) {
       ClassicOpenHelper                      legacyHelper = new ClassicOpenHelper(context);
@@ -391,7 +416,7 @@ public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatab
             Uri     messageSoundUri = messageSound != null ? Uri.parse(messageSound) : null;
             int     vibrateState    = cursor.getInt(cursor.getColumnIndexOrThrow("vibrate"));
             String  displayName     = NotificationChannels.getChannelDisplayNameFor(context, systemName, profileName, null, address);
-            boolean vibrateEnabled  = vibrateState == 0 ? TextSecurePreferences.isNotificationVibrateEnabled(context) : vibrateState == 1;
+            boolean vibrateEnabled  = vibrateState == 0 ? SignalStore.settings().isMessageVibrateEnabled() :vibrateState == 1;
 
             if (GroupId.isEncodedGroup(address)) {
               try(Cursor groupCursor = db.rawQuery("SELECT title FROM groups WHERE group_id = ?", new String[] { address })) {
@@ -1256,6 +1281,236 @@ public class SQLCipherOpenHelper extends SQLiteOpenHelper implements SignalDatab
       if (oldVersion < ABOUT) {
         db.execSQL("ALTER TABLE recipient ADD COLUMN about TEXT DEFAULT NULL");
         db.execSQL("ALTER TABLE recipient ADD COLUMN about_emoji TEXT DEFAULT NULL");
+      }
+
+      if (oldVersion < SPLIT_SYSTEM_NAMES) {
+        db.execSQL("ALTER TABLE recipient ADD COLUMN system_family_name TEXT DEFAULT NULL");
+        db.execSQL("ALTER TABLE recipient ADD COLUMN system_given_name TEXT DEFAULT NULL");
+        db.execSQL("UPDATE recipient SET system_given_name = system_display_name");
+      }
+
+      if (oldVersion < PAYMENTS) {
+        db.execSQL("CREATE TABLE payments(_id INTEGER PRIMARY KEY, " +
+                   "uuid TEXT DEFAULT NULL, " +
+                   "recipient INTEGER DEFAULT 0, " +
+                   "recipient_address TEXT DEFAULT NULL, " +
+                   "timestamp INTEGER, " +
+                   "note TEXT DEFAULT NULL, " +
+                   "direction INTEGER, " +
+                   "state INTEGER, " +
+                   "failure_reason INTEGER, " +
+                   "amount BLOB NOT NULL, " +
+                   "fee BLOB NOT NULL, " +
+                   "transaction_record BLOB DEFAULT NULL, " +
+                   "receipt BLOB DEFAULT NULL, " +
+                   "payment_metadata BLOB DEFAULT NULL, " +
+                   "receipt_public_key TEXT DEFAULT NULL, " +
+                   "block_index INTEGER DEFAULT 0, " +
+                   "block_timestamp INTEGER DEFAULT 0, " +
+                   "seen INTEGER, " +
+                   "UNIQUE(uuid) ON CONFLICT ABORT)");
+
+        db.execSQL("CREATE INDEX IF NOT EXISTS timestamp_direction_index ON payments (timestamp, direction);");
+        db.execSQL("CREATE INDEX IF NOT EXISTS timestamp_index ON payments (timestamp);");
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS receipt_public_key_index ON payments (receipt_public_key);");
+      }
+
+      if (oldVersion < CLEAN_STORAGE_IDS) {
+        ContentValues values = new ContentValues();
+        values.putNull("storage_service_key");
+        int count = db.update("recipient", values, "storage_service_key NOT NULL AND ((phone NOT NULL AND INSTR(phone, '+') = 0) OR (group_id NOT NULL AND (LENGTH(group_id) != 85 and LENGTH(group_id) != 53)))", null);
+        Log.i(TAG, "There were " + count + " bad rows that had their storageID removed.");
+      }
+
+      if (oldVersion < MP4_GIF_SUPPORT) {
+        db.execSQL("ALTER TABLE part ADD COLUMN video_gif INTEGER DEFAULT 0");
+      }
+
+      if (oldVersion < BLUR_AVATARS) {
+        db.execSQL("ALTER TABLE recipient ADD COLUMN extras BLOB DEFAULT NULL");
+        db.execSQL("ALTER TABLE recipient ADD COLUMN groups_in_common INTEGER DEFAULT 0");
+
+        String secureOutgoingSms = "EXISTS(SELECT 1 FROM sms WHERE thread_id = t._id AND (type & 31) = 23 AND (type & 10485760) AND (type & 131072 = 0))";
+        String secureOutgoingMms = "EXISTS(SELECT 1 FROM mms WHERE thread_id = t._id AND (msg_box & 31) = 23 AND (msg_box & 10485760) AND (msg_box & 131072 = 0))";
+
+        String selectIdsToUpdateProfileSharing = "SELECT r._id FROM recipient AS r INNER JOIN thread AS t ON r._id = t.recipient_ids WHERE profile_sharing = 0 AND (" + secureOutgoingSms + " OR " + secureOutgoingMms + ")";
+
+        db.rawExecSQL("UPDATE recipient SET profile_sharing = 1 WHERE _id IN (" + selectIdsToUpdateProfileSharing + ")");
+
+        String selectIdsWithGroupsInCommon = "SELECT r._id FROM recipient AS r WHERE EXISTS("
+                                             + "SELECT 1 FROM groups AS g INNER JOIN recipient AS gr ON (g.recipient_id = gr._id AND gr.profile_sharing = 1) WHERE g.active = 1 AND (g.members LIKE r._id || ',%' OR g.members LIKE '%,' || r._id || ',%' OR g.members LIKE '%,' || r._id)"
+                                             + ")";
+        db.rawExecSQL("UPDATE recipient SET groups_in_common = 1 WHERE _id IN (" + selectIdsWithGroupsInCommon + ")");
+      }
+
+      if (oldVersion < CLEAN_STORAGE_IDS_WITHOUT_INFO) {
+        ContentValues values = new ContentValues();
+        values.putNull("storage_service_key");
+        int count = db.update("recipient", values, "storage_service_key NOT NULL AND phone IS NULL AND uuid IS NULL AND group_id IS NULL", null);
+        Log.i(TAG, "There were " + count + " bad rows that had their storageID removed due to not having any other identifier.");
+      }
+
+      if (oldVersion < CLEAN_REACTION_NOTIFICATIONS) {
+        ContentValues values = new ContentValues(1);
+        values.put("notified", 1);
+
+        int count = 0;
+        count += db.update("sms", values, "notified = 0 AND read = 1 AND reactions_unread = 1 AND NOT ((type & 31) = 23 AND (type & 10485760) AND (type & 131072 = 0))", null);
+        count += db.update("mms", values, "notified = 0 AND read = 1 AND reactions_unread = 1 AND NOT ((msg_box & 31) = 23 AND (msg_box & 10485760) AND (msg_box & 131072 = 0))", null);
+        Log.d(TAG, "Resetting notified for " + count + " read incoming messages that were incorrectly flipped when receiving reactions");
+
+        List<Long> smsIds = new ArrayList<>();
+
+        try (Cursor cursor = db.query("sms", new String[]{"_id", "reactions", "notified_timestamp"}, "notified = 0 AND reactions_unread = 1", null, null, null, null)) {
+          while (cursor.moveToNext()) {
+            byte[] reactions         = cursor.getBlob(cursor.getColumnIndexOrThrow("reactions"));
+            long   notifiedTimestamp = cursor.getLong(cursor.getColumnIndexOrThrow("notified_timestamp"));
+
+            if (reactions == null) {
+              continue;
+            }
+
+            try {
+              boolean hasReceiveLaterThanNotified = ReactionList.parseFrom(reactions)
+                                                                .getReactionsList()
+                                                                .stream()
+                                                                .anyMatch(r -> r.getReceivedTime() > notifiedTimestamp);
+              if (!hasReceiveLaterThanNotified) {
+                smsIds.add(cursor.getLong(cursor.getColumnIndexOrThrow("_id")));
+              }
+            } catch (InvalidProtocolBufferException e) {
+              Log.e(TAG, e);
+            }
+          }
+        }
+
+        if (smsIds.size() > 0) {
+          Log.d(TAG, "Updating " + smsIds.size() + " records in sms");
+          db.execSQL("UPDATE sms SET reactions_last_seen = notified_timestamp WHERE _id in (" + Util.join(smsIds, ",") + ")");
+        }
+
+        List<Long> mmsIds = new ArrayList<>();
+
+        try (Cursor cursor = db.query("mms", new String[]{"_id", "reactions", "notified_timestamp"}, "notified = 0 AND reactions_unread = 1", null, null, null, null)) {
+          while (cursor.moveToNext()) {
+            byte[] reactions         = cursor.getBlob(cursor.getColumnIndexOrThrow("reactions"));
+            long   notifiedTimestamp = cursor.getLong(cursor.getColumnIndexOrThrow("notified_timestamp"));
+
+            if (reactions == null) {
+              continue;
+            }
+
+            try {
+              boolean hasReceiveLaterThanNotified = ReactionList.parseFrom(reactions)
+                                                                .getReactionsList()
+                                                                .stream()
+                                                                .anyMatch(r -> r.getReceivedTime() > notifiedTimestamp);
+              if (!hasReceiveLaterThanNotified) {
+                mmsIds.add(cursor.getLong(cursor.getColumnIndexOrThrow("_id")));
+              }
+            } catch (InvalidProtocolBufferException e) {
+              Log.e(TAG, e);
+            }
+          }
+        }
+
+        if (mmsIds.size() > 0) {
+          Log.d(TAG, "Updating " + mmsIds.size() + " records in mms");
+          db.execSQL("UPDATE mms SET reactions_last_seen = notified_timestamp WHERE _id in (" + Util.join(mmsIds, ",") + ")");
+        }
+      }
+
+      if (oldVersion < STORAGE_SERVICE_REFACTOR) {
+        int deleteCount;
+        int insertCount;
+        int updateCount;
+        int dirtyCount;
+
+        ContentValues deleteValues = new ContentValues();
+        deleteValues.putNull("storage_service_key");
+        deleteCount = db.update("recipient", deleteValues, "storage_service_key NOT NULL AND (dirty = 3 OR group_type = 1 OR (group_type = 0 AND registered = 2))", null);
+
+        try (Cursor cursor = db.query("recipient", new String[]{"_id"}, "storage_service_key IS NULL AND (dirty = 2 OR registered = 1)", null, null, null, null)) {
+          insertCount = cursor.getCount();
+
+          while (cursor.moveToNext()) {
+            ContentValues insertValues = new ContentValues();
+            insertValues.put("storage_service_key", Base64.encodeBytes(StorageSyncHelper.generateKey()));
+
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
+            db.update("recipient", insertValues, "_id = ?", SqlUtil.buildArgs(id));
+          }
+        }
+
+        try (Cursor cursor = db.query("recipient", new String[]{"_id"}, "storage_service_key NOT NULL AND dirty = 1", null, null, null, null)) {
+          updateCount = cursor.getCount();
+
+          while (cursor.moveToNext()) {
+            ContentValues updateValues = new ContentValues();
+            updateValues.put("storage_service_key", Base64.encodeBytes(StorageSyncHelper.generateKey()));
+
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
+            db.update("recipient", updateValues, "_id = ?", SqlUtil.buildArgs(id));
+          }
+        }
+
+        ContentValues clearDirtyValues = new ContentValues();
+        clearDirtyValues.put("dirty", 0);
+        dirtyCount = db.update("recipient", clearDirtyValues, "dirty != 0", null);
+
+        Log.d(TAG, String.format(Locale.US, "For storage service refactor migration, there were %d inserts, %d updated, and %d deletes. Cleared the dirty status on %d rows.", insertCount, updateCount, deleteCount, dirtyCount));
+      }
+
+      if (oldVersion < CLEAR_MMS_STORAGE_IDS) {
+        ContentValues deleteValues = new ContentValues();
+        deleteValues.putNull("storage_service_key");
+
+        int deleteCount = db.update("recipient", deleteValues, "storage_service_key NOT NULL AND (group_type = 1 OR (group_type = 0 AND phone IS NULL AND uuid IS NULL))", null);
+
+        Log.d(TAG, "Cleared storageIds from " + deleteCount + " rows. They were either MMS groups or empty contacts.");
+      }
+
+      if (oldVersion < SERVER_GUID) {
+        db.execSQL("ALTER TABLE sms ADD COLUMN server_guid TEXT DEFAULT NULL");
+        db.execSQL("ALTER TABLE mms ADD COLUMN server_guid TEXT DEFAULT NULL");
+      }
+
+      if (oldVersion < CHAT_COLORS) {
+        db.execSQL("ALTER TABLE recipient ADD COLUMN chat_colors BLOB DEFAULT NULL");
+        db.execSQL("ALTER TABLE recipient ADD COLUMN custom_chat_colors_id INTEGER DEFAULT 0");
+        db.execSQL("CREATE TABLE chat_colors (" +
+                   "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                   "chat_colors BLOB)");
+
+        Set<Map.Entry<MaterialColor, ChatColors>> entrySet = ChatColorsMapper.getEntrySet();
+        String                                    where    = "color = ? AND group_id is NULL";
+
+        for (Map.Entry<MaterialColor, ChatColors> entry : entrySet) {
+          String[]      whereArgs = SqlUtil.buildArgs(entry.getKey().serialize());
+          ContentValues values    = new ContentValues(2);
+
+          values.put("chat_colors", entry.getValue().serialize().toByteArray());
+          values.put("custom_chat_colors_id", entry.getValue().getId().getLongValue());
+
+          db.update("recipient", values, where, whereArgs);
+        }
+      }
+
+      if (oldVersion < AVATAR_COLORS) {
+        try (Cursor cursor  = db.query("recipient", new String[] { "_id" }, "color IS NULL", null, null, null, null)) {
+          while (cursor.moveToNext()) {
+            long id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+
+            ContentValues values = new ContentValues(1);
+            values.put("color", AvatarColor.random().serialize());
+
+            db.update("recipient", values, "_id = ?", new String[] { String.valueOf(id) });
+          }
+        }
+      }
+
+      if (oldVersion < EMOJI_SEARCH) {
+        db.execSQL("CREATE VIRTUAL TABLE emoji_search USING fts5(label, emoji UNINDEXED)");
       }
 
       db.setTransactionSuccessful();

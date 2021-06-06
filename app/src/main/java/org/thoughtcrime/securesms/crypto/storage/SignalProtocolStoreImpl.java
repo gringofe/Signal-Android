@@ -6,6 +6,7 @@ import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
 import org.whispersystems.libsignal.InvalidKeyIdException;
 import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.whispersystems.libsignal.groups.state.SenderKeyRecord;
 import org.whispersystems.libsignal.state.IdentityKeyStore;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.PreKeyStore;
@@ -14,15 +15,18 @@ import org.whispersystems.libsignal.state.SessionStore;
 import org.whispersystems.libsignal.state.SignalProtocolStore;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyStore;
+import org.whispersystems.signalservice.api.SignalServiceProtocolStore;
+import org.whispersystems.signalservice.api.SignalServiceSessionStore;
 
 import java.util.List;
+import java.util.UUID;
 
-public class SignalProtocolStoreImpl implements SignalProtocolStore {
+public class SignalProtocolStoreImpl implements SignalServiceProtocolStore {
 
-  private final PreKeyStore       preKeyStore;
-  private final SignedPreKeyStore signedPreKeyStore;
-  private final IdentityKeyStore  identityKeyStore;
-  private final SessionStore      sessionStore;
+  private final PreKeyStore               preKeyStore;
+  private final SignedPreKeyStore         signedPreKeyStore;
+  private final IdentityKeyStore          identityKeyStore;
+  private final SignalServiceSessionStore sessionStore;
 
   public SignalProtocolStoreImpl(Context context) {
     this.preKeyStore       = new TextSecurePreKeyStore(context);
@@ -107,6 +111,11 @@ public class SignalProtocolStoreImpl implements SignalProtocolStore {
   }
 
   @Override
+  public void archiveSession(SignalProtocolAddress address) {
+    sessionStore.archiveSession(address);
+  }
+
+  @Override
   public SignedPreKeyRecord loadSignedPreKey(int signedPreKeyId) throws InvalidKeyIdException {
     return signedPreKeyStore.loadSignedPreKey(signedPreKeyId);
   }
@@ -129,5 +138,15 @@ public class SignalProtocolStoreImpl implements SignalProtocolStore {
   @Override
   public void removeSignedPreKey(int signedPreKeyId) {
     signedPreKeyStore.removeSignedPreKey(signedPreKeyId);
+  }
+
+  @Override
+  public void storeSenderKey(SignalProtocolAddress sender, UUID distributionId, SenderKeyRecord record) {
+
+  }
+
+  @Override
+  public SenderKeyRecord loadSenderKey(SignalProtocolAddress sender, UUID distributionId) {
+    return null;
   }
 }

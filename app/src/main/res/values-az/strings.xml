@@ -467,9 +467,9 @@
   <string name="DeviceActivity_signal_needs_the_camera_permission_in_order_to_scan_a_qr_code">QR şifrəni skan edə bilməsi üçün Signal-ın Kamera seçimlərinə giriş icazəsi olmalıdır ki, o da hal hazırda qadağa edilmişdir. Davam edə bilmək üçün zəhmət olmasa aplikasiya parametrləri menyusuna, oradan isə \"İcazələr bölməsinə keçərək \"Kamera\" hissəsini aktivləşdir.</string>
   <string name="DeviceActivity_unable_to_scan_a_qr_code_without_the_camera_permission">Kameraya giriş icazəsi olmadan QR şifrə skan olunmur</string>
   <!--ExpirationDialog-->
-  <string name="ExpirationDialog_disappearing_messages">Yox olan mesajlar</string>
-  <string name="ExpirationDialog_your_messages_will_not_expire">Sənin mesajlarının vaxtı ötməyəcək.</string>
-  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Bu söhbətləşmədəki göndərilən və qəbul edilən mesajlara baxıldıqdan %s sonra silinəcəkdir.</string>
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_disappearing_messages">Yox olan mesajlar</string> -->
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_your_messages_will_not_expire">Sənin mesajlarının vaxtı ötməyəcək.</string> -->
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Bu söhbətləşmədəki göndərilən və qəbul edilən mesajlara baxıldıqdan %s sonra silinəcəkdir.</string> -->
   <!--PassphrasePromptActivity-->
   <string name="PassphrasePromptActivity_enter_passphrase">Şifrə ifadəsini daxil et</string>
   <string name="PassphrasePromptActivity_watermark_content_description">Signal ikonası</string>
@@ -485,7 +485,7 @@
   <string name="RatingManager_rate_now">İndi qiymətləndir!</string>
   <string name="RatingManager_no_thanks">Yox, təşəkkür edirəm</string>
   <string name="RatingManager_later">Daha sonra</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Bıy, belə görünür ki, cihazında Play Store aplikasıyası quraşdırılmamışdır.</string>
+  <!-- Removed by excludeNonTranslatables <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Bıy, belə görünür ki, cihazında Play Store aplikasıyası quraşdırılmamışdır.</string> -->
   <!--ReactionsBottomSheetDialogFragment-->
   <!--ReactionsConversationView-->
   <!--RecipientPreferencesActivity-->
@@ -697,14 +697,14 @@
   <string name="MessageNotifier_contact_message">%1$s %2$s</string>
   <string name="MessageNotifier_unknown_contact_message">Əlaqə</string>
   <!--Notification Channels-->
-  <string name="NotificationChannel_messages">Başlanğıc</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_messages">Başlanğıc</string> -->
   <string name="NotificationChannel_calls">Zənglər</string>
   <string name="NotificationChannel_failures">Xətalar</string>
   <string name="NotificationChannel_backups">Ehtiyat nüsxələr</string>
   <string name="NotificationChannel_locked_status">Kilid statusu</string>
   <string name="NotificationChannel_app_updates">Aplikasiya yenilikləri</string>
   <string name="NotificationChannel_other">Digər</string>
-  <string name="NotificationChannel_group_messages">Mesajlar</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_group_messages">Mesajlar</string> -->
   <string name="NotificationChannel_missing_display_name">Naməlum</string>
   <!--ProfileEditNameFragment-->
   <!--QuickResponseService-->
@@ -880,7 +880,7 @@
     <item quantity="other">%d başqa</item>
   </plurals>
   <!--giphy_activity-->
-  <string name="giphy_activity_toolbar__search_gifs_and_stickers">GIF və elan axtar</string>
+  <!-- Removed by excludeNonTranslatables <string name="giphy_activity_toolbar__search_gifs_and_stickers">GIF və elan axtar</string> -->
   <!--giphy_fragment-->
   <string name="giphy_fragment__nothing_found">Heç nə tapılmadı</string>
   <!--log_submit_activity-->
@@ -1002,10 +1002,10 @@
   <string name="arrays__use_default">Mövcud olanı istifadə et</string>
   <string name="arrays__use_custom">Seçilmişi istifadə et</string>
   <string name="arrays__mute_for_one_hour">1 saat səssiz olsun</string>
-  <string name="arrays__mute_for_two_hours">2 saat səssiz olsun</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_two_hours">2 saat səssiz olsun</string> -->
   <string name="arrays__mute_for_one_day">1 gün səssiz olsun</string>
   <string name="arrays__mute_for_seven_days">7 gün səssiz olsun</string>
-  <string name="arrays__mute_for_one_year">1 il səssiz olsun</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_one_year">1 il səssiz olsun</string> -->
   <string name="arrays__settings_default">Mövcud parametrlər</string>
   <string name="arrays__enabled">Aktiv et</string>
   <string name="arrays__disabled">Deaktiv et</string>
@@ -1104,7 +1104,7 @@
   <string name="preferences__if_read_receipts_are_disabled_you_wont_be_able_to_see_read_receipts">Oxunmuşlar haqqında məlumat xidməti deaktiv edilsə, başqa şəxs mesajı oxuduqda məlumat almayacaqsan.</string>
   <string name="preferences__typing_indicators">Yazışma indikatoru</string>
   <string name="preferences__if_typing_indicators_are_disabled_you_wont_be_able_to_see_typing_indicators">Yazışma indikatorları deaktiv edilsə, başqa şəxs mesaj yazdığı zaman məlumat almayacaqsan.</string>
-  <string name="preferences__request_keyboard_to_disable_personalized_learning">Fərdiləşdirilmiş təlimin deaktiv edilməsini klaviaturadan istə</string>
+  <!-- Removed by excludeNonTranslatables <string name="preferences__request_keyboard_to_disable_personalized_learning">Fərdiləşdirilmiş təlimin deaktiv edilməsini klaviaturadan istə</string> -->
   <!-- Removed by excludeNonTranslatables <string name="preferences_app_protection__blocked_contacts">Əlaqələr kilidlidir</string> -->
   <string name="preferences_chats__when_using_mobile_data">Mobil internet istifadə edərkən</string>
   <string name="preferences_chats__when_using_wifi">Wi-Fi istifadə edərkən</string>

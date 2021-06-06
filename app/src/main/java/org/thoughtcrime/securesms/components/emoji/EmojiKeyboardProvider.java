@@ -13,6 +13,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.components.emoji.EmojiPageViewGridAdapter.VariationSelectorListener;
+import org.thoughtcrime.securesms.emoji.EmojiSource;
 import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.mms.GlideRequests;
 import org.thoughtcrime.securesms.util.ResUtil;
@@ -22,6 +23,8 @@ import java.util.List;
 
 /**
  * A provider to select emoji in the {@link org.thoughtcrime.securesms.components.emoji.MediaKeyboard}.
+ *
+ * TODO [alex] -- Are we still using any of this?
  */
 public class EmojiKeyboardProvider implements MediaKeyboardProvider,
                                               MediaKeyboardProvider.TabIconProvider,
@@ -30,6 +33,7 @@ public class EmojiKeyboardProvider implements MediaKeyboardProvider,
 {
   private static final KeyEvent DELETE_KEY_EVENT = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL);
 
+  // TODO [alex] -- We are using this.
   public static final String RECENT_STORAGE_KEY = "pref_recent_emoji2";
 
   private final Context              context;
@@ -66,7 +70,7 @@ public class EmojiKeyboardProvider implements MediaKeyboardProvider,
     }, this);
 
     models.add(recentModel);
-    models.addAll(EmojiPages.DISPLAY_PAGES);
+    models.addAll(EmojiSource.getLatest().getDisplayPages());
 
     currentPosition = recentModel.getEmoji().size() > 0 ? 0 : 1;
   }

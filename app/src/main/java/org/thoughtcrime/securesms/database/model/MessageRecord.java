@@ -240,11 +240,18 @@ public abstract class MessageRecord extends DisplayRecord {
 
       if (decryptedGroupV2Context.hasChange() && (decryptedGroupV2Context.getGroupState().getRevision() != 0 || decryptedGroupV2Context.hasPreviousGroupState())) {
         return UpdateDescription.concatWithNewLines(updateMessageProducer.describeChanges(decryptedGroupV2Context.getPreviousGroupState(), decryptedGroupV2Context.getChange()));
-      } else if (selfCreatedGroup(decryptedGroupV2Context.getChange())) {
-        return UpdateDescription.concatWithNewLines(Arrays.asList(updateMessageProducer.describeNewGroup(decryptedGroupV2Context.getGroupState(), decryptedGroupV2Context.getChange()),
-                                                                  staticUpdateDescription(context.getString(R.string.MessageRecord_invite_friends_to_this_group), 0)));
       } else {
-        return updateMessageProducer.describeNewGroup(decryptedGroupV2Context.getGroupState(), decryptedGroupV2Context.getChange());
+        List<UpdateDescription> newGroupDescriptions = new ArrayList<>();
+        newGroupDescriptions.add(updateMessageProducer.describeNewGroup(decryptedGroupV2Context.getGroupState(), decryptedGroupV2Context.getChange()));
+
+        if (decryptedGroupV2Context.getChange().hasNewTimer()) {
+          updateMessageProducer.describeNewTimer(decryptedGroupV2Context.getChange(), newGroupDescriptions);
+        }
+
+        if (selfCreatedGroup(decryptedGroupV2Context.getChange())) {
+          newGroupDescriptions.add(staticUpdateDescription(context.getString(R.string.MessageRecord_invite_friends_to_this_group), 0));
+        }
+        return UpdateDescription.concatWithNewLines(newGroupDescriptions);
       }
     } catch (IOException e) {
       Log.w(TAG, "GV2 Message update detail could not be read", e);
@@ -360,6 +367,22 @@ public abstract class MessageRecord extends DisplayRecord {
     return UpdateDescription.mentioning(joinedMembers, stringFactory, R.drawable.ic_video_16);
   }
 
+  public boolean isGroupV2DescriptionUpdate() {
+    DecryptedGroupV2Context decryptedGroupV2Context = getDecryptedGroupV2Context();
+    if (decryptedGroupV2Context != null) {
+      return decryptedGroupV2Context.hasChange() && getDecryptedGroupV2Context().getChange().hasNewDescription();
+    }
+    return false;
+  }
+
+  public @NonNull String getGroupV2DescriptionUpdate() {
+    DecryptedGroupV2Context decryptedGroupV2Context = getDecryptedGroupV2Context();
+    if (decryptedGroupV2Context != null) {
+      return decryptedGroupV2Context.getChange().hasNewDescription() ? decryptedGroupV2Context.getChange().getNewDescription().getValue() : "";
+    }
+    return "";
+  }
+
   /**
    * Describes a UUID by it's corresponding recipient's {@link Recipient#getDisplayName(Context)}.
    */
@@ -421,6 +444,10 @@ public abstract class MessageRecord extends DisplayRecord {
 
   public boolean isContentBundleKeyExchange() {
     return SmsDatabase.Types.isContentBundleKeyExchange(type);
+  }
+
+  public boolean isRateLimited() {
+    return SmsDatabase.Types.isRateLimited(type);
   }
 
   public boolean isIdentityUpdate() {
@@ -487,6 +514,10 @@ public abstract class MessageRecord extends DisplayRecord {
 
   public boolean isFailedDecryptionType() {
     return MmsSmsColumns.Types.isFailedDecryptType(type);
+  }
+
+  public boolean isInMemoryMessageRecord() {
+    return false;
   }
 
   protected static SpannableString emphasisAdded(String sequence) {

@@ -3,6 +3,7 @@ package org.thoughtcrime.securesms.components;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -22,10 +23,11 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.signal.core.util.ThreadUtil;
 import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.animation.AnimationCompleteListener;
@@ -33,7 +35,10 @@ import org.thoughtcrime.securesms.components.emoji.EmojiKeyboardProvider;
 import org.thoughtcrime.securesms.components.emoji.EmojiToggle;
 import org.thoughtcrime.securesms.components.emoji.MediaKeyboard;
 import org.thoughtcrime.securesms.conversation.ConversationStickerSuggestionAdapter;
+import org.thoughtcrime.securesms.conversation.colors.Colorizer;
 import org.thoughtcrime.securesms.database.model.StickerRecord;
+import org.thoughtcrime.securesms.keyboard.KeyboardPage;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.linkpreview.LinkPreview;
 import org.thoughtcrime.securesms.linkpreview.LinkPreviewRepository;
 import org.thoughtcrime.securesms.mms.GlideApp;
@@ -41,8 +46,6 @@ import org.thoughtcrime.securesms.mms.GlideRequests;
 import org.thoughtcrime.securesms.mms.QuoteModel;
 import org.thoughtcrime.securesms.mms.SlideDeck;
 import org.thoughtcrime.securesms.recipients.Recipient;
-import org.thoughtcrime.securesms.util.TextSecurePreferences;
-import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
 import org.thoughtcrime.securesms.util.concurrent.AssertedSuccessListener;
 import org.thoughtcrime.securesms.util.concurrent.ListenableFuture;
@@ -50,6 +53,7 @@ import org.thoughtcrime.securesms.util.concurrent.SettableFuture;
 import org.whispersystems.libsignal.util.guava.Optional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class InputPanel extends LinearLayout
@@ -59,7 +63,7 @@ public class InputPanel extends LinearLayout
                ConversationStickerSuggestionAdapter.EventListener
 {
 
-  private static final String TAG = InputPanel.class.getSimpleName();
+  private static final String TAG = Log.tag(InputPanel.class);
 
   private static final long QUOTE_REVEAL_DURATION_MILLIS = 150;
   private static final int  FADE_TIME                    = 150;
@@ -74,6 +78,7 @@ public class InputPanel extends LinearLayout
   private View            buttonToggle;
   private View            recordingContainer;
   private View            recordLockCancel;
+  private ViewGroup       composeContainer;
 
   private MicrophoneRecorderView microphoneRecorderView;
   private SlideToCancel          slideToCancel;
@@ -103,6 +108,7 @@ public class InputPanel extends LinearLayout
 
     View quoteDismiss = findViewById(R.id.quote_dismiss);
 
+    this.composeContainer       = findViewById(R.id.compose_bubble);
     this.stickerSuggestion      = findViewById(R.id.input_panel_sticker_suggestion);
     this.quoteView              = findViewById(R.id.quote_view);
     this.linkPreview            = findViewById(R.id.link_preview);
@@ -123,7 +129,7 @@ public class InputPanel extends LinearLayout
 
     this.recordLockCancel.setOnClickListener(v -> microphoneRecorderView.cancelAction());
 
-    if (TextSecurePreferences.isSystemEmojiPreferred(getContext())) {
+    if (SignalStore.settings().isPreferSystemEmoji()) {
       mediaKeyboard.setVisibility(View.GONE);
       emojiVisible = false;
     } else {
@@ -161,7 +167,7 @@ public class InputPanel extends LinearLayout
                        @NonNull CharSequence body,
                        @NonNull SlideDeck attachments)
   {
-    this.quoteView.setQuote(glideRequests, id, author, body, false, attachments);
+    this.quoteView.setQuote(glideRequests, id, author, body, false, attachments, null);
 
     int originalHeight = this.quoteView.getVisibility() == VISIBLE ? this.quoteView.getMeasuredHeight()
                                                                    : 0;
@@ -274,8 +280,8 @@ public class InputPanel extends LinearLayout
     mediaKeyboard.setVisibility(show ? View.VISIBLE : GONE);
   }
 
-  public void setMediaKeyboardToggleMode(boolean isSticker) {
-    mediaKeyboard.setStickerMode(isSticker);
+  public void setMediaKeyboardToggleMode(@NonNull KeyboardPage page) {
+    mediaKeyboard.setStickerMode(page);
   }
 
   public boolean isStickerMode() {
@@ -284,6 +290,20 @@ public class InputPanel extends LinearLayout
 
   public View getMediaKeyboardToggleAnchorView() {
     return mediaKeyboard;
+  }
+
+  public MediaKeyboard.MediaKeyboardListener getMediaKeyboardListener() {
+    return mediaKeyboard;
+  }
+
+  public void setWallpaperEnabled(boolean enabled) {
+    if (enabled) {
+      setBackground(new ColorDrawable(getContext().getResources().getColor(R.color.wallpaper_compose_background)));
+      composeContainer.setBackground(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.compose_background_wallpaper)));
+    } else {
+      setBackground(new ColorDrawable(getContext().getResources().getColor(R.color.signal_background_primary)));
+      composeContainer.setBackground(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.compose_background)));
+    }
   }
 
   @Override
@@ -323,11 +343,10 @@ public class InputPanel extends LinearLayout
   public void onRecordMoved(float offsetX, float absoluteX) {
     slideToCancel.moveTo(offsetX);
 
-    int   direction = ViewCompat.getLayoutDirection(this);
     float position  = absoluteX / recordingContainer.getWidth();
 
-    if (direction == ViewCompat.LAYOUT_DIRECTION_LTR && position <= 0.5 ||
-        direction == ViewCompat.LAYOUT_DIRECTION_RTL && position >= 0.6)
+    if (ViewUtil.isLtr(this) && position <= 0.5 ||
+        ViewUtil.isRtl(this) && position >= 0.6)
     {
       this.microphoneRecorderView.cancelAction();
     }
@@ -412,6 +431,14 @@ public class InputPanel extends LinearLayout
     microphoneRecorderView.unlockAction();
   }
 
+  public void showGifMovedTooltip() {
+    TooltipPopup.forTarget(mediaKeyboard)
+                .setBackgroundTint(ContextCompat.getColor(getContext(), R.color.signal_accent_primary))
+                .setTextColor(getResources().getColor(R.color.core_white))
+                .setText(R.string.ConversationActivity__gifs_are_now_here)
+                .show(TooltipPopup.POSITION_ABOVE);
+  }
+
   public interface Listener {
     void onRecorderStarted();
     void onRecorderLocked();
@@ -490,7 +517,7 @@ public class InputPanel extends LinearLayout
       this.startTime = System.currentTimeMillis();
       this.recordTimeView.setText(DateUtils.formatElapsedTime(0));
       ViewUtil.fadeIn(this.recordTimeView, FADE_TIME);
-      Util.runOnMainDelayed(this, TimeUnit.SECONDS.toMillis(1));
+      ThreadUtil.runOnMainDelayed(this, TimeUnit.SECONDS.toMillis(1));
       microphone.setVisibility(View.VISIBLE);
       microphone.startAnimation(pulseAnimation());
     }
@@ -516,7 +543,7 @@ public class InputPanel extends LinearLayout
           onLimitHit.run();
         } else {
           recordTimeView.setText(DateUtils.formatElapsedTime(elapsedSeconds));
-          Util.runOnMainDelayed(this, TimeUnit.SECONDS.toMillis(1));
+          ThreadUtil.runOnMainDelayed(this, TimeUnit.SECONDS.toMillis(1));
         }
       }
     }

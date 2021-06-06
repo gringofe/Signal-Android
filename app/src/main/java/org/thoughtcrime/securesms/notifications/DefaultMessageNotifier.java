@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.Ringtone;
@@ -59,6 +60,7 @@ import org.thoughtcrime.securesms.database.model.MessageRecord;
 import org.thoughtcrime.securesms.database.model.MmsMessageRecord;
 import org.thoughtcrime.securesms.database.model.ReactionRecord;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.messages.IncomingMessageObserver;
 import org.thoughtcrime.securesms.mms.Slide;
 import org.thoughtcrime.securesms.mms.SlideDeck;
@@ -96,14 +98,14 @@ import me.leolin.shortcutbadger.ShortcutBadger;
  */
 public class DefaultMessageNotifier implements MessageNotifier {
 
-  private static final String TAG = DefaultMessageNotifier.class.getSimpleName();
+  private static final String TAG = Log.tag(DefaultMessageNotifier.class);
 
   public static final  String EXTRA_REMOTE_REPLY = "extra_remote_reply";
   public static final  String NOTIFICATION_GROUP = "messages";
 
   private static final String EMOJI_REPLACEMENT_STRING  = "__EMOJI__";
-  private static final long   MIN_AUDIBLE_PERIOD_MILLIS = TimeUnit.SECONDS.toMillis(2);
-  private static final long   DESKTOP_ACTIVITY_PERIOD   = TimeUnit.MINUTES.toMillis(1);
+  public  static final long   MIN_AUDIBLE_PERIOD_MILLIS = TimeUnit.SECONDS.toMillis(2);
+  public  static final long   DESKTOP_ACTIVITY_PERIOD   = TimeUnit.MINUTES.toMillis(1);
 
   private volatile long                     visibleThread                = -1;
   private volatile long                     lastDesktopActivityTimestamp = -1;
@@ -131,17 +133,26 @@ public class DefaultMessageNotifier implements MessageNotifier {
   }
 
   @Override
-  public void notifyMessageDeliveryFailed(Context context, Recipient recipient, long threadId) {
+  public void notifyMessageDeliveryFailed(@NonNull Context context, @NonNull Recipient recipient, long threadId) {
     if (visibleThread == threadId) {
       sendInThreadNotification(context, recipient);
     } else {
       Intent                    intent  = ConversationIntents.createBuilder(context, recipient.getId(), threadId)
                                                              .withDataUri(Uri.parse("custom://" + System.currentTimeMillis()))
                                                              .build();
-      FailedNotificationBuilder builder = new FailedNotificationBuilder(context, TextSecurePreferences.getNotificationPrivacy(context), intent);
+      FailedNotificationBuilder builder = new FailedNotificationBuilder(context, SignalStore.settings().getMessageNotificationsPrivacy(), intent);
 
       ((NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE))
         .notify((int)threadId, builder.build());
+    }
+  }
+
+  @Override
+  public void notifyProofRequired(@NonNull Context context, @NonNull Recipient recipient, long threadId) {
+    if (visibleThread == threadId) {
+      sendInThreadNotification(context, recipient);
+    } else {
+      Log.w(TAG, "[Proof Required] Not notifying on old notifier.");
     }
   }
 
@@ -210,7 +221,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
 
   @Override
   public void updateNotification(@NonNull Context context) {
-    if (!TextSecurePreferences.isNotificationsEnabled(context)) {
+    if (!SignalStore.settings().isMessageNotificationsEnabled()) {
       return;
     }
 
@@ -251,7 +262,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
   }
 
   private boolean shouldNotify(@NonNull Context context, @Nullable Recipient recipient, long threadId) {
-    if (!TextSecurePreferences.isNotificationsEnabled(context)) {
+    if (!SignalStore.settings().isMessageNotificationsEnabled()) {
       return false;
     }
 
@@ -271,17 +282,17 @@ public class DefaultMessageNotifier implements MessageNotifier {
                                  int      reminderCount,
                                  @NonNull BubbleUtil.BubbleState defaultBubbleState)
   {
+    if (!SignalStore.settings().isMessageNotificationsEnabled()) {
+      return;
+    }
+
     boolean isReminder  = reminderCount > 0;
     Cursor  telcoCursor = null;
-    Cursor  pushCursor  = null;
 
     try {
       telcoCursor = DatabaseFactory.getMmsSmsDatabase(context).getUnread();
-      pushCursor  = DatabaseFactory.getPushDatabase(context).getPending();
 
-      if ((telcoCursor == null || telcoCursor.isAfterLast()) &&
-          (pushCursor == null || pushCursor.isAfterLast()))
-      {
+      if (telcoCursor == null || telcoCursor.isAfterLast()) {
         NotificationCancellationHelper.cancelAllMessageNotifications(context);
         updateBadge(context, 0);
         clearReminder(context);
@@ -343,7 +354,6 @@ public class DefaultMessageNotifier implements MessageNotifier {
       }
     } finally {
       if (telcoCursor != null) telcoCursor.close();
-      if (pushCursor != null)  pushCursor.close();
     }
   }
 
@@ -362,7 +372,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
       return false;
     }
 
-    NotificationPrivacyPreference      notificationPrivacy = TextSecurePreferences.getNotificationPrivacy(context);
+    NotificationPrivacyPreference      notificationPrivacy = SignalStore.settings().getMessageNotificationsPrivacy();
     SingleRecipientNotificationBuilder builder             = new SingleRecipientNotificationBuilder(context, notificationPrivacy);
     List<NotificationItem>             notifications       = notificationState.getNotifications();
     Recipient                          recipient           = notifications.get(0).getRecipient();
@@ -433,7 +443,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
       NotificationManagerCompat.from(context).notify(notificationId, notification);
       Log.i(TAG, "Posted notification.");
     } catch (SecurityException e) {
-      Uri defaultValue = TextSecurePreferences.getNotificationRingtone(context);
+      Uri defaultValue = SignalStore.settings().getMessageNotificationSound();
       if (!defaultValue.equals(notificationState.getRingtone(context))) {
         Log.e(TAG, "Security exception when posting notification with custom ringtone", e);
         clearNotificationRingtone(context, notifications.get(0).getRecipient());
@@ -456,7 +466,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
       return;
     }
 
-    NotificationPrivacyPreference        notificationPrivacy = TextSecurePreferences.getNotificationPrivacy(context);
+    NotificationPrivacyPreference        notificationPrivacy = SignalStore.settings().getMessageNotificationsPrivacy();
     MultipleRecipientNotificationBuilder builder             = new MultipleRecipientNotificationBuilder(context, notificationPrivacy);
     List<NotificationItem>               notifications       = notificationState.getNotifications();
     boolean                              shouldAlert         = signal && Stream.of(notifications).anyMatch(item -> item.getNotifiedTimestamp() == 0);
@@ -497,7 +507,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
       NotificationManagerCompat.from(context).notify(NotificationIds.MESSAGE_SUMMARY, builder.build());
       Log.i(TAG, "Posted notification. " + notification.toString());
     } catch (SecurityException securityException) {
-      Uri defaultValue = TextSecurePreferences.getNotificationRingtone(context);
+      Uri defaultValue = SignalStore.settings().getMessageNotificationSound();
       if (!defaultValue.equals(notificationState.getRingtone(context))) {
         Log.e(TAG, "Security exception when posting notification with custom ringtone", securityException);
         clearNotificationRingtone(context, notifications.get(0).getRecipient());
@@ -515,7 +525,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
   }
 
   private static void sendInThreadNotification(Context context, Recipient recipient) {
-    if (!TextSecurePreferences.isInThreadNotifications(context) ||
+    if (!SignalStore.settings().isMessageNotificationsInChatSoundsEnabled() ||
         ServiceUtil.getAudioManager(context).getRingerMode() != AudioManager.RINGER_MODE_NORMAL)
     {
       return;
@@ -527,7 +537,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
     }
 
     if (uri == null) {
-      uri = NotificationChannels.supported() ? NotificationChannels.getMessageRingtone(context) : TextSecurePreferences.getNotificationRingtone(context);
+      uri = NotificationChannels.supported() ? NotificationChannels.getMessageRingtone(context) : SignalStore.settings().getMessageNotificationSound();
     }
 
     if (uri.toString().isEmpty()) {
@@ -584,7 +594,9 @@ public class DefaultMessageNotifier implements MessageNotifier {
       if (isUnreadMessage) {
         boolean canReply = false;
 
-        if (KeyCachingService.isLocked(context) && !TextSecurePreferences.isScreenLockShowNotificationContentEnabled(context)) {
+        if (!RecipientUtil.isMessageRequestAccepted(context, threadId)) {
+          body = SpanUtil.italic(context.getString(R.string.SingleRecipientNotificationBuilder_message_request));
+        } else if (KeyCachingService.isLocked(context)) {
           body = SpanUtil.italic(context.getString(R.string.MessageNotifier_locked_message));
         } else if (record.isMms() && !((MmsMessageRecord) record).getSharedContacts().isEmpty()) {
           Contact contact = ((MmsMessageRecord) record).getSharedContacts().get(0);
@@ -624,7 +636,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
             continue;
           }
 
-          if (KeyCachingService.isLocked(context) && !TextSecurePreferences.isScreenLockShowNotificationContentEnabled(context)) {
+          if (KeyCachingService.isLocked(context)) {
             body = SpanUtil.italic(context.getString(R.string.MessageNotifier_locked_message));
           } else {
             String   text  = SpanUtil.italic(getReactionMessageBody(context, record, originalBody)).toString();
@@ -718,7 +730,7 @@ public class DefaultMessageNotifier implements MessageNotifier {
   }
 
   private static void scheduleReminder(Context context, int count) {
-    if (count >= TextSecurePreferences.getRepeatAlertsCount(context)) {
+    if (count >= SignalStore.settings().getMessageNotificationsRepeatAlerts()) {
       return;
     }
 
@@ -747,6 +759,12 @@ public class DefaultMessageNotifier implements MessageNotifier {
 
     alarmManager.cancel(pendingIntent);
   }
+
+  @Override
+  public void addStickyThread(long threadId, long earliestTimestamp) {}
+
+  @Override
+  public void removeStickyThread(long threadId) {}
 
   private static class DelayedNotification implements Runnable {
 

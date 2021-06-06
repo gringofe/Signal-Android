@@ -26,10 +26,12 @@ import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
 import org.thoughtcrime.securesms.database.model.MessageRecord;
 import org.thoughtcrime.securesms.database.model.MmsMessageRecord;
+import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.permissions.Permissions;
 import org.thoughtcrime.securesms.service.ExpiringMessageManager;
 import org.thoughtcrime.securesms.util.DateUtils;
 import org.thoughtcrime.securesms.util.FeatureFlags;
+import org.thoughtcrime.securesms.util.Projection;
 import org.thoughtcrime.securesms.util.ViewUtil;
 import org.thoughtcrime.securesms.util.dualsim.SubscriptionInfoCompat;
 import org.thoughtcrime.securesms.util.dualsim.SubscriptionManagerCompat;
@@ -98,7 +100,7 @@ public class ConversationItemFooter extends LinearLayout {
     presentTimer(messageRecord);
     presentInsecureIndicator(messageRecord);
     presentDeliveryStatus(messageRecord);
-    hideAudioDurationViews();
+    presentAudioDuration(messageRecord);
   }
 
   public void setAudioDuration(long totalDurationMillis, long currentPostionMillis) {
@@ -145,6 +147,14 @@ public class ConversationItemFooter extends LinearLayout {
     setBackground(null);
   }
 
+  public @Nullable Projection getProjection() {
+    if (getVisibility() == VISIBLE) {
+      return Projection.relativeToViewRoot(this, new Projection.Corners(ViewUtil.dpToPx(11)));
+    } else {
+      return null;
+    }
+  }
+
   private void presentDate(@NonNull MessageRecord messageRecord, @NonNull Locale locale) {
     dateView.forceLayout();
     if (messageRecord.isFailed()) {
@@ -160,6 +170,8 @@ public class ConversationItemFooter extends LinearLayout {
       dateView.setText(errorMsg);
     } else if (messageRecord.isPendingInsecureSmsFallback()) {
       dateView.setText(R.string.ConversationItem_click_to_approve_unencrypted);
+    } else if (messageRecord.isRateLimited()) {
+      dateView.setText(R.string.ConversationItem_send_paused);
     } else {
       dateView.setText(DateUtils.getExtendedRelativeTimeSpanString(getContext(), locale, messageRecord.getTimestamp()));
     }
@@ -197,11 +209,11 @@ public class ConversationItemFooter extends LinearLayout {
         this.timerView.startAnimation();
 
         if (messageRecord.getExpireStarted() + messageRecord.getExpiresIn() <= System.currentTimeMillis()) {
-          ApplicationContext.getInstance(getContext()).getExpiringMessageManager().checkSchedule();
+          ApplicationDependencies.getExpiringMessageManager().checkSchedule();
         }
       } else if (!messageRecord.isOutgoing() && !messageRecord.isMediaPending()) {
         SignalExecutors.BOUNDED.execute(() -> {
-          ExpiringMessageManager expirationManager = ApplicationContext.getInstance(getContext()).getExpiringMessageManager();
+          ExpiringMessageManager expirationManager = ApplicationDependencies.getExpiringMessageManager();
           long                   id                = messageRecord.getId();
           boolean                mms               = messageRecord.isMms();
 
@@ -258,6 +270,12 @@ public class ConversationItemFooter extends LinearLayout {
           moveAudioViewsForIncoming();
         }
         showAudioDurationViews();
+
+        if (messageRecord.getViewedReceiptCount() > 0) {
+          revealDot.setProgress(1f);
+        } else {
+          revealDot.setProgress(0f);
+        }
       } else {
         hideAudioDurationViews();
       }
@@ -275,8 +293,8 @@ public class ConversationItemFooter extends LinearLayout {
     addView(audioDuration, 0);
 
     int padStart = ViewUtil.dpToPx(60);
-    int padLeft  = getLayoutDirection() == LAYOUT_DIRECTION_LTR ? padStart : 0;
-    int padRight = getLayoutDirection() == LAYOUT_DIRECTION_RTL ? padStart : 0;
+    int padLeft  = ViewUtil.isLtr(this) ? padStart : 0;
+    int padRight = ViewUtil.isRtl(this) ? padStart : 0;
 
     audioDuration.setPadding(padLeft, 0, padRight, 0);
   }
@@ -294,7 +312,7 @@ public class ConversationItemFooter extends LinearLayout {
 
   private void showAudioDurationViews() {
     audioSpace.setVisibility(View.VISIBLE);
-    audioDuration.setVisibility(View.VISIBLE);
+    audioDuration.setVisibility(View.GONE);
 
     if (FeatureFlags.viewedReceipts()) {
       revealDot.setVisibility(View.VISIBLE);

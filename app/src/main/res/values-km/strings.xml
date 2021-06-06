@@ -99,7 +99,7 @@
   <!-- Removed by excludeNonTranslatables <string name="BlockUnblockDialog_unblock">បើកវិញ</string> -->
   <string name="BlockUnblockDialog_block">រារាំង</string>
   <string name="BlockUnblockDialog_block_and_leave">ហាមឃាត់ និងចាកចេញ</string>
-  <string name="BlockUnblockDialog_block_and_delete">ហាមឃាត់ និងលុបចោល</string>
+  <!-- Removed by excludeNonTranslatables <string name="BlockUnblockDialog_block_and_delete">ហាមឃាត់ និងលុបចោល</string> -->
   <!--BucketedThreadMedia-->
   <string name="BucketedThreadMedia_Today">ថ្ងៃនេះ</string>
   <string name="BucketedThreadMedia_Yesterday">ម្សិលមិញ</string>
@@ -843,9 +843,9 @@
   <string name="DeviceActivity_signal_needs_the_camera_permission_in_order_to_scan_a_qr_code">Signalត្រូវការសិទ្ធិប្រើប្រាស់កាមេរ៉ាដើម្បីស្កេនកូដ QR ប៉ុន្តែវាត្រូវបានបដិសេធរហូត។ សូមបន្តទៅកាន់ ការកំណត់ជ្រើសរើស \"ការអនុញ្ញាត\" និងបើក \"កាមេរ៉ា\"។</string>
   <string name="DeviceActivity_unable_to_scan_a_qr_code_without_the_camera_permission">មិនអាចស្កេនកូដ QR ដោយគ្មានការអនុញ្ញាតសិទ្ធិប្រើប្រាស់កាមេរ៉ា</string>
   <!--ExpirationDialog-->
-  <string name="ExpirationDialog_disappearing_messages">សារដែលមិនបង្ហាញ</string>
-  <string name="ExpirationDialog_your_messages_will_not_expire">សាររបស់អ្នកនឹងមិនផុតកំណត់ទេ។</string>
-  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">សារ ដែលបានផ្ញើនិងទទួលក្នុងការសន្ទនានេះ នឹងបាត់ក្នុងពេល %s បន្ទាប់ពីត្រូវបានបើកមើល។</string>
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_disappearing_messages">សារដែលមិនបង្ហាញ</string> -->
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_your_messages_will_not_expire">សាររបស់អ្នកនឹងមិនផុតកំណត់ទេ។</string> -->
+  <!-- Removed by excludeNonTranslatables <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">សារ ដែលបានផ្ញើនិងទទួលក្នុងការសន្ទនានេះ នឹងបាត់ក្នុងពេល %s បន្ទាប់ពីត្រូវបានបើកមើល។</string> -->
   <!--OutdatedBuildReminder-->
   <!--PassphrasePromptActivity-->
   <string name="PassphrasePromptActivity_enter_passphrase">បញ្ចូលឃ្លាសម្ងាត់</string>
@@ -888,7 +888,7 @@
   <string name="RatingManager_rate_now">ដាក់ពិន្ទុឥលូវ!</string>
   <string name="RatingManager_no_thanks">ទេ អរគុណ</string>
   <string name="RatingManager_later">ពេលក្រោយ</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">ចុម កម្មវិធី Play Store មានសម្រាប់ដំឡើងក្នុងឧបករណ៍របស់អ្នកទេ។</string>
+  <!-- Removed by excludeNonTranslatables <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">ចុម កម្មវិធី Play Store មានសម្រាប់ដំឡើងក្នុងឧបករណ៍របស់អ្នកទេ។</string> -->
   <!--ReactionsBottomSheetDialogFragment-->
   <string name="ReactionsBottomSheetDialogFragment_all">ទាំងអស់ · %1$d</string>
   <!--ReactionsConversationView-->
@@ -1176,14 +1176,14 @@
   <string name="MessageNotifier_reacted_s_to_your_sticker">ប្រតិកម្ម %1$s ទៅស្ទីកគ័រអ្នក។</string>
   <string name="MessageNotifier_this_message_was_deleted">សារនេះត្រូវបានលុប។</string>
   <!--Notification Channels-->
-  <string name="NotificationChannel_messages">លំនាំដើម</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_messages">លំនាំដើម</string> -->
   <string name="NotificationChannel_calls">ការហៅ</string>
   <string name="NotificationChannel_failures">បរាជ័យ</string>
   <string name="NotificationChannel_backups">បម្រុងទុក</string>
   <string name="NotificationChannel_locked_status">ស្ថានភាពចាក់សោរ</string>
   <string name="NotificationChannel_app_updates">បច្ចុប្បន្នភាពកម្មវិធី</string>
   <string name="NotificationChannel_other">ផ្សេងៗ</string>
-  <string name="NotificationChannel_group_messages">សារ</string>
+  <!-- Removed by excludeNonTranslatables <string name="NotificationChannel_group_messages">សារ</string> -->
   <string name="NotificationChannel_missing_display_name">មិនស្គាល់</string>
   <!--ProfileEditNameFragment-->
   <!-- Removed by excludeNonTranslatables <string name="ProfileEditNameFragment_successfully_set_profile_name">កំណត់ឈ្មោះប្រវត្តិរូបដោយជោគជ័យ។</string> -->
@@ -1393,7 +1393,7 @@
     <item quantity="other">%dផ្សេង</item>
   </plurals>
   <!--giphy_activity-->
-  <string name="giphy_activity_toolbar__search_gifs_and_stickers">ស្វែករក GIFs និងស្ទីកគ័រ</string>
+  <!-- Removed by excludeNonTranslatables <string name="giphy_activity_toolbar__search_gifs_and_stickers">ស្វែករក GIFs និងស្ទីកគ័រ</string> -->
   <!--giphy_fragment-->
   <string name="giphy_fragment__nothing_found">ពុំរកមិនឃើញអ្វីទេ</string>
   <!--log_submit_activity-->
@@ -1448,7 +1448,7 @@
   <string name="CreateProfileActivity__username">ឈ្មោះអ្នកប្រើប្រាស់</string>
   <string name="CreateProfileActivity__create_a_username">បង្កើតឈ្មោះអ្នកប្រើប្រាស់</string>
   <!--EditProfileFragment-->
-  <string name="EditProfileFragment__edit_group_name_and_photo">កែប្រែឈ្មោះក្រុម និងរូបភាព</string>
+  <!-- Removed by excludeNonTranslatables <string name="EditProfileFragment__edit_group_name_and_photo">កែប្រែឈ្មោះក្រុម និងរូបភាព</string> -->
   <string name="EditProfileFragment__group_name">ឈ្មោះក្រុម</string>
   <!--recipient_preferences_activity-->
   <string name="recipient_preference_activity__shared_media">ចែករំលែកព័ត៌មាន</string>
@@ -1545,10 +1545,10 @@
   <string name="arrays__use_default">ប្រើលំនាំដើម</string>
   <string name="arrays__use_custom">ប្រើផ្សេងៗ</string>
   <string name="arrays__mute_for_one_hour">បិទសំឡេង 1 ម៉ោង</string>
-  <string name="arrays__mute_for_two_hours">បិទសំឡេង 2 ម៉ោង</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_two_hours">បិទសំឡេង 2 ម៉ោង</string> -->
   <string name="arrays__mute_for_one_day">បិទសំឡេង 1 ថ្ងៃ</string>
   <string name="arrays__mute_for_seven_days">បិទសំឡេង 7 ថ្ងៃ</string>
-  <string name="arrays__mute_for_one_year">បិទសំឡេង 1 ឆ្នាំ</string>
+  <!-- Removed by excludeNonTranslatables <string name="arrays__mute_for_one_year">បិទសំឡេង 1 ឆ្នាំ</string> -->
   <string name="arrays__settings_default">ការកំណត់លំនាំដើម</string>
   <string name="arrays__enabled">បានបើក</string>
   <string name="arrays__disabled">បានបិទ</string>
@@ -1647,7 +1647,7 @@
   <string name="preferences__if_read_receipts_are_disabled_you_wont_be_able_to_see_read_receipts">ប្រសិនបើការទទួលត្រូវបានបិទ អ្នកនឹងមិនអាចមើលការទទួលពីអ្នកផ្សេងទេ។</string>
   <string name="preferences__typing_indicators">វាស់ការវាយអក្សរ</string>
   <string name="preferences__if_typing_indicators_are_disabled_you_wont_be_able_to_see_typing_indicators">ប្រសិនបើ ការបង្ហាញការវាយត្រូវបានបិទ អ្នកនឹងមិនអាចមើលឃើញការវាយបញ្ចូលរបស់អ្នកដទៃទេ។</string>
-  <string name="preferences__request_keyboard_to_disable_personalized_learning">ការស្នើសុំក្តារចុច ដើម្បីបិទការសិក្សាផ្ទាល់ខ្លួន</string>
+  <!-- Removed by excludeNonTranslatables <string name="preferences__request_keyboard_to_disable_personalized_learning">ការស្នើសុំក្តារចុច ដើម្បីបិទការសិក្សាផ្ទាល់ខ្លួន</string> -->
   <string name="preferences_app_protection__blocked_users">ហាមឃាត់អ្នកប្រើនេះ</string>
   <string name="preferences_chats__when_using_mobile_data">នៅពេលប្រើប្រាស់ទិន្នន័យទូរសព្ទ</string>
   <string name="preferences_chats__when_using_wifi">នៅពេលប្រើប្រាស់Wi-Fi</string>

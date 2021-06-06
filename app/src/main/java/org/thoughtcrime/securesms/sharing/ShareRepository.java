@@ -1,6 +1,8 @@
 package org.thoughtcrime.securesms.sharing;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
@@ -9,6 +11,7 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
+import androidx.core.content.ContextCompat;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -17,14 +20,16 @@ import org.signal.core.util.concurrent.SignalExecutors;
 import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.TransportOption;
 import org.thoughtcrime.securesms.TransportOptions;
+import org.thoughtcrime.securesms.attachments.Attachment;
+import org.thoughtcrime.securesms.attachments.UriAttachment;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.mediasend.Media;
 import org.thoughtcrime.securesms.mediasend.MediaSendConstants;
 import org.thoughtcrime.securesms.mms.MediaConstraints;
 import org.thoughtcrime.securesms.mms.PartAuthority;
-import org.thoughtcrime.securesms.mms.PushMediaConstraints;
 import org.thoughtcrime.securesms.providers.BlobProvider;
 import org.thoughtcrime.securesms.util.MediaUtil;
+import org.thoughtcrime.securesms.util.UriUtil;
 import org.thoughtcrime.securesms.util.Util;
 import org.whispersystems.libsignal.util.guava.Optional;
 
@@ -74,12 +79,21 @@ class ShareRepository {
       return ShareData.forPrimitiveTypes();
     }
 
+    if (!UriUtil.isValidExternalUri(context, uri)) {
+      throw new IOException("Invalid external URI!");
+    }
+
     mimeType = getMimeType(context, uri, mimeType);
 
     if (PartAuthority.isLocalUri(uri)) {
       return ShareData.forIntentData(uri, mimeType, false, false);
     } else {
-      InputStream stream = context.getContentResolver().openInputStream(uri);
+      InputStream stream = null;
+      try {
+        stream = context.getContentResolver().openInputStream(uri);
+      } catch (SecurityException e) {
+        Log.w(TAG, "Failed to read stream!", e);
+      }
 
       if (stream == null) {
         throw new IOException("Failed to open stream!");
@@ -101,15 +115,21 @@ class ShareRepository {
                               .forData(stream, size)
                               .withMimeType(mimeType)
                               .withFileName(fileName)
-                              .createForMultipleSessionsOnDisk(context);
+                              .createForSingleSessionOnDisk(context);
+        // TODO Convert to multi-session after file drafts are fixed.
       }
 
-      return ShareData.forIntentData(blobUri, mimeType, true, isMmsSupported(context, mimeType, size));
+      return ShareData.forIntentData(blobUri, mimeType, true, isMmsSupported(context, asUriAttachment(blobUri, mimeType, size)));
     }
   }
 
-  private boolean isMmsSupported(@NonNull Context context, @NonNull String mimeType, long size) {
-    if (!Util.isMmsCapable(context)) {
+  private @NonNull UriAttachment asUriAttachment(@NonNull Uri uri, @NonNull String mimeType, long size) {
+    return new UriAttachment(uri, mimeType, -1, size, null, false, false, false, false, null, null, null, null, null);
+  }
+
+  private boolean isMmsSupported(@NonNull Context context, @NonNull Attachment attachment) {
+    boolean canReadPhoneState = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+    if (!Util.isDefaultSmsProvider(context) || !canReadPhoneState || !Util.isMmsCapable(context)) {
       return false;
     }
 
@@ -117,20 +137,7 @@ class ShareRepository {
     options.setDefaultTransport(TransportOption.Type.SMS);
     MediaConstraints mmsConstraints = MediaConstraints.getMmsMediaConstraints(options.getSelectedTransport().getSimSubscriptionId().or(-1));
 
-    final boolean canMmsSupportFileSize;
-    if (MediaUtil.isGif(mimeType)) {
-      canMmsSupportFileSize = size <= mmsConstraints.getGifMaxSize(context);
-    } else if (MediaUtil.isVideo(mimeType)) {
-      canMmsSupportFileSize = size <= mmsConstraints.getVideoMaxSize(context);
-    } else if (MediaUtil.isImageType(mimeType)) {
-      canMmsSupportFileSize = size <= mmsConstraints.getImageMaxSize(context);
-    } else if (MediaUtil.isAudioType(mimeType)) {
-      canMmsSupportFileSize = size <= mmsConstraints.getAudioMaxSize(context);
-    } else {
-      canMmsSupportFileSize = size <= mmsConstraints.getDocumentMaxSize(context);
-    }
-
-    return canMmsSupportFileSize;
+    return mmsConstraints.isSatisfied(context, attachment) || mmsConstraints.canResize(attachment);
   }
 
   @WorkerThread
@@ -179,6 +186,7 @@ class ShareRepository {
                           size,
                           duration,
                           false,
+                          false,
                           Optional.of(Media.ALL_MEDIA_BUCKET_ID),
                           Optional.absent(),
                           Optional.absent()));
@@ -191,7 +199,7 @@ class ShareRepository {
 
     if (media.size() > 0) {
       boolean isMmsSupported = Stream.of(media)
-                                     .allMatch(m -> isMmsSupported(context, m.getMimeType(), m.getSize()));
+                                     .allMatch(m -> isMmsSupported(context, asUriAttachment(m.getUri(), m.getMimeType(), m.getSize())));
       return ShareData.forMedia(media, isMmsSupported);
     } else {
       return null;

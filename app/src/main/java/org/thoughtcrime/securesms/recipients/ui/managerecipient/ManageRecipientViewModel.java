@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.annimon.stream.Stream;
 
+import org.signal.core.util.ThreadUtil;
 import org.thoughtcrime.securesms.BlockUnblockDialog;
-import org.thoughtcrime.securesms.ExpirationDialog;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.VerifyIdentityActivity;
 import org.thoughtcrime.securesms.database.IdentityDatabase;
@@ -38,7 +38,6 @@ import org.thoughtcrime.securesms.util.CommunicationActions;
 import org.thoughtcrime.securesms.util.DefaultValueLiveData;
 import org.thoughtcrime.securesms.util.ExpirationUtil;
 import org.thoughtcrime.securesms.util.Hex;
-import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.livedata.LiveDataUtil;
 
 import java.util.List;
@@ -187,13 +186,6 @@ public final class ManageRecipientViewModel extends ViewModel {
     return canUnblock;
   }
 
-  void handleExpirationSelection(@NonNull Context context) {
-    withRecipient(recipient ->
-                  ExpirationDialog.show(context,
-                                        recipient.getExpireMessages(),
-                                        manageRecipientRepository::setExpiration));
-  }
-
   void setMuteUntil(long muteUntil) {
     manageRecipientRepository.setMuteUntil(muteUntil);
   }
@@ -207,11 +199,11 @@ public final class ManageRecipientViewModel extends ViewModel {
   }
 
   void onAddToGroupButton(@NonNull Activity activity) {
-    manageRecipientRepository.getGroupMembership(existingGroups -> Util.runOnMain(() -> activity.startActivity(AddToGroupsActivity.newIntent(activity, manageRecipientRepository.getRecipientId(), existingGroups))));
+    manageRecipientRepository.getGroupMembership(existingGroups -> ThreadUtil.runOnMain(() -> activity.startActivity(AddToGroupsActivity.newIntent(activity, manageRecipientRepository.getRecipientId(), existingGroups))));
   }
 
   private void withRecipient(@NonNull Consumer<Recipient> mainThreadRecipientCallback) {
-    manageRecipientRepository.getRecipient(recipient -> Util.runOnMain(() -> mainThreadRecipientCallback.accept(recipient)));
+    manageRecipientRepository.getRecipient(recipient -> ThreadUtil.runOnMain(() -> mainThreadRecipientCallback.accept(recipient)));
   }
 
   private static @NonNull List<Recipient> filterSharedGroupList(@NonNull List<Recipient> groups,
@@ -246,10 +238,6 @@ public final class ManageRecipientViewModel extends ViewModel {
 
   LiveData<String> getSharedGroupsCountSummary() {
     return sharedGroupsCountSummary;
-  }
-
-  void onSelectColor(int color) {
-   manageRecipientRepository.setColor(color);
   }
 
   void onGroupClicked(@NonNull Activity activity, @NonNull Recipient recipient) {
@@ -295,12 +283,14 @@ public final class ManageRecipientViewModel extends ViewModel {
                          "-- Profile Sharing --\n%s\n\n" +
                          "-- Profile Key (Base64) --\n%s\n\n" +
                          "-- Profile Key (Hex) --\n%s\n\n" +
+                         "-- Sealed Sender Mode --\n%s\n\n" +
                          "-- UUID --\n%s\n\n" +
                          "-- RecipientId --\n%s",
                          recipient.getProfileName().getGivenName(), recipient.getProfileName().getFamilyName(),
                          recipient.isProfileSharing(),
                          profileKeyBase64,
                          profileKeyHex,
+                         recipient.getUnidentifiedAccessMode(),
                          recipient.getUuid().transform(UUID::toString).or("None"),
                          recipient.getId().serialize());
   }

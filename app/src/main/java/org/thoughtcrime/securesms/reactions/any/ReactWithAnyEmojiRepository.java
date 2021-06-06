@@ -8,6 +8,7 @@ import androidx.annotation.StringRes;
 
 import com.annimon.stream.Stream;
 
+import org.signal.core.util.ThreadUtil;
 import org.signal.core.util.concurrent.SignalExecutors;
 import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
@@ -18,10 +19,11 @@ import org.thoughtcrime.securesms.database.MessageDatabase;
 import org.thoughtcrime.securesms.database.NoSuchMessageException;
 import org.thoughtcrime.securesms.database.model.MessageRecord;
 import org.thoughtcrime.securesms.database.model.ReactionRecord;
+import org.thoughtcrime.securesms.emoji.EmojiCategory;
+import org.thoughtcrime.securesms.emoji.EmojiSource;
 import org.thoughtcrime.securesms.reactions.ReactionDetails;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.sms.MessageSender;
-import org.thoughtcrime.securesms.util.Util;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,10 +43,10 @@ final class ReactWithAnyEmojiRepository {
     this.recentEmojiPageModel = new RecentEmojiPageModel(context, storageKey);
     this.emojiPages           = new LinkedList<>();
 
-    emojiPages.addAll(Stream.of(EmojiUtil.getDisplayPages())
+    emojiPages.addAll(Stream.of(EmojiSource.getLatest().getDisplayPages())
+                            .filterNot(p -> p.getIconAttr() == EmojiCategory.EMOTICONS.getIcon())
                             .map(page -> new ReactWithAnyEmojiPage(Collections.singletonList(new ReactWithAnyEmojiPageBlock(getCategoryLabel(page.getIconAttr()), page))))
                             .toList());
-    emojiPages.remove(emojiPages.size() - 1);
   }
 
   List<ReactWithAnyEmojiPage> getEmojiPageModels(@NonNull List<ReactionDetails> thisMessagesReactions) {
@@ -80,7 +82,7 @@ final class ReactWithAnyEmojiRepository {
           MessageSender.sendReactionRemoval(context, messageRecord.getId(), messageRecord.isMms(), oldRecord);
         } else {
           MessageSender.sendNewReaction(context, messageRecord.getId(), messageRecord.isMms(), emoji);
-          Util.runOnMain(() -> recentEmojiPageModel.onCodePointSelected(emoji));
+          ThreadUtil.runOnMain(() -> recentEmojiPageModel.onCodePointSelected(emoji));
         }
       } catch (NoSuchMessageException e) {
         Log.w(TAG, "Message not found! Ignoring.");

@@ -70,7 +70,7 @@ public class RetrieveProfileJob extends BaseJob {
 
   public static final String KEY = "RetrieveProfileJob";
 
-  private static final String TAG = RetrieveProfileJob.class.getSimpleName();
+  private static final String TAG = Log.tag(RetrieveProfileJob.class);
 
   private static final String KEY_RECIPIENTS = "recipients";
 
@@ -237,6 +237,11 @@ public class RetrieveProfileJob extends BaseJob {
 
   @Override
   public void onRun() throws IOException, RetryLaterException {
+    if (!TextSecurePreferences.isPushRegistered(context)) {
+      Log.w(TAG, "Unregistered. Skipping.");
+      return;
+    }
+
     Stopwatch         stopwatch         = new Stopwatch("RetrieveProfile");
     RecipientDatabase recipientDatabase = DatabaseFactory.getRecipientDatabase(context);
     Set<RecipientId>  retries           = new HashSet<>();
@@ -419,7 +424,7 @@ public class RetrieveProfileJob extends BaseJob {
       ProfileKey profileKey = ProfileKeyUtil.profileKeyOrNull(recipient.getProfileKey());
       if (profileKey == null) return;
 
-      String plaintextProfileName = Util.emptyIfNull(ProfileUtil.decryptName(profileKey, profileName));
+      String plaintextProfileName = Util.emptyIfNull(ProfileUtil.decryptString(profileKey, profileName));
 
       ProfileName remoteProfileName = ProfileName.fromSerialized(plaintextProfileName);
       ProfileName localProfileName  = recipient.getProfileName();
@@ -460,8 +465,8 @@ public class RetrieveProfileJob extends BaseJob {
       ProfileKey profileKey = ProfileKeyUtil.profileKeyOrNull(recipient.getProfileKey());
       if (profileKey == null) return;
 
-      String plaintextAbout = ProfileUtil.decryptName(profileKey, encryptedAbout);
-      String plaintextEmoji = ProfileUtil.decryptName(profileKey, encryptedEmoji);
+      String plaintextAbout = ProfileUtil.decryptString(profileKey, encryptedAbout);
+      String plaintextEmoji = ProfileUtil.decryptString(profileKey, encryptedEmoji);
 
       DatabaseFactory.getRecipientDatabase(context).setAbout(recipient.getId(), plaintextAbout, plaintextEmoji);
     } catch (InvalidCiphertextException | IOException e) {

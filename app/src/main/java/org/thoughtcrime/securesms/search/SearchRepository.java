@@ -33,6 +33,7 @@ import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.util.CursorUtil;
+import org.thoughtcrime.securesms.util.FtsUtil;
 import org.thoughtcrime.securesms.util.Util;
 
 import java.util.ArrayList;
@@ -54,24 +55,7 @@ import static org.thoughtcrime.securesms.database.SearchDatabase.SNIPPET_WRAP;
  */
 public class SearchRepository {
 
-  private static final String TAG = SearchRepository.class.getSimpleName();
-
-  private static final Set<Character> BANNED_CHARACTERS = new HashSet<>();
-  static {
-    // Several ranges of invalid ASCII characters
-    for (int i = 33; i <= 47; i++) {
-      BANNED_CHARACTERS.add((char) i);
-    }
-    for (int i = 58; i <= 64; i++) {
-      BANNED_CHARACTERS.add((char) i);
-    }
-    for (int i = 91; i <= 96; i++) {
-      BANNED_CHARACTERS.add((char) i);
-    }
-    for (int i = 123; i <= 126; i++) {
-      BANNED_CHARACTERS.add((char) i);
-    }
-  }
+  private static final String TAG = Log.tag(SearchRepository.class);
 
   private final Context           context;
   private final SearchDatabase    searchDatabase;
@@ -104,7 +88,7 @@ public class SearchRepository {
     }
 
     serialExecutor.execute(() -> {
-      String cleanQuery = sanitizeQuery(query);
+      String cleanQuery = FtsUtil.sanitize(query);
 
       Future<List<Recipient>>     contacts        = parallelExecutor.submit(() -> queryContacts(cleanQuery));
       Future<List<ThreadRecord>>  conversations   = parallelExecutor.submit(() -> queryConversations(cleanQuery));
@@ -133,7 +117,7 @@ public class SearchRepository {
 
     serialExecutor.execute(() -> {
       long                startTime       = System.currentTimeMillis();
-      List<MessageResult> messages        = queryMessages(sanitizeQuery(query), threadId);
+      List<MessageResult> messages        = queryMessages(FtsUtil.sanitize(query), threadId);
       List<MessageResult> mentionMessages = queryMentions(sanitizeQueryAsTokens(query), threadId);
 
       Log.d(TAG, "[ConversationQuery] " + (System.currentTimeMillis() - startTime) + " ms");
@@ -346,35 +330,13 @@ public class SearchRepository {
     return list;
   }
 
-  /**
-   * Unfortunately {@link DatabaseUtils#sqlEscapeString(String)} is not sufficient for our purposes.
-   * MATCH queries have a separate format of their own that disallow most "special" characters.
-   *
-   * Also, SQLite can't search for apostrophes, meaning we can't normally find words like "I'm".
-   * However, if we replace the apostrophe with a space, then the query will find the match.
-   */
-  private String sanitizeQuery(@NonNull String query) {
-    StringBuilder out = new StringBuilder();
-
-    for (int i = 0; i < query.length(); i++) {
-      char c = query.charAt(i);
-      if (!BANNED_CHARACTERS.contains(c)) {
-        out.append(c);
-      } else if (c == '\'') {
-        out.append(' ');
-      }
-    }
-
-    return out.toString();
-  }
-
   private @NonNull List<String> sanitizeQueryAsTokens(@NonNull String query) {
     String[] parts = query.split("\\s+");
     if (parts.length > 3) {
       return Collections.emptyList();
     }
 
-    return Stream.of(parts).map(this::sanitizeQuery).toList();
+    return Stream.of(parts).map(FtsUtil::sanitize).toList();
   }
 
   private static @NonNull List<MessageResult> mergeMessagesAndMentions(@NonNull List<MessageResult> messages, @NonNull List<MessageResult> mentionMessages) {
@@ -426,7 +388,7 @@ public class SearchRepository {
 
     @Override
     public MessageResult build(@NonNull Cursor cursor) {
-      RecipientId conversationRecipientId = RecipientId.from(cursor.getLong(cursor.getColumnIndex(SearchDatabase.CONVERSATION_RECIPIENT)));
+      RecipientId conversationRecipientId = RecipientId.from(CursorUtil.requireLong(cursor, SearchDatabase.CONVERSATION_RECIPIENT));
       RecipientId messageRecipientId      = RecipientId.from(CursorUtil.requireLong(cursor, SearchDatabase.MESSAGE_RECIPIENT));
       Recipient   conversationRecipient   = Recipient.live(conversationRecipientId).get();
       Recipient   messageRecipient        = Recipient.live(messageRecipientId).get();

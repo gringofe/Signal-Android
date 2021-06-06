@@ -49,6 +49,7 @@ import org.thoughtcrime.securesms.profiles.AvatarHelper;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.sms.MessageSender;
+import org.thoughtcrime.securesms.util.Util;
 import org.whispersystems.libsignal.util.guava.Optional;
 import org.whispersystems.signalservice.api.groupsv2.DecryptedGroupUtil;
 import org.whispersystems.signalservice.api.groupsv2.GroupCandidate;
@@ -75,6 +76,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -130,10 +132,11 @@ final class GroupManagerV2 {
 
   @WorkerThread
   @NonNull Map<UUID, UuidCiphertext> getUuidCipherTexts(@NonNull GroupId.V2 groupId) {
-    GroupDatabase.GroupRecord groupRecord         = DatabaseFactory.getGroupDatabase(context).requireGroup(groupId);
-    GroupMasterKey            groupMasterKey      = groupRecord.requireV2GroupProperties().getGroupMasterKey();
-    ClientZkGroupCipher       clientZkGroupCipher = new ClientZkGroupCipher(GroupSecretParams.deriveFromMasterKey(groupMasterKey));
-    List<Recipient>           recipients          = Recipient.resolvedList(groupRecord.getMembers());
+    GroupDatabase.GroupRecord       groupRecord         = DatabaseFactory.getGroupDatabase(context).requireGroup(groupId);
+    GroupDatabase.V2GroupProperties v2GroupProperties   = groupRecord.requireV2GroupProperties();
+    GroupMasterKey                  groupMasterKey      = v2GroupProperties.getGroupMasterKey();
+    ClientZkGroupCipher             clientZkGroupCipher = new ClientZkGroupCipher(GroupSecretParams.deriveFromMasterKey(groupMasterKey));
+    List<Recipient>                 recipients          = v2GroupProperties.getMemberRecipients(GroupDatabase.MemberSet.FULL_MEMBERS_INCLUDING_SELF);
 
     Map<UUID, UuidCiphertext> uuidCipherTexts = new HashMap<>();
     for (Recipient recipient : recipients) {
@@ -215,7 +218,7 @@ final class GroupManagerV2 {
       GroupMasterKey            groupMasterKey    = groupIdV1.deriveV2MigrationMasterKey();
       GroupSecretParams         groupSecretParams = GroupSecretParams.deriveFromMasterKey(groupMasterKey);
       GroupDatabase.GroupRecord groupRecord       = groupDatabase.requireGroup(groupIdV1);
-      String                    name              = groupRecord.getTitle();
+      String                    name              = Util.emptyIfNull(groupRecord.getTitle());
       byte[]                    avatar            = groupRecord.hasAvatar() ? AvatarHelper.getAvatarBytes(context, groupRecord.getRecipientId()) : null;
       int                       messageTimer      = Recipient.resolved(groupRecord.getRecipientId()).getExpireMessages();
       Set<RecipientId>          memberIds         = Stream.of(members)
@@ -241,23 +244,15 @@ final class GroupManagerV2 {
     @WorkerThread
     @NonNull GroupManager.GroupActionResult createGroup(@NonNull Collection<RecipientId> members,
                                                         @Nullable String name,
-                                                        @Nullable byte[] avatar)
-        throws GroupChangeFailedException, IOException, MembershipNotSuitableForV2Exception
-    {
-      return createGroup(name, avatar, members);
-    }
-
-    @WorkerThread
-    private @NonNull GroupManager.GroupActionResult createGroup(@Nullable String name,
-                                                                @Nullable byte[] avatar,
-                                                                @NonNull Collection<RecipientId> members)
+                                                        @Nullable byte[] avatar,
+                                                        int disappearingMessagesTimer)
         throws GroupChangeFailedException, IOException, MembershipNotSuitableForV2Exception
     {
       GroupSecretParams groupSecretParams = GroupSecretParams.generate();
       DecryptedGroup    decryptedGroup;
 
       try {
-        decryptedGroup = createGroupOnServer(groupSecretParams, name, avatar, members, Member.Role.DEFAULT, 0);
+        decryptedGroup = createGroupOnServer(groupSecretParams, name, avatar, members, Member.Role.DEFAULT, disappearingMessagesTimer);
       } catch (GroupAlreadyExistsException e) {
         throw new GroupChangeFailedException(e);
       }
@@ -342,12 +337,16 @@ final class GroupManagerV2 {
     }
 
     @WorkerThread
-    @NonNull GroupManager.GroupActionResult updateGroupTitleAndAvatar(@Nullable String title, @Nullable byte[] avatarBytes, boolean avatarChanged)
+    @NonNull GroupManager.GroupActionResult updateGroupTitleDescriptionAndAvatar(@Nullable String title, @Nullable String description, @Nullable byte[] avatarBytes, boolean avatarChanged)
       throws GroupChangeFailedException, GroupInsufficientRightsException, IOException, GroupNotAMemberException
     {
       try {
         GroupChange.Actions.Builder change = title != null ? groupOperations.createModifyGroupTitle(title)
                                                            : GroupChange.Actions.newBuilder();
+
+        if (description != null) {
+          change.setModifyDescription(groupOperations.createModifyGroupDescription(description));
+        }
 
         if (avatarChanged) {
           String cdnKey = avatarBytes != null ? groupsV2Api.uploadAvatar(avatarBytes, groupSecretParams, authorization.getAuthorizationForToday(selfUuid, groupSecretParams))
@@ -578,7 +577,16 @@ final class GroupManagerV2 {
       GroupsV2StateProcessor.GroupUpdateResult groupUpdateResult = groupsV2StateProcessor.forGroup(groupMasterKey)
                                                                                          .updateLocalGroupToRevision(GroupsV2StateProcessor.LATEST, System.currentTimeMillis(), null);
 
-      if (groupUpdateResult.getGroupState() != GroupsV2StateProcessor.GroupState.GROUP_UPDATED || groupUpdateResult.getLatestServer() == null) {
+      if (groupUpdateResult.getLatestServer() == null) {
+        Log.w(TAG, "Latest server state null.");
+        throw new GroupChangeFailedException();
+      }
+
+      if (groupUpdateResult.getGroupState() != GroupsV2StateProcessor.GroupState.GROUP_UPDATED) {
+        int serverRevision = groupUpdateResult.getLatestServer().getRevision();
+        int localRevision  = groupDatabase.requireGroup(groupId).requireV2GroupProperties().getGroupRevision();
+        int revisionDelta  = serverRevision - localRevision;
+        Log.w(TAG, String.format(Locale.US, "Server is ahead by %d revisions", revisionDelta));
         throw new GroupChangeFailedException();
       }
 

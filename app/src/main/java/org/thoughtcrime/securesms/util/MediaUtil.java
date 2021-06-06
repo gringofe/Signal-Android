@@ -48,7 +48,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MediaUtil {
 
-  private static final String TAG = MediaUtil.class.getSimpleName();
+  private static final String TAG = Log.tag(MediaUtil.class);
 
   public static final String IMAGE_PNG         = "image/png";
   public static final String IMAGE_JPEG        = "image/jpeg";
@@ -283,15 +283,30 @@ public class MediaUtil {
   }
 
   public static boolean isImageType(String contentType) {
-    return (null != contentType) && contentType.startsWith("image/");
+    if (contentType == null) {
+      return false;
+    }
+
+    return contentType.startsWith("image/") ||
+           contentType.equals(MediaStore.Images.Media.CONTENT_TYPE);
   }
 
   public static boolean isAudioType(String contentType) {
-    return (null != contentType) && contentType.startsWith("audio/");
+    if (contentType == null) {
+      return false;
+    }
+
+    return contentType.startsWith("audio/") ||
+           contentType.equals(MediaStore.Audio.Media.CONTENT_TYPE);
   }
 
   public static boolean isVideoType(String contentType) {
-    return (null != contentType) && contentType.startsWith("video/");
+    if (contentType == null) {
+      return false;
+    }
+
+    return contentType.startsWith("video/") ||
+           contentType.equals(MediaStore.Video.Media.CONTENT_TYPE);
   }
 
   public static boolean isImageOrVideoType(String contentType) {

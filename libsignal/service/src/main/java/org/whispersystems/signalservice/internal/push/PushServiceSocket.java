@@ -42,6 +42,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceAttachmentRemo
 import org.whispersystems.signalservice.api.messages.calls.CallingResponse;
 import org.whispersystems.signalservice.api.messages.calls.TurnServerInfo;
 import org.whispersystems.signalservice.api.messages.multidevice.DeviceInfo;
+import org.whispersystems.signalservice.api.payments.CurrencyConversions;
 import org.whispersystems.signalservice.api.profiles.ProfileAndCredential;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfile;
 import org.whispersystems.signalservice.api.profiles.SignalServiceProfileWrite;
@@ -59,6 +60,7 @@ import org.whispersystems.signalservice.api.push.exceptions.MissingConfiguration
 import org.whispersystems.signalservice.api.push.exceptions.NoContentException;
 import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
 import org.whispersystems.signalservice.api.push.exceptions.NotFoundException;
+import org.whispersystems.signalservice.api.push.exceptions.ProofRequiredException;
 import org.whispersystems.signalservice.api.push.exceptions.PushNetworkException;
 import org.whispersystems.signalservice.api.push.exceptions.RangeException;
 import org.whispersystems.signalservice.api.push.exceptions.RateLimitException;
@@ -71,8 +73,10 @@ import org.whispersystems.signalservice.api.push.exceptions.UsernameTakenExcepti
 import org.whispersystems.signalservice.api.storage.StorageAuthResponse;
 import org.whispersystems.signalservice.api.util.CredentialsProvider;
 import org.whispersystems.signalservice.api.util.Tls12SocketFactory;
+import org.whispersystems.signalservice.api.util.TlsProxySocketFactory;
 import org.whispersystems.signalservice.api.util.UuidUtil;
 import org.whispersystems.signalservice.internal.configuration.SignalCdnUrl;
+import org.whispersystems.signalservice.internal.configuration.SignalProxy;
 import org.whispersystems.signalservice.internal.configuration.SignalServiceConfiguration;
 import org.whispersystems.signalservice.internal.configuration.SignalUrl;
 import org.whispersystems.signalservice.internal.contacts.entities.DiscoveryRequest;
@@ -86,6 +90,7 @@ import org.whispersystems.signalservice.internal.push.exceptions.GroupNotFoundEx
 import org.whispersystems.signalservice.internal.push.exceptions.GroupPatchNotAcceptedException;
 import org.whispersystems.signalservice.internal.push.exceptions.MismatchedDevicesException;
 import org.whispersystems.signalservice.internal.push.exceptions.NotInGroupException;
+import org.whispersystems.signalservice.internal.push.exceptions.PaymentsRegionException;
 import org.whispersystems.signalservice.internal.push.exceptions.StaleDevicesException;
 import org.whispersystems.signalservice.internal.push.http.CancelationSignal;
 import org.whispersystems.signalservice.internal.push.http.DigestingRequestBody;
@@ -135,6 +140,7 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
 import okhttp3.Dns;
@@ -188,6 +194,8 @@ public class PushServiceSocket {
   private static final String ATTACHMENT_V2_PATH        = "/v2/attachments/form/upload";
   private static final String ATTACHMENT_V3_PATH        = "/v3/attachments/form/upload";
 
+  private static final String PAYMENTS_AUTH_PATH        = "/v1/payments/auth";
+
   private static final String PROFILE_PATH              = "/v1/profile/%s";
   private static final String PROFILE_USERNAME_PATH     = "/v1/profile/username/%s";
 
@@ -211,6 +219,13 @@ public class PushServiceSocket {
   private static final String GROUPSV2_AVATAR_REQUEST   = "/v1/groups/avatar/form";
   private static final String GROUPSV2_GROUP_JOIN       = "/v1/groups/join/%s";
   private static final String GROUPSV2_TOKEN            = "/v1/groups/token";
+
+  private static final String PAYMENTS_CONVERSIONS      = "/v1/payments/conversions";
+
+  private static final String SUBMIT_RATE_LIMIT_CHALLENGE       = "/v1/challenge";
+  private static final String REQUEST_RATE_LIMIT_PUSH_CHALLENGE = "/v1/challenge/push";
+
+  private static final String REPORT_SPAM = "/v1/messages/report/%s/%s";
 
   private static final String SERVER_DELIVERED_TIMESTAMP_HEADER = "X-Signal-Timestamp";
 
@@ -245,17 +260,17 @@ public class PushServiceSocket {
     this.credentialsProvider       = credentialsProvider;
     this.signalAgent               = signalAgent;
     this.automaticNetworkRetry     = automaticNetworkRetry;
-    this.serviceClients            = createServiceConnectionHolders(configuration.getSignalServiceUrls(), configuration.getNetworkInterceptors(), configuration.getDns());
-    this.cdnClientsMap             = createCdnClientsMap(configuration.getSignalCdnUrlMap(), configuration.getNetworkInterceptors(), configuration.getDns());
-    this.contactDiscoveryClients   = createConnectionHolders(configuration.getSignalContactDiscoveryUrls(), configuration.getNetworkInterceptors(), configuration.getDns());
-    this.keyBackupServiceClients   = createConnectionHolders(configuration.getSignalKeyBackupServiceUrls(), configuration.getNetworkInterceptors(), configuration.getDns());
-    this.storageClients            = createConnectionHolders(configuration.getSignalStorageUrls(), configuration.getNetworkInterceptors(), configuration.getDns());
+    this.serviceClients            = createServiceConnectionHolders(configuration.getSignalServiceUrls(), configuration.getNetworkInterceptors(), configuration.getDns(), configuration.getSignalProxy());
+    this.cdnClientsMap             = createCdnClientsMap(configuration.getSignalCdnUrlMap(), configuration.getNetworkInterceptors(), configuration.getDns(), configuration.getSignalProxy());
+    this.contactDiscoveryClients   = createConnectionHolders(configuration.getSignalContactDiscoveryUrls(), configuration.getNetworkInterceptors(), configuration.getDns(), configuration.getSignalProxy());
+    this.keyBackupServiceClients   = createConnectionHolders(configuration.getSignalKeyBackupServiceUrls(), configuration.getNetworkInterceptors(), configuration.getDns(), configuration.getSignalProxy());
+    this.storageClients            = createConnectionHolders(configuration.getSignalStorageUrls(), configuration.getNetworkInterceptors(), configuration.getDns(), configuration.getSignalProxy());
     this.random                    = new SecureRandom();
     this.clientZkProfileOperations = clientZkProfileOperations;
   }
 
   public void requestSmsVerificationCode(boolean androidSmsRetriever, Optional<String> captchaToken, Optional<String> challenge) throws IOException {
-    String path = String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getE164(), androidSmsRetriever ? "android-2020-01" : "android");
+    String path = String.format(CREATE_ACCOUNT_SMS_PATH, credentialsProvider.getE164(), androidSmsRetriever ? "android-2021-03" : "android");
 
     if (captchaToken.isPresent()) {
       path += "&captcha=" + captchaToken.get();
@@ -713,7 +728,12 @@ public class PushServiceSocket {
     String                        requestBody    = JsonUtil.toJson(signalServiceProfileWrite);
     ProfileAvatarUploadAttributes formAttributes;
 
-    String response = makeServiceRequest(String.format(PROFILE_PATH, ""), "PUT", requestBody);
+    String response = makeServiceRequest(String.format(PROFILE_PATH, ""),
+                                         "PUT",
+                                         requestBody,
+                                         NO_HEADERS,
+                                         PaymentsRegionException::responseCodeHandler,
+                                         Optional.absent());
 
     if (signalServiceProfileWrite.hasAvatar() && profileAvatar != null) {
       try {
@@ -756,6 +776,20 @@ public class PushServiceSocket {
     makeServiceRequest(DELETE_ACCOUNT_PATH, "DELETE", null);
   }
 
+  public void requestRateLimitPushChallenge() throws IOException {
+    makeServiceRequest(REQUEST_RATE_LIMIT_PUSH_CHALLENGE, "POST", "");
+  }
+
+  public void submitRateLimitPushChallenge(String challenge) throws IOException {
+    String payload = JsonUtil.toJson(new SubmitPushChallengePayload(challenge));
+    makeServiceRequest(SUBMIT_RATE_LIMIT_CHALLENGE, "PUT", payload);
+  }
+
+  public void submitRateLimitRecaptchaChallenge(String challenge, String recaptchaToken) throws IOException {
+    String payload = JsonUtil.toJson(new SubmitRecaptchaChallengePayload(challenge, recaptchaToken));
+    makeServiceRequest(SUBMIT_RATE_LIMIT_CHALLENGE, "PUT", payload);
+  }
+
   public List<ContactTokenDetails> retrieveDirectory(Set<String> contactTokens)
       throws NonSuccessfulResponseCodeException, PushNetworkException, MalformedResponseException
   {
@@ -780,10 +814,14 @@ public class PushServiceSocket {
     }
   }
 
-  private String getCredentials(String authPath) throws IOException {
+  private AuthCredentials getAuthCredentials(String authPath) throws IOException {
     String              response = makeServiceRequest(authPath, "GET", null, NO_HEADERS);
     AuthCredentials     token    = JsonUtil.fromJson(response, AuthCredentials.class);
-    return token.asBasic();
+    return token;
+  }
+
+  private String getCredentials(String authPath) throws IOException {
+    return getAuthCredentials(authPath).asBasic();
   }
 
   public String getContactDiscoveryAuthorization() throws IOException {
@@ -792,6 +830,10 @@ public class PushServiceSocket {
 
   public String getKeyBackupServiceAuthorization() throws IOException {
     return getCredentials(KBS_AUTH_PATH);
+  }
+
+  public AuthCredentials getPaymentsAuthorization() throws IOException {
+    return getAuthCredentials(PAYMENTS_AUTH_PATH);
   }
 
   public TokenResponse getKeyBackupServiceToken(String authorizationToken, String enclaveName)
@@ -879,6 +921,10 @@ public class PushServiceSocket {
     } catch (ContactManifestMismatchException e) {
       return Optional.of(StorageManifest.parseFrom(e.getResponseBody()));
     }
+  }
+
+  public void pingStorageService() throws IOException {
+    makeStorageRequest(null, "/ping", "GET", null);
   }
 
   public RemoteConfigResponse getRemoteConfig() throws IOException {
@@ -1442,6 +1488,13 @@ public class PushServiceSocket {
         throw new LockedException(accountLockFailure.length,
                                   accountLockFailure.timeRemaining,
                                   basicStorageCredentials);
+      case 428:
+        ProofRequiredResponse proofRequiredResponse = readResponseJson(response, ProofRequiredResponse.class);
+        String                retryAfterRaw = response.header("Retry-After");
+        long                  retryAfter    = Util.parseInt(retryAfterRaw, -1);
+
+        throw new ProofRequiredException(proofRequiredResponse, retryAfter);
+
       case 499:
         throw new DeprecatedVersionException();
 
@@ -1449,7 +1502,7 @@ public class PushServiceSocket {
         throw new ServerRejectedException();
     }
 
-    if (responseCode != 200 && responseCode != 204) {
+    if (responseCode != 200 && responseCode != 202 && responseCode != 204) {
       throw new NonSuccessfulResponseCodeException(responseCode, "Bad response: " + responseCode + " " + responseMessage);
     }
 
@@ -1741,13 +1794,14 @@ public class PushServiceSocket {
 
   private ServiceConnectionHolder[] createServiceConnectionHolders(SignalUrl[] urls,
                                                                    List<Interceptor> interceptors,
-                                                                   Optional<Dns> dns)
+                                                                   Optional<Dns> dns,
+                                                                   Optional<SignalProxy> proxy)
   {
     List<ServiceConnectionHolder> serviceConnectionHolders = new LinkedList<>();
 
     for (SignalUrl url : urls) {
-      serviceConnectionHolders.add(new ServiceConnectionHolder(createConnectionClient(url, interceptors, dns),
-                                                               createConnectionClient(url, interceptors, dns),
+      serviceConnectionHolders.add(new ServiceConnectionHolder(createConnectionClient(url, interceptors, dns, proxy),
+                                                               createConnectionClient(url, interceptors, dns, proxy),
                                                                url.getUrl(), url.getHostHeader()));
     }
 
@@ -1756,12 +1810,13 @@ public class PushServiceSocket {
 
   private static Map<Integer, ConnectionHolder[]> createCdnClientsMap(final Map<Integer, SignalCdnUrl[]> signalCdnUrlMap,
                                                                       final List<Interceptor> interceptors,
-                                                                      final Optional<Dns> dns) {
+                                                                      final Optional<Dns> dns,
+                                                                      final Optional<SignalProxy> proxy) {
     validateConfiguration(signalCdnUrlMap);
     final Map<Integer, ConnectionHolder[]> result = new HashMap<>();
     for (Map.Entry<Integer, SignalCdnUrl[]> entry : signalCdnUrlMap.entrySet()) {
       result.put(entry.getKey(),
-                 createConnectionHolders(entry.getValue(), interceptors, dns));
+                 createConnectionHolders(entry.getValue(), interceptors, dns, proxy));
     }
     return Collections.unmodifiableMap(result);
   }
@@ -1772,17 +1827,17 @@ public class PushServiceSocket {
     }
   }
 
-  private static ConnectionHolder[] createConnectionHolders(SignalUrl[] urls, List<Interceptor> interceptors, Optional<Dns> dns) {
+  private static ConnectionHolder[] createConnectionHolders(SignalUrl[] urls, List<Interceptor> interceptors, Optional<Dns> dns, Optional<SignalProxy> proxy) {
     List<ConnectionHolder> connectionHolders = new LinkedList<>();
 
     for (SignalUrl url : urls) {
-      connectionHolders.add(new ConnectionHolder(createConnectionClient(url, interceptors, dns), url.getUrl(), url.getHostHeader()));
+      connectionHolders.add(new ConnectionHolder(createConnectionClient(url, interceptors, dns, proxy), url.getUrl(), url.getHostHeader()));
     }
 
     return connectionHolders.toArray(new ConnectionHolder[0]);
   }
 
-  private static OkHttpClient createConnectionClient(SignalUrl url, List<Interceptor> interceptors, Optional<Dns> dns) {
+  private static OkHttpClient createConnectionClient(SignalUrl url, List<Interceptor> interceptors, Optional<Dns> dns, Optional<SignalProxy> proxy) {
     try {
       TrustManager[] trustManagers = BlacklistingTrustManager.createFor(url.getTrustStore());
 
@@ -1794,9 +1849,15 @@ public class PushServiceSocket {
                                                      .connectionSpecs(url.getConnectionSpecs().or(Util.immutableList(ConnectionSpec.RESTRICTED_TLS)))
                                                      .dns(dns.or(Dns.SYSTEM));
 
+      if (proxy.isPresent()) {
+        builder.socketFactory(new TlsProxySocketFactory(proxy.get().getHost(), proxy.get().getPort(), dns));
+      }
+
       builder.sslSocketFactory(new Tls12SocketFactory(context.getSocketFactory()), (X509TrustManager)trustManagers[0])
              .connectionSpecs(url.getConnectionSpecs().or(Util.immutableList(ConnectionSpec.RESTRICTED_TLS)))
              .build();
+
+      builder.connectionPool(new ConnectionPool(5, 45, TimeUnit.SECONDS));
 
       for (Interceptor interceptor : interceptors) {
         builder.addInterceptor(interceptor);
@@ -2115,6 +2176,24 @@ public class PushServiceSocket {
                                                NO_HANDLER);
 
     return GroupExternalCredential.parseFrom(readBodyBytes(response));
+  }
+
+  public CurrencyConversions getCurrencyConversions()
+      throws NonSuccessfulResponseCodeException, PushNetworkException, MalformedResponseException
+  {
+    String response = makeServiceRequest(PAYMENTS_CONVERSIONS, "GET", null);
+    try {
+      return JsonUtil.fromJson(response, CurrencyConversions.class);
+    } catch (IOException e) {
+      Log.w(TAG, e);
+      throw new MalformedResponseException("Unable to parse entity", e);
+    }
+  }
+
+  public void reportSpam(String e164, String serverGuid)
+      throws NonSuccessfulResponseCodeException, MalformedResponseException, PushNetworkException
+  {
+    makeServiceRequest(String.format(REPORT_SPAM, e164, serverGuid), "POST", "");
   }
 
   public static final class GroupHistory {

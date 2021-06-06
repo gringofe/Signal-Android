@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.database.RecipientDatabase;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 import org.thoughtcrime.securesms.preferences.widgets.NotificationPrivacyPreference;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
@@ -21,9 +23,9 @@ import org.thoughtcrime.securesms.util.Util;
 public abstract class AbstractNotificationBuilder extends NotificationCompat.Builder {
 
   @SuppressWarnings("unused")
-  private static final String TAG = AbstractNotificationBuilder.class.getSimpleName();
+  private static final String TAG = Log.tag(AbstractNotificationBuilder.class);
 
-  private static final int MAX_DISPLAY_LENGTH = 500;
+  public static final int MAX_DISPLAY_LENGTH = 500;
 
   protected Context                       context;
   protected NotificationPrivacyPreference privacy;
@@ -48,8 +50,8 @@ public abstract class AbstractNotificationBuilder extends NotificationCompat.Bui
   }
 
   public void setAlarms(@Nullable Uri ringtone, RecipientDatabase.VibrateState vibrate) {
-    Uri     defaultRingtone = NotificationChannels.supported() ? NotificationChannels.getMessageRingtone(context) : TextSecurePreferences.getNotificationRingtone(context);
-    boolean defaultVibrate  = NotificationChannels.supported() ? NotificationChannels.getMessageVibrate(context)  : TextSecurePreferences.isNotificationVibrateEnabled(context);
+    Uri     defaultRingtone = NotificationChannels.supported() ? NotificationChannels.getMessageRingtone(context) : SignalStore.settings().getMessageNotificationSound();
+    boolean defaultVibrate  = NotificationChannels.supported() ? NotificationChannels.getMessageVibrate(context)  : SignalStore.settings().isMessageVibrateEnabled();
 
     if      (ringtone == null && !TextUtils.isEmpty(defaultRingtone.toString())) setSound(defaultRingtone);
     else if (ringtone != null && !ringtone.toString().isEmpty())                 setSound(ringtone);
@@ -62,8 +64,8 @@ public abstract class AbstractNotificationBuilder extends NotificationCompat.Bui
   }
 
   private void setLed() {
-    String ledColor              = TextSecurePreferences.getNotificationLedColor(context);
-    String ledBlinkPattern       = TextSecurePreferences.getNotificationLedPattern(context);
+    String ledColor              = SignalStore.settings().getMessageLedColor();
+    String ledBlinkPattern       = SignalStore.settings().getMessageLedBlinkPattern();
     String ledBlinkPatternCustom = TextSecurePreferences.getNotificationLedPatternCustom(context);
 
     if (!ledColor.equals("none")) {

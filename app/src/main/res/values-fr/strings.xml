@@ -31,7 +31,7 @@
   <string name="ApplicationPreferencesActivity_off">désactivé</string>
   <string name="ApplicationPreferencesActivity_Off">Désactivé</string>
   <string name="ApplicationPreferencesActivity_sms_mms_summary">Textos %1$s, messages multimédias %2$s</string>
-  <string name="ApplicationPreferencesActivity_privacy_summary">Verrouillage de l’écran %1$s, blocage de l’inscription %2$s</string>
+  <string name="ApplicationPreferencesActivity_privacy_summary">Verrou d’écran %1$s, blocage de l’inscription %2$s</string>
   <string name="ApplicationPreferencesActivity_appearance_summary">Thème %1$s, langue %2$s</string>
   <string name="ApplicationPreferencesActivity_pins_are_required_for_registration_lock">Un NIP est requis pour le blocage de l’inscription. Pour désactiver le NIP, veuillez d’abord désactiver le blocage de l’inscription.</string>
   <string name="ApplicationPreferencesActivity_pin_created">Le NIP a été créé.</string>
@@ -65,6 +65,8 @@
   <!--AttachmentUploadJob-->
   <string name="AttachmentUploadJob_uploading_media">Téléversement du média…</string>
   <string name="AttachmentUploadJob_compressing_video_start">Compression de la vidéo…</string>
+  <!--BackgroundMessageRetriever-->
+  <string name="BackgroundMessageRetriever_checking_for_messages">Vérification de la présence de messages…</string>
   <!--BlockedUsersActivity-->
   <string name="BlockedUsersActivity__blocked_users">Utilisateurs bloqués</string>
   <string name="BlockedUsersActivity__add_blocked_user">Ajouter un utilisateur bloqué</string>
@@ -87,7 +89,6 @@
   <string name="BlockUnblockDialog_unblock_s">Débloquer %1$s ?</string>
   <string name="BlockUnblockDialog_block">Bloquer</string>
   <string name="BlockUnblockDialog_block_and_leave">Bloquer et quitter</string>
-  <string name="BlockUnblockDialog_block_and_delete">Bloquer et supprimer</string>
   <!--BucketedThreadMedia-->
   <string name="BucketedThreadMedia_Today">Aujourd’hui</string>
   <string name="BucketedThreadMedia_Yesterday">Hier</string>
@@ -232,6 +233,8 @@
   <string name="ConversationActivity__more_options_now_in_group_settings">Désormais plus d’options dans paramètre « Paramètres du groupe »</string>
   <string name="ConversationActivity_join">Me joindre</string>
   <string name="ConversationActivity_full">Complet</string>
+  <string name="ConversationActivity_error_sending_media">Erreur d’envoi du média</string>
+  <string name="ConversationActivity__reported_as_spam_and_blocked">Signalé comme spam et bloqué.</string>
   <!--ConversationAdapter-->
   <plurals name="ConversationAdapter_n_unread_messages">
     <item quantity="one">%d message non lu</item>
@@ -272,8 +275,8 @@
   <string name="ConversationFragment_quoted_message_not_found">Le message original est introuvable</string>
   <string name="ConversationFragment_quoted_message_no_longer_available">Le message original n’est plus disponible</string>
   <string name="ConversationFragment_failed_to_open_message">Échec d’ouverture du message</string>
-  <string name="ConversationFragment_you_can_swipe_to_the_right_reply">Vous pouvez faire glisser un message vers la droite pour y répondre rapidement</string>
-  <string name="ConversationFragment_you_can_swipe_to_the_left_reply">Vous pouvez faire glisser un message vers la gauche pour y répondre rapidement</string>
+  <string name="ConversationFragment_you_can_swipe_to_the_right_reply">Vous pouvez balayer un message vers la droite pour y répondre rapidement</string>
+  <string name="ConversationFragment_you_can_swipe_to_the_left_reply">Vous pouvez balayer un message vers la gauche pour y répondre rapidement</string>
   <string name="ConversationFragment_outgoing_view_once_media_files_are_automatically_removed">Les fichiers multimédias éphémères sortants sont supprimés automatiquement après l’envoi</string>
   <string name="ConversationFragment_you_already_viewed_this_message">Vous avez déjà visualisé ce message</string>
   <string name="ConversationFragment__you_can_add_notes_for_yourself_in_this_conversation">Vous pouvez ajouter des notes à votre intention dans cette conversation.\nSi des appareils sont reliés à votre compte, les nouvelles notes seront synchronisées.</string>
@@ -376,7 +379,7 @@
   <string name="DeviceListActivity_network_failed">Échec du réseau.</string>
   <!--DeviceListItem-->
   <string name="DeviceListItem_unnamed_device">Appareil sans nom</string>
-  <string name="DeviceListItem_linked_s">%s a été relié</string>
+  <string name="DeviceListItem_linked_s">A été relié le %s</string>
   <string name="DeviceListItem_last_active_s">Dernière activité %s</string>
   <string name="DeviceListItem_today">Aujourd’hui</string>
   <!--DocumentView-->
@@ -469,7 +472,7 @@
   <!--GroupsV1MigrationInitiationReminder-->
   <string name="GroupsV1MigrationInitiationReminder_to_access_new_features_like_mentions">Pour accéder aux nouvelles fonctions telles que les @mentions et l’administration, convertissez ce groupe.</string>
   <string name="GroupsV1MigrationInitiationReminder_not_now">Pas maintenant</string>
-  <string name="GroupsV1MigrationInitiationReminder_update_group">Mettre le groupe à jour</string>
+  <string name="GroupsV1MigrationInitiationReminder_upgrade_group">Convertir le groupe</string>
   <!--GroupsV1MigrationSuggestionsReminder-->
   <plurals name="GroupsV1MigrationSuggestionsReminder_members_couldnt_be_added_to_the_new_group">
     <item quantity="one">%1$d membre n’a pas pu être rajouté au Nouveau groupe. Voulez-vous l’ajouter maintenant ?</item>
@@ -503,7 +506,7 @@
   </plurals>
   <!--LeaveGroupDialog-->
   <string name="LeaveGroupDialog_leave_group">Quitter le groupe ?</string>
-  <string name="LeaveGroupDialog_you_will_no_longer_be_able_to_send_or_receive_messages_in_this_group">Vous ne pourrez plus recevoir ni envoyer de messages dans ce groupe.</string>
+  <string name="LeaveGroupDialog_you_will_no_longer_be_able_to_send_or_receive_messages_in_this_group">Vous ne pourrez plus ni recevoir ni envoyer de messages dans ce groupe.</string>
   <string name="LeaveGroupDialog_leave">Quitter</string>
   <string name="LeaveGroupDialog_choose_new_admin">Choisir un nouvel administrateur</string>
   <string name="LeaveGroupDialog_before_you_leave_you_must_choose_at_least_one_new_admin_for_this_group">Avant de quitter le groupe, vous devez choisir au moins un nouvel administrateur pour ce groupe.</string>
@@ -543,7 +546,7 @@
   <!--RequestingMembersFragment-->
   <string name="RequestingMembersFragment_pending_member_requests">Demandes de membres en attente</string>
   <string name="RequestingMembersFragment_no_member_requests_to_show">Il n’y a aucune demande de membre à afficher.</string>
-  <string name="RequestingMembersFragment_explanation">Des personnes de cette liste tentent de se joindre à ce groupe grâce au lien de groupe.</string>
+  <string name="RequestingMembersFragment_explanation">Des personnes de cette liste tentent de se joindre à ce groupe grâce au lien du groupe.</string>
   <string name="RequestingMembersFragment_added_s">« %1$s » a été ajouté</string>
   <string name="RequestingMembersFragment_denied_s">« %1$s » a été refusé</string>
   <!--AddMembersActivity-->
@@ -602,12 +605,13 @@
   <string name="ManageGroupActivity_mute_notifications">Notifications en sourdine</string>
   <string name="ManageGroupActivity_custom_notifications">Notifications personnalisées</string>
   <string name="ManageGroupActivity_mentions">Mentions</string>
-  <string name="ManageGroupActivity_chat_wallpaper">Fond d’écran de conversation</string>
+  <string name="ManageGroupActivity_chat_color_and_wallpaper">Couleur et fond d’écran des conversations</string>
   <string name="ManageGroupActivity_until_s">Jusqu’à %1$s</string>
+  <string name="ManageGroupActivity_always">Toujours</string>
   <string name="ManageGroupActivity_off">Désactivé</string>
   <string name="ManageGroupActivity_on">Activé</string>
   <string name="ManageGroupActivity_view_all_members">Visualiser tous les membres</string>
-  <string name="ManageGroupActivity_see_all">Tout voir</string>
+  <string name="ManageGroupActivity_see_all">Tout afficher</string>
   <plurals name="ManageGroupActivity_added">
     <item quantity="one">%d membre a été ajouté.</item>
     <item quantity="other">%d membres ont été ajoutés.</item>
@@ -629,6 +633,8 @@
   <string name="ManageGroupActivity_upgrade_this_group">convertissez ce groupe</string>
   <string name="ManageGroupActivity_this_is_an_insecure_mms_group">Ce groupe est un groupe de messages multimédias non sécurisé. Pour converser en toute confidentialité, invitez vos contacts sur Signal.</string>
   <string name="ManageGroupActivity_invite_now">Inviter maintenant</string>
+  <string name="ManageGroupActivity_more">plus</string>
+  <string name="ManageGroupActivity_add_group_description">Ajouter une description au groupe…</string>
   <!--GroupMentionSettingDialog-->
   <string name="GroupMentionSettingDialog_notify_me_for_mentions">Me signaler les mentions</string>
   <string name="GroupMentionSettingDialog_receive_notifications_when_youre_mentioned_in_muted_chats">Recevoir des notifications si vous êtes mentionné dans des conversations en sourdine ?</string>
@@ -647,18 +653,19 @@
   <string name="ManageRecipientActivity_this_person_is_in_your_contacts">Cette personne est dans vos contacts</string>
   <string name="ManageRecipientActivity_disappearing_messages">Messages éphémères</string>
   <string name="ManageRecipientActivity_chat_color">Couleur de la conversation</string>
-  <string name="ManageRecipientActivity_chat_wallpaper">Fond d’écran de conversation</string>
+  <string name="ManageRecipientActivity_chat_wallpaper">Fond d’écran de la conversation</string>
   <string name="ManageRecipientActivity_block">Bloquer</string>
   <string name="ManageRecipientActivity_unblock">Débloquer</string>
   <string name="ManageRecipientActivity_view_safety_number">Afficher le numéro de sécurité</string>
   <string name="ManageRecipientActivity_mute_notifications">Mettre les notifications en sourdine</string>
   <string name="ManageRecipientActivity_custom_notifications">Notifications personnalisées</string>
   <string name="ManageRecipientActivity_until_s">Jusqu’à %1$s</string>
+  <string name="ManageRecipientActivity_always">Toujours</string>
   <string name="ManageRecipientActivity_off">Désactivées</string>
   <string name="ManageRecipientActivity_on">Activées</string>
   <string name="ManageRecipientActivity_add_to_a_group">Ajouter à un groupe</string>
   <string name="ManageRecipientActivity_view_all_groups">Visualiser tous les groupes</string>
-  <string name="ManageRecipientActivity_see_all">Tout voir</string>
+  <string name="ManageRecipientActivity_see_all">Tout afficher</string>
   <string name="ManageRecipientActivity_no_groups_in_common">Aucun groupe en commun</string>
   <plurals name="ManageRecipientActivity_d_groups_in_common">
     <item quantity="one">%d groupe en commun</item>
@@ -691,7 +698,7 @@
   <string name="ShareableGroupLinkDialogFragment__reset_link">Réinitialiser le lien</string>
   <string name="ShareableGroupLinkDialogFragment__member_requests">Demandes de membres</string>
   <string name="ShareableGroupLinkDialogFragment__approve_new_members">Approuver de nouveaux membres</string>
-  <string name="ShareableGroupLinkDialogFragment__require_an_admin_to_approve_new_members_joining_via_the_group_link">Exiger qu’un administrateur approuve les nouveaux membres qui se joignent grâce au lien de groupe.</string>
+  <string name="ShareableGroupLinkDialogFragment__require_an_admin_to_approve_new_members_joining_via_the_group_link">Exiger qu’un administrateur approuve les nouveaux membres qui se joignent grâce au lien du groupe.</string>
   <string name="ShareableGroupLinkDialogFragment__are_you_sure_you_want_to_reset_the_group_link">Voulez-vous vraiment réinitialiser le lien du groupe ? Personne ne pourra plus se joindre au groupe grâce au lien actuel.</string>
   <!--GroupLinkShareQrDialogFragment-->
   <string name="GroupLinkShareQrDialogFragment__qr_code">Code QR</string>
@@ -712,7 +719,7 @@
   <string name="GroupJoinBottomSheetDialogFragment_this_group_link_is_not_active">Ce lien de groupe est inactif</string>
   <string name="GroupJoinBottomSheetDialogFragment_unable_to_get_group_information_please_try_again_later">Impossible de récupérer les renseignements du groupe, veuillez réessayer plus tard</string>
   <string name="GroupJoinBottomSheetDialogFragment_direct_join">Voulez-vous vous joindre à ce groupe et partager votre nom et votre photo avec ses membres ?</string>
-  <string name="GroupJoinBottomSheetDialogFragment_admin_approval_needed">Un administrateur de ce groupe doit approuver votre demande avant que vous puissiez vous joindre à ce groupe. Quand vous demandez à vous joindre, votre nom et votre photo sont partagés avec ses membres.</string>
+  <string name="GroupJoinBottomSheetDialogFragment_admin_approval_needed">Un administrateur de ce groupe doit approuver votre demande avant que vous puissiez vous joindre à ce groupe. Si vous demandez à vous joindre, vos nom et photo seront partagés avec ses membres.</string>
   <plurals name="GroupJoinBottomSheetDialogFragment_group_dot_d_members">
     <item quantity="one">Groupe · %1$d membre</item>
     <item quantity="other">Groupe · %1$d membres</item>
@@ -730,7 +737,7 @@
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_share_link">Partager le lien</string>
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_unable_to_enable_group_link_please_try_again_later">Impossible d’activer le lien de groupe. Veuillez réessayer plus tard</string>
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_encountered_a_network_error">Une erreur réseau est survenue.</string>
-  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_dont_have_the_right_to_enable_group_link">Vous n’avez pas le droit d’activer le lien de groupe. Veuillez demander à un administrateur.</string>
+  <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_dont_have_the_right_to_enable_group_link">Vous n’avez pas le droit d’activer le lien du groupe. Veuillez demander à un administrateur.</string>
   <string name="GroupInviteLinkEnableAndShareBottomSheetDialogFragment_you_are_not_currently_a_member_of_the_group">Vous n’êtes actuellement pas membre du groupe.</string>
   <!--GV2 Request confirmation dialog-->
   <string name="RequestConfirmationDialog_add_s_to_the_group">Ajouter « %1$s » au groupe ?</string>
@@ -826,6 +833,7 @@
   <string name="Megaphones_new_group">Nouveau groupe</string>
   <string name="Megaphones_invite_friends">Inviter des amis</string>
   <string name="Megaphones_use_sms">Utiliser les textos</string>
+  <string name="Megaphones_appearance">Apparence</string>
   <!--NotificationBarManager-->
   <string name="NotificationBarManager_signal_call_in_progress">Appel Signal en cours</string>
   <string name="NotificationBarManager__establishing_signal_call">Établissement de l’appel Signal</string>
@@ -834,6 +842,11 @@
   <string name="NotificationBarManager__answer_call">Répondre à l’appel</string>
   <string name="NotificationBarManager__end_call">Raccrocher</string>
   <string name="NotificationBarManager__cancel_call">Annuler l’appel</string>
+  <!--NotificationsMegaphone-->
+  <string name="NotificationsMegaphone_turn_on_notifications">Activer les notifications ?</string>
+  <string name="NotificationsMegaphone_never_miss_a_message">Ne manquez jamais un message de vos contacts ni de vos groupes.</string>
+  <string name="NotificationsMegaphone_turn_on">Activer</string>
+  <string name="NotificationsMegaphone_not_now">Pas maintenant</string>
   <!--NotificationMmsMessageRecord-->
   <string name="NotificationMmsMessageRecord_multimedia_message">Message multimédia</string>
   <string name="NotificationMmsMessageRecord_downloading_mms_message">Téléchargement du message multimédia</string>
@@ -958,6 +971,10 @@
   <string name="MessageRecord_you_changed_the_group_name_to_s">Vous avez changé le nom du groupe en « %1$s ».</string>
   <string name="MessageRecord_s_changed_the_group_name_to_s">%1$s a changé le nom du groupe en « %2$s ».</string>
   <string name="MessageRecord_the_group_name_has_changed_to_s">Le nom du groupe a été changé en « %1$s ».</string>
+  <!--GV2 description change-->
+  <string name="MessageRecord_you_changed_the_group_description">Vous avez changé la description du groupe.</string>
+  <string name="MessageRecord_s_changed_the_group_description">%1$s a changé la description du groupe.</string>
+  <string name="MessageRecord_the_group_description_has_changed">La description du groupe a changé.</string>
   <!--GV2 avatar change-->
   <string name="MessageRecord_you_changed_the_group_avatar">Vous avez changé l’avatar du groupe.</string>
   <string name="MessageRecord_s_changed_the_group_avatar">%1$s a changé l’avatar du groupe.</string>
@@ -971,15 +988,15 @@
   <string name="MessageRecord_s_changed_who_can_edit_group_membership_to_s">%1$s a changé qui peut modifier les membres du groupe en « %2$s ».</string>
   <string name="MessageRecord_who_can_edit_group_membership_has_been_changed_to_s">Qui peut modifier les membres du groupe a été changé en « %1$s ».</string>
   <!--GV2 group link invite access level change-->
-  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_off">Vous avez activé le lien de groupe et l’approbation d’un administrateur est désactivée.</string>
-  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_on">Vous avez activé le lien de groupe et l’approbation d’un administrateur est activée.</string>
-  <string name="MessageRecord_you_turned_off_the_group_link">Vous avez désactivé le lien de groupe.</string>
-  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_off">%1$s a activé le lien de groupe et l’approbation d’un administrateur est désactivée.</string>
-  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_on">%1$s a activé le lien de groupe et l’approbation d’un administrateur est activée.</string>
-  <string name="MessageRecord_s_turned_off_the_group_link">%1$s a désactivé le lien de groupe.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_off">Le lien de groupe a été activé et l’approbation d’un administrateur est désactivée.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_on">Le lien de groupe a été activé et l’approbation d’un administrateur est activée.</string>
-  <string name="MessageRecord_the_group_link_has_been_turned_off">Le lien de groupe a été désactivé.</string>
+  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_off">Vous avez activé le lien du groupe et l’approbation d’un administrateur est désactivée.</string>
+  <string name="MessageRecord_you_turned_on_the_group_link_with_admin_approval_on">Vous avez activé le lien du groupe et l’approbation d’un administrateur est activée.</string>
+  <string name="MessageRecord_you_turned_off_the_group_link">Vous avez désactivé le lien du groupe.</string>
+  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_off">%1$s a activé le lien du groupe et l’approbation d’un administrateur est désactivée.</string>
+  <string name="MessageRecord_s_turned_on_the_group_link_with_admin_approval_on">%1$s a activé le lien du groupe et l’approbation d’un administrateur est activée.</string>
+  <string name="MessageRecord_s_turned_off_the_group_link">%1$s a désactivé le lien du groupe.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_off">Le lien du groupe a été activé et l’approbation d’un administrateur est désactivée.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_on_with_admin_approval_on">Le lien du groupe a été activé et l’approbation d’un administrateur est activée.</string>
+  <string name="MessageRecord_the_group_link_has_been_turned_off">Le lien du groupe a été désactivé.</string>
   <string name="MessageRecord_you_turned_off_admin_approval_for_the_group_link">Vous avez désactivé l’approbation d’un administrateur pour le lien du groupe.</string>
   <string name="MessageRecord_s_turned_off_admin_approval_for_the_group_link">%1$s a désactivé l’approbation d’un administrateur pour le lien du groupe.</string>
   <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_off">L’approbation d’un administrateur pour le lien du groupe a été désactivée.</string>
@@ -987,15 +1004,15 @@
   <string name="MessageRecord_s_turned_on_admin_approval_for_the_group_link">%1$s a activé l’approbation d’un administrateur pour le lien du groupe.</string>
   <string name="MessageRecord_the_admin_approval_for_the_group_link_has_been_turned_on">L’approbation d’un administrateur a été activée pour le lien du groupe.</string>
   <!--GV2 group link reset-->
-  <string name="MessageRecord_you_reset_the_group_link">Vous avez réinitialisé le lien de groupe.</string>
-  <string name="MessageRecord_s_reset_the_group_link">%1$s a réinitialisé le lien de groupe.</string>
-  <string name="MessageRecord_the_group_link_has_been_reset">Le lien de groupe a été réinitialisé.</string>
+  <string name="MessageRecord_you_reset_the_group_link">Vous avez réinitialisé le lien du groupe.</string>
+  <string name="MessageRecord_s_reset_the_group_link">%1$s a réinitialisé le lien du groupe.</string>
+  <string name="MessageRecord_the_group_link_has_been_reset">Le lien du groupe a été réinitialisé.</string>
   <!--GV2 group link joins-->
-  <string name="MessageRecord_you_joined_the_group_via_the_group_link">Vous êtes joint au groupe grâce au lien de groupe.</string>
-  <string name="MessageRecord_s_joined_the_group_via_the_group_link">%1$s s’est joint au groupe grâce au lien de groupe.</string>
+  <string name="MessageRecord_you_joined_the_group_via_the_group_link">Vous vous êtes joint au groupe grâce au lien du groupe.</string>
+  <string name="MessageRecord_s_joined_the_group_via_the_group_link">%1$s s’est joint au groupe grâce au lien du groupe.</string>
   <!--GV2 group link requests-->
   <string name="MessageRecord_you_sent_a_request_to_join_the_group">Vous avez demandé à vous joindre au groupe.</string>
-  <string name="MessageRecord_s_requested_to_join_via_the_group_link">%1$s a demandé à se joindre au groupe grâce au lien de groupe.</string>
+  <string name="MessageRecord_s_requested_to_join_via_the_group_link">%1$s a demandé à se joindre au groupe grâce au lien du groupe.</string>
   <!--GV2 group link approvals-->
   <string name="MessageRecord_s_approved_your_request_to_join_the_group">%1$s a approuvé votre demande de vous joindre au groupe.</string>
   <string name="MessageRecord_s_approved_a_request_to_join_the_group_from_s">%1$s a approuvé une demande de %2$s de se joindre au groupe.</string>
@@ -1049,6 +1066,7 @@
   <string name="MessageRequestBottomView_do_you_want_to_join_this_group_they_wont_know_youve_seen_their_messages_until_you_accept">Vous joindre à ce groupe et partager votre nom et votre photo avec ses membres ? Ils ne sauront pas que vous avez vu leurs messages tant que vous n’aurez pas accepté.</string>
   <string name="MessageRequestBottomView_join_this_group_they_wont_know_youve_seen_their_messages_until_you_accept">Vous joindre à ce groupe ? Ses membres ne sauront pas que vous avez lu leurs messages tant que vous n’aurez pas accepté.</string>
   <string name="MessageRequestBottomView_unblock_this_group_and_share_your_name_and_photo_with_its_members">Débloquer ce groupe et partager votre nom et votre photo avec ses membres ? Vous ne recevrez aucun message tant que vous ne l’aurez pas débloqué.</string>
+  <string name="MessageRequestProfileView_view">Afficher</string>
   <string name="MessageRequestProfileView_member_of_one_group">Membre de %1$s</string>
   <string name="MessageRequestProfileView_member_of_two_groups">Membre de %1$s et de %2$s</string>
   <string name="MessageRequestProfileView_member_of_many_groups">Membre de %1$s, de %2$s et de %3$s</string>
@@ -1088,10 +1106,6 @@
   <string name="DeviceProvisioningActivity_it_looks_like_youre_trying_to_link_a_signal_device_using_a_3rd_party_scanner">Il semble que vous tentiez de relier un appareil Signal en utilisant un lecteur tiers. Pour votre protection, veuillez balayer le code de nouveau à partir Signal.</string>
   <string name="DeviceActivity_signal_needs_the_camera_permission_in_order_to_scan_a_qr_code">Signal a besoin de l’autorisation Appareil photo afin de balayer un code QR, mais elle a été refusée définitivement. Veuillez accéder aux paramètres de l’appli, sélectionner Autorisations et activer Appareil photo.</string>
   <string name="DeviceActivity_unable_to_scan_a_qr_code_without_the_camera_permission">Impossible de balayer un code QR sans l’autorisation Appareil photo</string>
-  <!--ExpirationDialog-->
-  <string name="ExpirationDialog_disappearing_messages">Messages éphémères</string>
-  <string name="ExpirationDialog_your_messages_will_not_expire">Vos messages n’expireront pas.</string>
-  <string name="ExpirationDialog_your_messages_will_disappear_s_after_they_have_been_seen">Les messages envoyés et reçus de cette conversation disparaîtront %s après avoir été lus.</string>
   <!--OutdatedBuildReminder-->
   <string name="OutdatedBuildReminder_update_now">Mettre Signal à jour maintenant</string>
   <string name="OutdatedBuildReminder_your_version_of_signal_will_expire_today">Cette version de Signal expirera aujourd’hui. Passez à la version la plus récente.</string>
@@ -1105,6 +1119,7 @@
   <string name="PassphrasePromptActivity_ok_button_content_description">Envoyer la phrase de passe</string>
   <string name="PassphrasePromptActivity_invalid_passphrase_exclamation">La phrase de passe est erronée.</string>
   <string name="PassphrasePromptActivity_unlock_signal">Déverrouiller Signal</string>
+  <string name="PassphrasePromptActivity_signal_android_lock_screen">Signal pour Android – Écran de verrouillage</string>
   <!--PlacePickerActivity-->
   <string name="PlacePickerActivity_title">Carte</string>
   <string name="PlacePickerActivity_drop_pin">Marquer</string>
@@ -1142,13 +1157,14 @@
   <string name="RatingManager_rate_now">Notez Signal maintenant.</string>
   <string name="RatingManager_no_thanks">Non merci</string>
   <string name="RatingManager_later">Plus tard</string>
-  <string name="RatingManager_whoops_the_play_store_app_does_not_appear_to_be_installed">Oups, il semble que la logithèque Play Store n’est pas installée sur votre appareil.</string>
   <!--ReactionsBottomSheetDialogFragment-->
   <string name="ReactionsBottomSheetDialogFragment_all">Tous · %1$d</string>
   <!--ReactionsConversationView-->
   <string name="ReactionsConversationView_plus">+%1$d</string>
   <!--ReactionsRecipientAdapter-->
   <string name="ReactionsRecipientAdapter_you">Vous</string>
+  <!--RecaptchaRequiredBottomSheetFragment-->
+  <string name="RecaptchaRequiredBottomSheetFragment_to_help_prevent_spam_on_signal">Pour aider à prévenir le spam sur Signal, veuillez procéder à la confirmation.</string>
   <!--RecipientPreferencesActivity-->
   <string name="RecipientPreferenceActivity_block">Bloquer</string>
   <string name="RecipientPreferenceActivity_unblock">Débloquer</string>
@@ -1201,6 +1217,14 @@
   <string name="CallParticipantView__cant_receive_audio_video_from_s">Impossible de recevoir ni le son ni la vidéo de %1$s</string>
   <string name="CallParticipantView__cant_receive_audio_and_video_from_s">Impossible de recevoir ni le son ni la vidéo de %1$s</string>
   <string name="CallParticipantView__this_may_be_Because_they_have_not_verified_your_safety_number_change">Cette personne n’a peut-être pas confirmé le changement de votre numéro de sécurité, il y a peut-être un problème avec son appareil ou elle vous a bloqué.</string>
+  <!--CallToastPopupWindow-->
+  <!--ProxyBottomSheetFragment-->
+  <string name="ProxyBottomSheetFragment_proxy_server">Serveur mandataire</string>
+  <string name="ProxyBottomSheetFragment_proxy_address">Adresse du mandataire</string>
+  <string name="ProxyBottomSheetFragment_do_you_want_to_use_this_proxy_address">Voulez-vous utiliser cette adresse de mandataire ?</string>
+  <string name="ProxyBottomSheetFragment_use_proxy">Utiliser un mandataire</string>
+  <string name="ProxyBottomSheetFragment_successfully_connected_to_proxy">Connectée avec succès au mandataire.</string>
+  <!--RecaptchaProofActivity-->
   <!--RegistrationActivity-->
   <string name="RegistrationActivity_select_your_country">Sélectionner votre pays</string>
   <string name="RegistrationActivity_you_must_specify_your_country_code">Vous devez indiquer votre indicatif de pays</string>
@@ -1230,6 +1254,7 @@
   <string name="RegistrationActivity_continue">Poursuivre</string>
   <string name="RegistrationActivity_take_privacy_with_you_be_yourself_in_every_message">La confidentialité dans votre poche.\nPour que chaque message reflète qui vous êtes.</string>
   <string name="RegistrationActivity_enter_your_phone_number_to_get_started">Saisissez votre numéro de téléphone pour commencer</string>
+  <string name="RegistrationActivity_enter_your_phone_number">Saisissez votre numéro de téléphone</string>
   <string name="RegistrationActivity_you_will_receive_a_verification_code">Vous recevrez un code de confirmation. Les frais de l’opérateur peuvent s’appliquer.</string>
   <string name="RegistrationActivity_enter_the_code_we_sent_to_s">Saisissez le code que nous avons envoyé au %s</string>
   <string name="RegistrationActivity_make_sure_your_phone_has_a_cellular_signal">Afin de recevoir un texto ou un appel, assurez-vous que votre téléphone est connecté au réseau cellulaire</string>
@@ -1444,16 +1469,17 @@
   <string name="MessageNotifier_this_message_was_deleted">Ce message a été supprimé.</string>
   <string name="TurnOffContactJoinedNotificationsActivity__turn_off_contact_joined_signal">Désactiver les notifications pour les contacts qui se sont joints à Signal ? Vous pouvez les réactiver dans Signal &gt; Paramètres &gt; Notifications</string>
   <!--Notification Channels-->
-  <string name="NotificationChannel_messages">Valeur par défaut</string>
+  <string name="NotificationChannel_channel_messages">Messages</string>
   <string name="NotificationChannel_calls">Appels</string>
   <string name="NotificationChannel_failures">Échecs</string>
   <string name="NotificationChannel_backups">Sauvegardes</string>
   <string name="NotificationChannel_locked_status">État de verrouillage</string>
   <string name="NotificationChannel_app_updates">Mises à jour de l’appli</string>
   <string name="NotificationChannel_other">Autre</string>
-  <string name="NotificationChannel_group_messages">Messages</string>
+  <string name="NotificationChannel_group_chats">Conversations</string>
   <string name="NotificationChannel_missing_display_name">Inconnu</string>
   <string name="NotificationChannel_voice_notes">Notes vocales</string>
+  <string name="NotificationChannel_contact_joined_signal">Un contact s’est joint à Signal</string>
   <!--ProfileEditNameFragment-->
   <!--QuickResponseService-->
   <string name="QuickResponseService_quick_response_unavailable_when_Signal_is_locked">La réponse rapide n’est pas proposée quand Signal est verrouillée.</string>
@@ -1469,6 +1495,7 @@
   <!--SingleRecipientNotificationBuilder-->
   <string name="SingleRecipientNotificationBuilder_signal">Signal</string>
   <string name="SingleRecipientNotificationBuilder_new_message">Nouveau message</string>
+  <string name="SingleRecipientNotificationBuilder_you">Vous</string>
   <!--ThumbnailView-->
   <string name="ThumbnailView_Play_video_description">Lire la vidéo</string>
   <string name="ThumbnailView_Has_a_caption_description">A une légende.</string>
@@ -1488,7 +1515,7 @@
   <string name="WebRtcCallActivity__busy_on_a_linked_device">Occupé sur un appareil relié.</string>
   <string name="GroupCallSafetyNumberChangeNotification__someone_has_joined_this_call_with_a_safety_number_that_has_changed">Quelqu’un s’est joint à cet appel avec un numéro de sécurité qui a changé.</string>
   <!--WebRtcCallScreen-->
-  <string name="WebRtcCallScreen_swipe_up_to_change_views">Faire glisser vers le haut pour changer de vue</string>
+  <string name="WebRtcCallScreen_swipe_up_to_change_views">Balayer vers le haut pour changer de vue</string>
   <!--WebRtcCallScreen V2-->
   <string name="WebRtcCallScreen__decline">Refuser</string>
   <string name="WebRtcCallScreen__answer">Répondre</string>
@@ -1574,6 +1601,9 @@
   <string name="ConversationUpdateItem_return_to_call">Revenir à l’appel</string>
   <string name="ConversationUpdateItem_call_is_full">L’appel est complet</string>
   <string name="ConversationUpdateItem_invite_friends">Inviter des amis</string>
+  <string name="ConversationUpdateItem_enable_call_notifications">Activer les notifications d’appels</string>
+  <string name="ConversationUpdateItem_no_groups_in_common_review_requests_carefully">Aucun groupe en commun. Examinez les demandes avec attention.</string>
+  <string name="ConversationUpdateItem_view">Afficher</string>
   <!--audio_view-->
   <string name="audio_view__play_pause_accessibility_description">Lecture … Mettre en pause</string>
   <string name="audio_view__download_accessibility_description">Télécharger</string>
@@ -1597,6 +1627,11 @@
   <string name="safety_number_change_dialog__the_following_people_may_have_reinstalled_or_changed_devices">Les personnes suivantes ont peut-être réinstallé Signal ou changé d’appareil. Pour assurer la confidentialité, confirmez votre numéro de sécurité avec elles.</string>
   <string name="safety_number_change_dialog__view">Afficher</string>
   <string name="safety_number_change_dialog__previous_verified">Confirmé précédemment</string>
+  <!--EnableCallNotificationSettingsDialog__call_notifications_checklist-->
+  <string name="EnableCallNotificationSettingsDialog__call_notifications_enabled">Notifications d’appels activées.</string>
+  <string name="EnableCallNotificationSettingsDialog__enable_call_notifications">Activer les notifications d’appels</string>
+  <string name="EnableCallNotificationSettingsDialog__everything_looks_good_now">Tout semble en ordre maintenant !</string>
+  <string name="EnableCallNotificationSettingsDialog__settings">Paramètres</string>
   <!--country_selection_fragment-->
   <string name="country_selection_fragment__loading_countries">Chargement des pays…</string>
   <string name="country_selection_fragment__search">Chercher</string>
@@ -1651,7 +1686,7 @@
     <item quantity="other">%d autres</item>
   </plurals>
   <!--giphy_activity-->
-  <string name="giphy_activity_toolbar__search_gifs_and_stickers">Chercher des GIF et des autocollants</string>
+  <string name="giphy_activity_toolbar__search_gifs">Chercher des GIF</string>
   <!--giphy_fragment-->
   <string name="giphy_fragment__nothing_found">Aucun résultat</string>
   <!--log_submit_activity-->
@@ -1692,7 +1727,7 @@
   <!--EditAboutFragment-->
   <string name="EditAboutFragment_about">À propos</string>
   <string name="EditAboutFragment_write_a_few_words_about_yourself">Écrivez quelques mots à votre sujet…</string>
-  <string name="EditAboutFragment_count">%d/%d</string>
+  <string name="EditAboutFragment_count">%1$d/%2$d</string>
   <string name="EditAboutFragment_speak_freely">Exprimez-vous librement</string>
   <string name="EditAboutFragment_encrypted">Chiffré</string>
   <string name="EditAboutFragment_be_kind">Sois gentil</string>
@@ -1701,8 +1736,9 @@
   <string name="EditAboutFragment_taking_a_break">Je prend une pause</string>
   <string name="EditAboutFragment_working_on_something_new">Je travaille sur quelque chose de nouveau </string>
   <!--EditProfileFragment-->
-  <string name="EditProfileFragment__edit_group_name_and_photo">Modifier le nom et la photo du groupe</string>
+  <string name="EditProfileFragment__edit_group">Modifier le groupe</string>
   <string name="EditProfileFragment__group_name">Nom du groupe</string>
+  <string name="EditProfileFragment__group_description">Description du groupe</string>
   <!--EditProfileNameFragment-->
   <string name="EditProfileNameFragment_your_name">Votre nom</string>
   <string name="EditProfileNameFragment_first_name">Prénom</string>
@@ -1721,8 +1757,8 @@
   <!--verify_identity-->
   <string name="verify_identity__share_safety_number">Partager le numéro de sécurité</string>
   <!--webrtc_answer_decline_button-->
-  <string name="webrtc_answer_decline_button__swipe_up_to_answer">Faire glisser vers le haut pour répondre</string>
-  <string name="webrtc_answer_decline_button__swipe_down_to_reject">Faire glisser vers le bas pour refuser</string>
+  <string name="webrtc_answer_decline_button__swipe_up_to_answer">Balayer vers le haut pour répondre</string>
+  <string name="webrtc_answer_decline_button__swipe_down_to_reject">Balayer vers le bas pour refuser</string>
   <!--message_details_header-->
   <string name="message_details_header__issues_need_your_attention">Des problèmes demandent votre attention</string>
   <string name="message_details_header__sent">Envoyé</string>
@@ -1763,11 +1799,21 @@
   <string name="HelpFragment__include_debug_log">Inclure le journal de débogage.</string>
   <string name="HelpFragment__whats_this">Qu’est-ce donc ?</string>
   <string name="HelpFragment__how_do_you_feel">Comment vous sentez-vous ? (facultatif)</string>
+  <string name="HelpFragment__tell_us_why_youre_reaching_out">Dites-nous pourquoi vous nous contactez.</string>
   <string name="HelpFragment__support_info">Renseignements d’assistance</string>
   <string name="HelpFragment__signal_android_support_request">Demande d’assistance – Signal pour Android</string>
   <string name="HelpFragment__debug_log">Journal de débogage :</string>
   <string name="HelpFragment__could_not_upload_logs">Impossible de téléverser les journaux</string>
   <string name="HelpFragment__please_be_as_descriptive_as_possible">Veuillez nous donner autant de détails que possible, afin de nous aider à comprendre la situation.</string>
+  <string-array name="HelpFragment__categories">
+    <item>-- Veuillez sélectionner une option --</item>
+    <item>Quelque chose ne fonctionne pas</item>
+    <item>Proposition de fonction</item>
+    <item>Question</item>
+    <item>Rétroaction</item>
+    <item>Autre</item>
+    <item>Paiments</item>
+  </string-array>
   <!--ReactWithAnyEmojiBottomSheetDialogFragment-->
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__this_message">Ce message</string>
   <string name="ReactWithAnyEmojiBottomSheetDialogFragment__recently_used">Utilisés récemment</string>
@@ -1784,10 +1830,10 @@
   <string name="arrays__use_default">Valeur par défaut</string>
   <string name="arrays__use_custom">Personnalisé</string>
   <string name="arrays__mute_for_one_hour">Sourdine pendant 1 heure</string>
-  <string name="arrays__mute_for_two_hours">Sourdine pendant 2 heures</string>
+  <string name="arrays__mute_for_eight_hours">Sourdine pendant 8 heures</string>
   <string name="arrays__mute_for_one_day">Sourdine pendant 1 jour</string>
   <string name="arrays__mute_for_seven_days">Sourdine pendant 7 jours</string>
-  <string name="arrays__mute_for_one_year">Sourdine pendant 1 an</string>
+  <string name="arrays__always">Toujours</string>
   <string name="arrays__settings_default">Paramètre par défaut</string>
   <string name="arrays__enabled">Activé</string>
   <string name="arrays__disabled">Désactivé</string>
@@ -1811,6 +1857,7 @@
     <item quantity="other">%d h</item>
   </plurals>
   <!--preferences.xml-->
+  <string name="preferences_beta">Bêta</string>
   <string name="preferences__sms_mms">Textos et messages multimédias</string>
   <string name="preferences__pref_all_sms_title">Recevoir tous les textos</string>
   <string name="preferences__pref_all_mms_title">Recevoir tous les messages multimédias</string>
@@ -1826,11 +1873,11 @@
   <string name="preferences__choose_your_contact_entry_from_the_contacts_list">Choisissez votre entrée de contact dans la liste de contacts.</string>
   <string name="preferences__change_passphrase">Changer la phrase de passe</string>
   <string name="preferences__change_your_passphrase">Changer votre phrase de passe</string>
-  <string name="preferences__enable_passphrase">Activer le verrouillage d’écran par phrase de passe</string>
+  <string name="preferences__enable_passphrase">Activer le verrou d’écran avec phrase de passe</string>
   <string name="preferences__lock_signal_and_message_notifications_with_a_passphrase">Verrouiller l’écran et les notifications avec une phrase de passe</string>
   <string name="preferences__screen_security">Sécurité de l’écran</string>
   <string name="preferences__disable_screen_security_to_allow_screen_shots">Bloquer les captures d’écran dans la liste des récents et dans l’appli</string>
-  <string name="preferences__auto_lock_signal_after_a_specified_time_interval_of_inactivity">Verrouiller Signal automatiquement après un délai précis d’inactivité</string>
+  <string name="preferences__auto_lock_signal_after_a_specified_time_interval_of_inactivity">Verrouiller Signal automatiquement après un délai d’inactivité déterminé</string>
   <string name="preferences__inactivity_timeout_passphrase">Phrase de passe du délai d’inactivité</string>
   <string name="preferences__inactivity_timeout_interval">Délai d’inactivité</string>
   <string name="preferences__notifications">Notifications</string>
@@ -1839,6 +1886,7 @@
   <string name="preferences__pref_led_blink_title">Rythme de clignotement de la DEL</string>
   <string name="preferences__sound">Son</string>
   <string name="preferences__silent">Silencieux</string>
+  <string name="preferences__default">Valeur par défaut</string>
   <string name="preferences__repeat_alerts">Répéter les alertes</string>
   <string name="preferences__never">Jamais</string>
   <string name="preferences__one_time">Une fois</string>
@@ -1873,6 +1921,8 @@
   <string name="preferences__request_a_delivery_report_for_each_sms_message_you_send">Demander un relevé de remise pour chaque texto envoyé</string>
   <string name="preferences__data_and_storage">Données et mémoire</string>
   <string name="preferences__storage">Mémoire</string>
+  <string name="preferences__payments">Paiements</string>
+  <string name="preferences__payments_beta">Paiements (bêta)</string>
   <string name="preferences__conversation_length_limit">Taille maximale des conversations</string>
   <string name="preferences__keep_messages">Conserver les messages</string>
   <string name="preferences__clear_message_history">Effacer l’historique des messages</string>
@@ -1881,7 +1931,8 @@
   <string name="preferences__dark_theme">Sombre</string>
   <string name="preferences__appearance">Apparence</string>
   <string name="preferences__theme">Thème</string>
-  <string name="preferences__chat_wallpaper">Fond d’écran de conversation</string>
+  <string name="preferences__chat_wallpaper">Fond d’écran de la conversation</string>
+  <string name="preferences__chat_color_and_wallpaper">Couleur et fond d’écran des conversations</string>
   <string name="preferences__disable_pin">Désactiver le NIP</string>
   <string name="preferences__enable_pin">Activer le NIP</string>
   <string name="preferences__if_you_disable_the_pin_you_will_lose_all_data">Si vous désactivez le NIP, vous perdrez toutes vos données lors de votre réinscription sur Signal, à moins que vous ne les sauvegardiez et les restauriez manuellement. Vous ne pouvez pas activer le blocage de l’inscription si le NIP est désactivé.</string>
@@ -1900,7 +1951,8 @@
   <string name="preferences__if_read_receipts_are_disabled_you_wont_be_able_to_see_read_receipts">Si les accusés de lecture sont désactivés, vous ne pourrez pas voir les accusés de lecture d’autrui.</string>
   <string name="preferences__typing_indicators">Indicateurs de saisie</string>
   <string name="preferences__if_typing_indicators_are_disabled_you_wont_be_able_to_see_typing_indicators">Si les indicateurs de saisie sont désactivés, vous ne serez pas en mesure de voir les indicateurs de saisie d’autrui.</string>
-  <string name="preferences__request_keyboard_to_disable_personalized_learning">Demander au clavier de désactiver l’apprentissage personnalisé. Ce paramètre n’est pas une garantie et votre clavier pourrait l’ignorer.</string>
+  <string name="preferences__request_keyboard_to_disable">Demander au clavier de désactiver l’apprentissage personnalisé.</string>
+  <string name="preferences__this_setting_is_not_a_guarantee">Ce paramètre n’est pas une garantie et votre clavier peut l’ignorer.</string>
   <string name="preferences_app_protection__blocked_users">Utilisateurs bloqués</string>
   <string name="preferences_chats__when_using_mobile_data">En utilisant les données mobiles</string>
   <string name="preferences_chats__when_using_wifi">En utilisant le WI-FI</string>
@@ -1961,8 +2013,116 @@
   <string name="preferences_communication__sealed_sender_allow_from_anyone_description">Activer l’option « expéditeur scellé » pour les messages entrants provenant d’expéditeurs qui ne sont pas dans vos contacts et de personnes avec qui vous n’avez pas partagé votre profil.</string>
   <string name="preferences_communication__sealed_sender_learn_more">En apprendre davantage</string>
   <string name="preferences_setup_a_username">Définir un nom d’utilisateur</string>
+  <string name="preferences_proxy">Mandataire</string>
+  <string name="preferences_use_proxy">Utiliser un mandataire</string>
+  <string name="preferences_off">Désactivé</string>
+  <string name="preferences_on">Activé</string>
+  <string name="preferences_proxy_address">Adresse du mandataire</string>
+  <string name="preferences_only_use_a_proxy_if">N’utilisez un mandataire que si vous n’arrivez pas à vous connecter à Signal par les données mobiles ou par Wi-Fi.</string>
+  <string name="preferences_share">Partager</string>
+  <string name="preferences_save">Enregistrer</string>
+  <string name="preferences_connecting_to_proxy">Connexion au mandataire…</string>
+  <string name="preferences_connected_to_proxy">Connectée au mandataire</string>
+  <string name="preferences_connection_failed">Échec de connexion</string>
+  <string name="preferences_couldnt_connect_to_the_proxy">Impossible de se connecter au mandataire. Veuillez vérifier l’adresse du mandataire et réessayer.</string>
+  <string name="preferences_you_are_connected_to_the_proxy">Signal est connectée au mandataire. Vous pouvez désactiver le mandataire n’importe quand dans les paramètres.</string>
+  <string name="preferences_success">Réussite</string>
+  <string name="preferences_failed_to_connect">Échec de connexion</string>
+  <string name="preferences_enter_proxy_address">Saisissez l’adresse du mandataire</string>
   <string name="configurable_single_select__customize_option">Personnaliser l’option</string>
   <!--Internal only preferences-->
+  <!--Payments-->
+  <string name="PaymentsActivityFragment__all_activity">Toutes les activités</string>
+  <string name="PaymentsAllActivityFragment__all">Tous</string>
+  <string name="PaymentsAllActivityFragment__sent">Envoyé</string>
+  <string name="PaymentsAllActivityFragment__received">Reçu</string>
+  <string name="PaymentsHomeFragment__introducing_payments">Nous présentons les paiements (bêta)</string>
+  <string name="PaymentsHomeFragment__use_signal_to_send_and_receive">Utilisez Signal pour envoyer et recevoir des MobileCoin, une nouvelle monnaie numérique centrée sur la protection des renseignements personnels. Activez pour commencer.</string>
+  <string name="PaymentsHomeFragment__activate_payments">Activer Paiements</string>
+  <string name="PaymentsHomeFragment__activating_payments">Activation des paiements…</string>
+  <string name="PaymentsHomeFragment__restore_payments_account">Restaurer un compte de paiements</string>
+  <string name="PaymentsHomeFragment__no_recent_activity_yet">Aucune activité récente pour le moment</string>
+  <string name="PaymentsHomeFragment__pending_requests">Demandes en attente</string>
+  <string name="PaymentsHomeFragment__recent_activity">Activité récente</string>
+  <string name="PaymentsHomeFragment__see_all">Tout afficher</string>
+  <string name="PaymentsHomeFragment__add_funds">Ajouter des fonds</string>
+  <string name="PaymentsHomeFragment__send">Envoyer</string>
+  <string name="PaymentsHomeFragment__sent_s">Envoyé %1$s</string>
+  <string name="PaymentsHomeFragment__received_s">Reçu %1$s</string>
+  <string name="PaymentsHomeFragment__currency_conversion">Conversion des devises</string>
+  <string name="PaymentsHomeFragment__deactivate_payments">Désactiver les paiements</string>
+  <string name="PaymentsHomeFragment__recovery_phrase">Phrase de récupération</string>
+  <string name="PaymentsHomeFragment__help">Aide </string>
+  <string name="PaymentsHomeFragment__processing_payment">Traitement du paiement</string>
+  <string name="PaymentsHomeFragment__unknown_amount">---</string>
+  <string name="PaymentsHomeFragment__currency_conversion_not_available">Conversion des devises non disponible</string>
+  <string name="PaymentsHomeFragment__cant_display_currency_conversion">Impossible d’afficher la conversion des devises. Vérifiez la connexion de votre téléphone et réessayez.</string>
+  <string name="PaymentsHomeFragment__could_not_enable_payments">Échec de l’activation des paiements. Veuillez réessayer plus tard.</string>
+  <string name="PaymentsHomeFragment__deactivate">Désactiver</string>
+  <string name="PaymentsHomeFragment__continue">Poursuivre</string>
+  <string name="PaymentsHomeFragment__payments_deactivated">Paiements désactivés.</string>
+  <string name="PaymentsHomeFragment__payment_failed">Échec du paiement</string>
+  <string name="PaymentsHomeFragment__details">Détails</string>
+  <string name="PaymentsHomeFragment__activate">Activer</string>
+  <!--PaymentsAddMoneyFragment-->
+  <string name="PaymentsAddMoneyFragment__add_funds">Ajouter des fonds</string>
+  <string name="PaymentsAddMoneyFragment__your_wallet_address">L’adresse de votre portefeuille</string>
+  <string name="PaymentsAddMoneyFragment__copy">Copier</string>
+  <string name="PaymentsAddMoneyFragment__copied_to_clipboard">A été copié dans le presse-papiers</string>
+  <!--PaymentsDetailsFragment-->
+  <string name="PaymentsDetailsFragment__details">Détails</string>
+  <string name="PaymentsDetailsFragment__status">État</string>
+  <string name="PaymentsDetailsFragment__submitting_payment">Soumission du paiement…</string>
+  <string name="PaymentsDetailsFragment__processing_payment">Traitement du paiement…</string>
+  <string name="PaymentsDetailsFragment__payment_complete">Paiement effectué</string>
+  <string name="PaymentsDetailsFragment__payment_failed">Échec du paiement</string>
+  <string name="PaymentsDetailsFragment__network_fee">Frais de réseau</string>
+  <string name="PaymentsDetailsFragment__sent_by">Envoyé par</string>
+  <string name="PaymentsDetailsFragment__sent_to_s">Envoyé à %1$s</string>
+  <string name="PaymentsDetailsFragment__to">À</string>
+  <string name="PaymentsDetailsFragment__from">De</string>
+  <string name="PaymentsDetailsFragment__block_number">Bloquer le numéro</string>
+  <!--PaymentsTransferFragment-->
+  <string name="PaymentsTransferFragment__scan_qr_code">Balayer le code QR</string>
+  <string name="PaymentsTransferFragment__next">Suivant</string>
+  <string name="PaymentsTransferFragment__invalid_address">Adresse invalide</string>
+  <string name="PaymentsTransferFragment__settings">Paramètres</string>
+  <!--PaymentsTransferQrScanFragment-->
+  <!--CreatePaymentFragment-->
+  <string name="CreatePaymentFragment__request">Demande</string>
+  <string name="CreatePaymentFragment__pay">Payer</string>
+  <string name="CreatePaymentFragment__1">1</string>
+  <string name="CreatePaymentFragment__2">2</string>
+  <string name="CreatePaymentFragment__3">3</string>
+  <string name="CreatePaymentFragment__4">4</string>
+  <string name="CreatePaymentFragment__5">5</string>
+  <string name="CreatePaymentFragment__6">6</string>
+  <string name="CreatePaymentFragment__7">7</string>
+  <string name="CreatePaymentFragment__8">8</string>
+  <string name="CreatePaymentFragment__9">9</string>
+  <string name="CreatePaymentFragment__decimal">.</string>
+  <string name="CreatePaymentFragment__0">0</string>
+  <string name="CreatePaymentFragment__lt">&lt;</string>
+  <string name="CreatePaymentFragment__add_note">Ajouter une note</string>
+  <string name="CreatePaymentFragment__conversions_are_just_estimates">Les conversions ne sont que des estimations et peuvent être imprécises.</string>
+  <!--EditNoteFragment-->
+  <string name="EditNoteFragment_note">Note</string>
+  <!--ConfirmPaymentFragment-->
+  <string name="ConfirmPayment__confirm_payment">Confirmer le paiement</string>
+  <string name="ConfirmPayment__network_fee">Frais de réseau</string>
+  <string name="ConfirmPayment__estimated_s">%1$s estimés</string>
+  <string name="ConfirmPayment__to">À</string>
+  <string name="ConfirmPayment__total_amount">Montant total</string>
+  <string name="ConfirmPayment__submitting_payment">Soumission du paiement…</string>
+  <string name="ConfirmPayment__processing_payment">Traitement du paiement…</string>
+  <string name="ConfirmPayment__payment_complete">Paiement effectué</string>
+  <string name="ConfirmPayment__payment_failed">Échec du paiement</string>
+  <string name="ConfirmPaymentFragment__invalid_recipient">Destinataire invalide</string>
+  <string name="ConfirmPaymentFragment__this_person_has_not_activated_payments">Cette personne n’a pas activé les paiements</string>
+  <!--CurrencyAmountFormatter_s_at_s-->
+  <!--SetCurrencyFragment-->
+  <string name="SetCurrencyFragment__set_currency">Définir la devise</string>
+  <string name="SetCurrencyFragment__all_currencies">Toutes les devise</string>
   <!--****************************************-->
   <!--menus-->
   <!--****************************************-->
@@ -2143,6 +2303,8 @@
   <string name="RegistrationLockFragment__incorrect_pin">Le NIP est erroné</string>
   <string name="RegistrationLockFragment__forgot_your_pin">Avez-vous oublié votre NIP ?</string>
   <string name="RegistrationLockFragment__not_many_tries_left">Il vous reste peu d’essais</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v1_pin">Inscription à Signal – Besoin d’aide avec le NIP sur Android (NIP v1)</string>
+  <string name="RegistrationLockFragment__signal_registration_need_help_with_pin_for_android_v2_pin">Inscription à Signal – Besoin d’aide avec le NIP sur Android (NIP v2)</string>
   <plurals name="RegistrationLockFragment__for_your_privacy_and_security_there_is_no_way_to_recover">
     <item quantity="one">Pour des raisons de sécurité et de protection de vos données personnelles, votre NIP ne peut pas être récupéré. Si vous avez oublié votre NIP, vous pourrez reconfirmer votre numéro par texto après %1$d jour d’inactivité. Dans ce cas, votre compte sera effacé et toutes ses données supprimées.</item>
     <item quantity="other">Pour des raisons de sécurité et de protection de vos données personnelles, votre NIP ne peut pas être récupéré. Si vous avez oublié votre NIP, vous pourrez reconfirmer votre numéro par texto après %1$d jours d’inactivité. Dans ce cas, votre compte sera effacé et toutes ses données supprimées.</item>
@@ -2197,9 +2359,11 @@
   <string name="backup_enable_dialog__folder">Dossier</string>
   <string name="backup_enable_dialog__i_have_written_down_this_passphrase">J’ai noté cette phrase de passe. Sans elle, je ne pourrai pas restaurer une sauvegarde.</string>
   <string name="registration_activity__restore_backup">Restaurer une sauvegarde</string>
+  <string name="registration_activity__transfer_or_restore_account">Transférer ou restaurer le compte</string>
   <string name="registration_activity__skip">Ignorer</string>
   <string name="preferences_chats__chat_backups">Sauvegardes des conversations</string>
   <string name="preferences_chats__backup_chats_to_external_storage">Sauvegarder les conversations dans la mémoire externe</string>
+  <string name="preferences_chats__transfer_account_to_a_new_android_device">Transférer le compte vers un nouvel appareil Android</string>
   <string name="RegistrationActivity_enter_backup_passphrase">Saisissez la phrase de passe de la sauvegarde</string>
   <string name="RegistrationActivity_restore">Restaurer</string>
   <string name="RegistrationActivity_backup_failure_downgrade">Impossible d’importer des sauvegardes de versions de Signal plus récentes.</string>
@@ -2244,8 +2408,8 @@
   <string name="PhoneNumberPrivacy_nobody">Personne</string>
   <string name="PhoneNumberPrivacy_everyone_see_description">Votre numéro de téléphone sera visible par toutes les personnes et tous les groupes avec lesquels vous échangez des messages.</string>
   <string name="PhoneNumberPrivacy_everyone_find_description">Quiconque a votre numéro de téléphone dans ses contacts vous verra comme contact sur Signal. Les autres pourront vous trouver dans Recherche.</string>
-  <string name="preferences_app_protection__screen_lock">Verrouillage de l’écran</string>
-  <string name="preferences_app_protection__lock_signal_access_with_android_screen_lock_or_fingerprint">Verrouiller l’accès à Signal avec le verrouillage de l’écran d’Android ou une empreinte</string>
+  <string name="preferences_app_protection__screen_lock">Verrou d’écran</string>
+  <string name="preferences_app_protection__lock_signal_access_with_android_screen_lock_or_fingerprint">Verrouiller l’accès à Signal avec le verrou d’écran d’Android ou avec une empreinte</string>
   <string name="preferences_app_protection__screen_lock_inactivity_timeout">Délai d’inactivité avant verrouillage de l’écran</string>
   <string name="preferences_app_protection__signal_pin">NIP Signal</string>
   <string name="preferences_app_protection__create_a_pin">Créer un NIP</string>
@@ -2273,6 +2437,73 @@
   <string name="prompt_passphrase_activity__signal_is_locked">Signal est verrouillée</string>
   <string name="prompt_passphrase_activity__tap_to_unlock">TOUCHEZ POUR DÉVERROUILLER</string>
   <string name="Recipient_unknown">Inconnu</string>
+  <!--TransferOrRestoreFragment-->
+  <string name="TransferOrRestoreFragment__transfer_or_restore_account">Transférer ou restaurer le compte</string>
+  <string name="TransferOrRestoreFragment__transfer_from_android_device">Transférer d’un appareil Android</string>
+  <!--NewDeviceTransferInstructionsFragment-->
+  <string name="NewDeviceTransferInstructions__continue">Poursuivre</string>
+  <string name="NewDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="NewDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="NewDeviceTransferInstructions__third_bullet">3.</string>
+  <!--NewDeviceTransferSetupFragment-->
+  <!--OldDeviceTransferSetupFragment-->
+  <string name="OldDeviceTransferSetup__create_a_backup">Créer une sauvegarde</string>
+  <string name="OldDeviceTransferSetup__an_unexpected_error_occurred_while_attempting_to_connect_to_your_old_device">Une erreur inattendue s’est produite lors de la tentative de connexion à votre nouvel appareil Android.</string>
+  <!--DeviceTransferSetupFragment-->
+  <string name="DeviceTransferSetup__unable_to_open_wifi_settings">Impossible d’ouvrir les paramètres du Wi-Fi. Veuillez activer le Wi-Fi manuellement.</string>
+  <string name="DeviceTransferSetup__grant_location_permission">Accorder l’autorisation pour la localisation</string>
+  <string name="DeviceTransferSetup__turn_on_location_services">Activer les services de localisation</string>
+  <string name="DeviceTransferSetup__unable_to_open_location_settings">Impossible d’ouvrir les paramètres de localisation.</string>
+  <string name="DeviceTransferSetup__turn_on_wifi">Activer le Wi-Fi</string>
+  <string name="DeviceTransferSetup__retry">Réessayer</string>
+  <string name="DeviceTransferSetup__verify_code">Code de confirmation</string>
+  <string name="DeviceTransferSetup__continue">Poursuivre</string>
+  <string name="DeviceTransferSetup__stop_transfer">Arrêter le transfert</string>
+  <string name="DeviceTransferSetup__location_permission">Autorisation de localisation</string>
+  <string name="DeviceTransferSetup__location_services">Services de localisation</string>
+  <string name="DeviceTransferSetup__wifi">Wi-Fi</string>
+  <string name="DeviceTransferSetup__try_turning_wifi_off_and_on_on_both_devices">Essayez d’activer et de désactiver le Wi-Fi sur les deux appareils.</string>
+  <string name="DeviceTransferSetup__make_sure_both_devices_are_in_transfer_mode">Assurez-vous que les deux appareils soient en mode transfert.</string>
+  <string name="DeviceTransferSetup__go_to_support_page">Accédez à la page d’assistance</string>
+  <string name="DeviceTransferSetup__try_again">Réessayer</string>
+  <string name="DeviceTransferSetup__waiting_for_other_device">En attente d’un autre appareil</string>
+  <!--NewDeviceTransferFragment-->
+  <!--DeviceTransferFragment-->
+  <string name="DeviceTransfer__transferring_data">Transfert des données</string>
+  <string name="DeviceTransfer__d_messages_so_far">%1$d messages jusqu’à présent…</string>
+  <string name="DeviceTransfer__cancel">Annuler</string>
+  <string name="DeviceTransfer__try_again">Réessayer</string>
+  <string name="DeviceTransfer__stop_transfer_question">Arrêter le transfert ?</string>
+  <string name="DeviceTransfer__stop_transfer">Arrêter le transfert</string>
+  <string name="DeviceTransfer__transfer_failed">Échec du transfert</string>
+  <string name="DeviceTransfer__unable_to_transfer">Impossible de transférer</string>
+  <!--OldDeviceTransferInstructionsFragment-->
+  <string name="OldDeviceTransferInstructions__transfer_account">Transférer le compte</string>
+  <string name="OldDeviceTransferInstructions__first_bullet">1.</string>
+  <string name="OldDeviceTransferInstructions__download_signal_on_your_new_android_device">Téléchargez Signal sur votre nouvel appareil Android</string>
+  <string name="OldDeviceTransferInstructions__second_bullet">2.</string>
+  <string name="OldDeviceTransferInstructions__third_bullet">3.</string>
+  <string name="OldDeviceTransferInstructions__continue">Poursuivre</string>
+  <!--OldDeviceTransferComplete-->
+  <string name="OldDeviceTransferComplete__transfer_complete">Transfert terminé</string>
+  <string name="OldDeviceTransferComplete__go_to_your_new_device">Allez sur votre nouvel appareil</string>
+  <string name="OldDeviceTransferComplete__close">Fermer</string>
+  <!--NewDeviceTransferComplete-->
+  <string name="NewDeviceTransferComplete__transfer_successful">Transfert réussi</string>
+  <string name="NewDeviceTransferComplete__transfer_complete">Transfert terminé</string>
+  <string name="NewDeviceTransferComplete__continue_registration">Poursuivre l’inscription</string>
+  <!--DeviceToDeviceTransferService-->
+  <string name="DeviceToDeviceTransferService_content_title">Transfert de compte</string>
+  <string name="DeviceToDeviceTransferService_status_ready">Preparing to connect to your other Android device…</string>
+  <string name="DeviceToDeviceTransferService_status_starting_up">Préparation de la connexion à votre autre appareil Android…</string>
+  <string name="DeviceToDeviceTransferService_status_discovery">Recherche de votre autre appareil Android…</string>
+  <string name="DeviceToDeviceTransferService_status_network_connected">Connexion à votre autre appareil Android…</string>
+  <string name="DeviceToDeviceTransferService_status_verification_required">Confirmation requise</string>
+  <string name="DeviceToDeviceTransferService_status_service_connected">Transfert du compte…</string>
+  <!--OldDeviceTransferLockedDialog-->
+  <string name="OldDeviceTransferLockedDialog__done">Terminé</string>
+  <string name="OldDeviceTransferLockedDialog__cancel_and_activate_this_device">Annuler et activer cette appareil</string>
+  <!--AdvancedPreferenceFragment-->
   <!--RecipientBottomSheet-->
   <string name="RecipientBottomSheet_block">Bloquer</string>
   <string name="RecipientBottomSheet_unblock">Débloquer</string>
@@ -2303,6 +2534,8 @@
   <string name="GroupsLearnMore_paragraph_2">Les groupes hérités ne peuvent pas encore être convertis en Nouveaux groupes, mais vous pouvez créer un Nouveau groupe avec les mêmes membres s’ils utilisent la version la plus récente de Signal.</string>
   <string name="GroupsLearnMore_paragraph_3">Signal offrira dans le futur un moyen de convertir les groupes hérités.</string>
   <!--GroupLinkBottomSheetDialogFragment-->
+  <string name="GroupLinkBottomSheet_share_hint_requiring_approval">Toute personne disposant de ce lien peut visualiser le nom et la photo du groupe et demander à s’y joindre. Partagez-le avec les personnes en qui vous avez confiance.</string>
+  <string name="GroupLinkBottomSheet_share_hint_not_requiring_approval">Toute personne disposant de ce lien peut visualiser le nom et la photo du groupe et s’y joindre. Partagez-le avec les personnes en qui vous avez confiance.</string>
   <string name="GroupLinkBottomSheet_share_via_signal">Partager avec Signal</string>
   <string name="GroupLinkBottomSheet_copy">Copier</string>
   <string name="GroupLinkBottomSheet_qr_code">Code QR</string>
@@ -2386,26 +2619,28 @@
   <!--ShareInterstitialActivity-->
   <string name="ShareInterstitialActivity__forward_message">Transférer le message</string>
   <!--ChatWallpaperActivity-->
-  <string name="ChatWallpaperActivity__chat_wallpaper">Fond d’écran de conversation</string>
+  <string name="ChatWallpaperActivity__chat_wallpaper">Fond d’écran de la conversation</string>
   <!--ChatWallpaperFragment-->
+  <string name="ChatWallpaperFragment__chat_color">Couleur de la conversation</string>
+  <string name="ChatWallpaperFragment__reset_chat_color">Réinitialiser la couleur de la conversation</string>
+  <string name="ChatWallpaperFragment__reset_chat_color_question">Réinitialiser la couleur de la conversation ?</string>
   <string name="ChatWallpaperFragment__set_wallpaper">Définir un fond d’écran</string>
-  <string name="ChatWallpaperFragment__dark_theme_dims_wallpaper">Le thème sombre atténue le fond d’écran</string>
-  <string name="ChatWallpaperFragment__clear_wallpaper">Effacer le fond d’écran</string>
-  <string name="ChatWallpaperFragment__clear_wallpaper_for_this_chat">Effacer le fond d’écran pour cette conversation ?</string>
-  <string name="ChatWallpaperFragment__clear_wallpaper_this_will_not">Effacer le fond d’écran ? Les fonds d’écran personnalisés que vous avez définis pour vos conversations ne seront pas effacés.</string>
-  <string name="ChatWallpaperFragment__reset_all_wallpapers">Réinitialiser tous les fonds d’écran</string>
-  <string name="ChatWallpaperFragment__reset_all_wallpapers_including_custom">Réinitialiser tous les fonds d’écran, dont les fonds d’écran personnalisés que vous avez définis pour vos conversations ?</string>
+  <string name="ChatWallpaperFragment__dark_mode_dims_wallpaper">Le mode sombre atténue le fond d’écran</string>
   <string name="ChatWallpaperFragment__contact_name">Nom du contact</string>
   <string name="ChatWallpaperFragment__reset">Réinitialiser</string>
   <string name="ChatWallpaperFragment__clear">Réinitialiser</string>
   <string name="ChatWallpaperFragment__wallpaper_preview_description">Aperçu du fond d’écran</string>
+  <string name="ChatWallpaperFragment__reset_all_colors">Réinitialiser toutes les couleurs</string>
+  <string name="ChatWallpaperFragment__reset_all_wallpapers">Réinitialiser tous les fonds d’écran</string>
+  <string name="ChatWallpaperFragment__reset_wallpaper">Réinitialiser le fond d\'écran</string>
+  <string name="ChatWallpaperFragment__reset_wallpaper_question">Réinitialiser le fond d\'écran ?</string>
   <!--ChatWallpaperSelectionFragment-->
   <string name="ChatWallpaperSelectionFragment__choose_from_photos">Choisir parmi les photos</string>
   <string name="ChatWallpaperSelectionFragment__presets">Préréglages</string>
   <!--ChatWallpaperPreviewActivity-->
   <string name="ChatWallpaperPreviewActivity__preview">Aperçu</string>
   <string name="ChatWallpaperPreviewActivity__set_wallpaper">Définir le fond d’écran</string>
-  <string name="ChatWallpaperPreviewActivity__swipe_to_preview_more_wallpapers">Faire glisser pour prévisualiser d’autres fonds d’écran</string>
+  <string name="ChatWallpaperPreviewActivity__swipe_to_preview_more_wallpapers">Balayez pour prévisualiser d’autres fonds d’écran</string>
   <string name="ChatWallpaperPreviewActivity__set_wallpaper_for_all_chats">Définir le fond d’écran pour toutes les conversations</string>
   <string name="ChatWallpaperPreviewActivity__set_wallpaper_for_s">Définir le fond d’écran pour %1$s</string>
   <string name="ChatWallpaperPreviewActivity__viewing_your_gallery_requires_the_storage_permission">L’autorisation Stockage est exigée pour afficher votre galerie.</string>
@@ -2417,5 +2652,167 @@
   <string name="WallpaperCropActivity__set_wallpaper_for_s">Définir le fond d’écran pour %s.</string>
   <string name="WallpaperCropActivity__error_setting_wallpaper">Erreur de définition du fond d’écran.</string>
   <string name="WallpaperCropActivity__blur_photo">Rendre la photo floue</string>
+  <!--InfoCard-->
+  <string name="payment_info_card_about_mobilecoin">À propos de MobileCoin</string>
+  <string name="payment_info_card_adding_funds">Ajout de fonds</string>
+  <string name="payment_info_card_hide_this_card">Masquer cette carte ?</string>
+  <string name="payment_info_card_hide">Cacher</string>
+  <string name="payment_info_card_update_pin">Mettre le NIP à jour</string>
+  <!--DeactivateWalletFragment-->
+  <string name="DeactivateWalletFragment__deactivate_without_transferring">Désactiver dans transférer</string>
+  <string name="DeactivateWalletFragment__deactivate">Désactiver</string>
+  <string name="DeactivateWalletFragment__deactivate_without_transferring_question">Désactiver sans transférer ?</string>
+  <!--PaymentsRecoveryStartFragment-->
+  <string name="PaymentsRecoveryStartFragment__recovery_phrase">Phrase de récupération</string>
+  <string name="PaymentsRecoveryStartFragment__enter_manually">Entrer manuellement</string>
+  <string name="PaymentsRecoveryStartFragment__paste_from_clipboard">Coller depuis le presse-papiers</string>
+  <!--PaymentsRecoveryPasteFragment-->
+  <string name="PaymentsRecoveryPasteFragment__paste_recovery_phrase">Coller la phrase de récupération</string>
+  <string name="PaymentsRecoveryPasteFragment__recovery_phrase">Phrase de récupération</string>
+  <string name="PaymentsRecoveryPasteFragment__next">Suivant</string>
+  <string name="PaymentsRecoveryPasteFragment__invalid_recovery_phrase">Phrase de récupération invalide</string>
+  <!--PaymentsRecoveryPhraseFragment-->
+  <string name="PaymentsRecoveryPhraseFragment__next">Suivant</string>
+  <string name="PaymentsRecoveryPhraseFragment__edit">Modifier</string>
+  <string name="PaymentsRecoveryPhraseFragment__your_recovery_phrase">Votre phrase de récupération</string>
+  <string name="PaymentsRecoveryPhraseFragment__invalid_recovery_phrase">Phrase de récupération invalide</string>
+  <string name="PaymentsRecoveryPhraseFragment__make_sure_youve_entered_your_phrase_correctly_and_try_again">Assurez-vous d’avoir correctement saisi votre phrase et réessayez.</string>
+  <string name="PaymentsRecoveryPhraseFragment__copy_to_clipboard">Copier dans le presse-papiers ?</string>
+  <string name="PaymentsRecoveryPhraseFragment__if_you_choose_to_store">Si vous choisissez de stocker numériquement votre phrase de récupération, assurez-vous qu’elle le soit en toute sécurité dans un endroit de confiance.</string>
+  <string name="PaymentsRecoveryPhraseFragment__copy">Copier</string>
+  <!--PaymentsRecoveryPhraseConfirmFragment-->
+  <string name="PaymentRecoveryPhraseConfirmFragment__see_phrase_again">Revoir la phrase</string>
+  <string name="PaymentRecoveryPhraseConfirmFragment__done">Terminé</string>
+  <string name="PaymentRecoveryPhraseConfirmFragment__recovery_phrase_confirmed">Phrase de récupération confirmée</string>
+  <!--PaymentsRecoveryEntryFragment-->
+  <string name="PaymentsRecoveryEntryFragment__next">Suivant</string>
+  <!--ClearClipboardAlarmReceiver-->
+  <string name="ClearClipboardAlarmReceiver__clipboard_cleared">Le presse-papiers a été effacé.</string>
+  <!--PaymentNotificationsView-->
+  <string name="PaymentNotificationsView__view">Afficher</string>
+  <!--UnreadPayments-->
+  <string name="UnreadPayments__s_sent_you_s">%1$s vous a envoyé %2$s</string>
+  <string name="UnreadPayments__d_new_payment_notifications">%1$d nouvelles notifications de paiement</string>
+  <!--CanNotSendPaymentDialog-->
+  <string name="CanNotSendPaymentDialog__send_a_message">Envoyez un message</string>
+  <!--GroupsInCommonMessageRequest-->
+  <string name="GroupsInCommonMessageRequest__okay">Valider</string>
+  <string name="ChatColorSelectionFragment__heres_a_preview_of_the_chat_color">Voici un aperçu de la couleur de la conversation.</string>
+  <string name="ChatColorSelectionFragment__the_color_is_visible_to_only_you">La couleur n’est visible que par vous.</string>
+  <!--GroupDescriptionDialog-->
+  <string name="GroupDescriptionDialog__group_description">Description du groupe</string>
+  <!--QualitySelectorBottomSheetDialog-->
+  <string name="QualitySelectorBottomSheetDialog__standard">Standard</string>
+  <string name="QualitySelectorBottomSheetDialog__faster_less_data">Rapide, plus léger</string>
+  <string name="QualitySelectorBottomSheetDialog__high">Élevée</string>
+  <string name="QualitySelectorBottomSheetDialog__photo_quality">Qualité d’image</string>
+  <!--AppSettingsFragment-->
+  <string name="AppSettingsFragment__invite_your_friends">Invitez vos amis</string>
+  <!--AccountSettingsFragment-->
+  <string name="AccountSettingsFragment__account">Compte</string>
+  <string name="AccountSettingsFragment__youll_be_asked_less_frequently">On vous le demandera moins souvent au fil du temps</string>
+  <!--ChatsSettingsFragment-->
+  <string name="ChatsSettingsFragment__keyboard">Clavier</string>
+  <string name="ChatsSettingsFragment__enter_key_sends">La touche Entrée envoie</string>
+  <!--SmsSettingsFragment-->
+  <string name="SmsSettingsFragment__use_as_default_sms_app">Utiliser comme appli de textos par défaut</string>
+  <!--NotificationsSettingsFragment-->
+  <string name="NotificationsSettingsFragment__messages">Messages</string>
+  <string name="NotificationsSettingsFragment__calls">Appels</string>
+  <string name="NotificationsSettingsFragment__notify_when">Me prévenir quand…</string>
+  <string name="NotificationsSettingsFragment__contact_joins_signal">Un contact se joint à Signal</string>
+  <!--PrivacySettingsFragment-->
+  <string name="PrivacySettingsFragment__blocked">Bloquée</string>
+  <string name="PrivacySettingsFragment__d_contacts">%1$d contacts</string>
+  <string name="PrivacySettingsFragment__messaging">Messagerie</string>
+  <string name="PrivacySettingsFragment__disappearing_messages">Messages éphémères</string>
+  <string name="PrivacySettingsFragment__app_security">Sécurité de l’appli</string>
+  <string name="PrivacySettingsFragment__block_screenshots_in_the_recents_list_and_inside_the_app">Bloquer les captures d’écran dans la liste des récents et dans l’appli</string>
+  <string name="PrivacySettingsFragment__signal_message_and_calls">Messages et appels Signal, toujours relayer les appels et expéditeur scellé</string>
+  <string name="PrivacySettingsFragment__default_timer_for_new_changes">Minuterie par défaut pour les nouvelles conversations</string>
+  <!--AdvancedPrivacySettingsFragment-->
+  <string name="AdvancedPrivacySettingsFragment__show_status_icon">Afficher l’icône d’état</string>
+  <string name="AdvancedPrivacySettingsFragment__show_an_icon">Afficher une icône dans les détails des messages qui ont été remis avec l’option « expéditeur scellé ».</string>
+  <!--ExpireTimerSettingsFragment-->
+  <string name="ExpireTimerSettingsFragment__when_enabled_new_messages_sent_and_received_in_this_chat_will_disappear_after_they_have_been_seen">Si cette option est activée, les nouveaux messages envoyés et reçus dans cette conversation disparaîtront après avoir été lus.</string>
+  <string name="ExpireTimerSettingsFragment__off">Désactivé</string>
+  <string name="ExpireTimerSettingsFragment__4_weeks">4 semaines</string>
+  <string name="ExpireTimerSettingsFragment__1_week">1 semaine</string>
+  <string name="ExpireTimerSettingsFragment__1_day">1 jour</string>
+  <string name="ExpireTimerSettingsFragment__8_hours">8 heures</string>
+  <string name="ExpireTimerSettingsFragment__1_hour">1 heure</string>
+  <string name="ExpireTimerSettingsFragment__5_minutes">5 minutes</string>
+  <string name="ExpireTimerSettingsFragment__30_seconds">30 secondes</string>
+  <string name="ExpireTimerSettingsFragment__custom_time">Délai personnalisé</string>
+  <string name="ExpireTimerSettingsFragment__set">Définir</string>
+  <string name="ExpireTimerSettingsFragment__save">Enregistrer</string>
+  <string name="CustomExpireTimerSelectorView__seconds">seconde</string>
+  <string name="CustomExpireTimerSelectorView__minutes">minutes</string>
+  <string name="CustomExpireTimerSelectorView__hours">heures</string>
+  <string name="CustomExpireTimerSelectorView__days">jours</string>
+  <string name="CustomExpireTimerSelectorView__weeks">semaines</string>
+  <!--HelpSettingsFragment-->
+  <string name="HelpSettingsFragment__support_center">Centre d’assistance</string>
+  <string name="HelpSettingsFragment__contact_us">Nous contacter</string>
+  <string name="HelpSettingsFragment__version">Version</string>
+  <string name="HelpSettingsFragment__debug_log">Journal de débogage</string>
+  <string name="HelpSettingsFragment__terms_amp_privacy_policy">Conditions générales et politique de confidentialité</string>
+  <string name="HelpFragment__copyright_signal_messenger">Tous droits réservés Messagerie Signal</string>
+  <string name="HelpFragment__licenced_under_the_gplv3">Sous licence GPLv3</string>
+  <!--DataAndStorageSettingsFragment-->
+  <string name="DataAndStorageSettingsFragment__calls">Appels</string>
+  <!--ChatColorSelectionFragment-->
+  <string name="ChatColorSelectionFragment__auto">Auto</string>
+  <string name="ChatColorSelectionFragment__use_custom_colors">Utiliser des couleurs personnalisées</string>
+  <string name="ChatColorSelectionFragment__chat_color">Couleur de la conversation</string>
+  <string name="ChatColorSelectionFragment__edit">Modifier</string>
+  <string name="ChatColorSelectionFragment__duplicate">Dupliquer</string>
+  <string name="ChatColorSelectionFragment__delete">Supprimer</string>
+  <string name="ChatColorSelectionFragment__delete_color">Supprimer la couleur</string>
+  <plurals name="ChatColorSelectionFragment__this_custom_color_is_used">
+    <item quantity="one">Cette couleur personnalisée est utilisée dans %1$d conversation. Souhaitez-vous la supprimer pour toutes les conversations ?</item>
+    <item quantity="other">Cette couleur personnalisée est utilisée dans %1$d conversations. Souhaitez-vous la supprimer pour toutes les conversations ?</item>
+  </plurals>
+  <!--CustomChatColorCreatorFragment-->
+  <string name="CustomChatColorCreatorFragment__solid">Unie</string>
+  <string name="CustomChatColorCreatorFragment__gradient">Dégradée</string>
+  <string name="CustomChatColorCreatorFragment__hue">Teinte</string>
+  <string name="CustomChatColorCreatorFragment__saturation">Saturation</string>
+  <!--CustomChatColorCreatorFragmentPage-->
+  <string name="CustomChatColorCreatorFragmentPage__save">Enregistrer</string>
+  <string name="CustomChatColorCreatorFragmentPage__edit_color">Modifier la couleur</string>
+  <plurals name="CustomChatColorCreatorFragmentPage__this_color_is_used">
+    <item quantity="one">Cette couleur est utilisée dans %1$d conversation. Souhaitez-vous enregistrer les changements pour toutes les conversations ?</item>
+    <item quantity="other">Cette couleur est utilisée dans %1$d conversations. Souhaitez-vous enregistrer les changements pour toutes les conversations ?</item>
+  </plurals>
+  <!--ChatColorGradientTool-->
+  <string name="ChatColorGradientTool_top_edge_selector">Sélecteur de bord supérieur</string>
+  <string name="ChatColorGradientTool_bottom_edge_selector">Sélecteur de bord inférieur</string>
+  <!--EditReactionsFragment-->
+  <string name="EditReactionsFragment__customize_reactions">Personnaliser les réactions</string>
+  <string name="EditReactionsFragment__tap_to_replace_an_emoji">Touchez pour remplacer un émoji</string>
+  <string name="EditReactionsFragment__reset">Réinitialiser</string>
+  <string name="EditReactionsFragment_save">Enregistrer</string>
+  <string name="ChatColorSelectionFragment__auto_matches_the_color_to_the_wallpaper">Adapter automatiquement la couleur au fond d’écran</string>
+  <string name="CustomChatColorCreatorFragment__drag_to_change_the_direction_of_the_gradient">Faites glisser pour modifier la direction du dégradé</string>
+  <!--ChatColorsMegaphone-->
+  <string name="ChatColorsMegaphone__new_chat_colors">Nouvelles couleurs de conversation</string>
+  <string name="ChatColorsMegaphone__we_switched_up_chat_colors">Nous avons modifié les choix de couleurs des conversations pour vous offrir plus d’options et les rendre plus faciles à lire.</string>
+  <string name="ChatColorsMegaphone__appearance">Apparence</string>
+  <string name="ChatColorsMegaphone__not_now">Pas maintenant</string>
+  <!--KeyboardPagerFragment-->
+  <string name="KeyboardPagerFragment_emoji">Émoji</string>
+  <string name="KeyboardPagerFragment_open_emoji_search">Ouvrir la recherche d’émojis</string>
+  <string name="KeyboardPagerFragment_open_sticker_search">Ouvrir la recherche d’autocollants</string>
+  <string name="KeyboardPagerFragment_open_gif_search">Ouvrir la recherche de GIF</string>
+  <string name="KeyboardPagerFragment_stickers">Autocollants</string>
+  <string name="KeyboardPagerFragment_gifs">GIF</string>
+  <string name="KeyboardPagerFragment_search_emoji">Chercher un émoji</string>
+  <string name="KeyboardPagerfragment_clear_search_entry">Effacer l’historique de recherche</string>
+  <string name="KeyboardPagerFragment_search_giphy">Chercher dans GIPHY</string>
+  <!--StickerSearchDialogFragment-->
+  <string name="StickerSearchDialogFragment_search_stickers">Chercher des autocollants</string>
+  <string name="StickerSearchDialogFragment_no_results_found">Aucun résultat trouvé</string>
+  <string name="EmojiSearchFragment__no_results_found">Aucun résultat trouvé</string>
   <!--EOF-->
 </resources>

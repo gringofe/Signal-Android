@@ -2,7 +2,7 @@ package org.thoughtcrime.securesms.jobs;
 
 import androidx.annotation.NonNull;
 
-import org.thoughtcrime.securesms.ApplicationContext;
+import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.crypto.UnidentifiedAccessUtil;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
 import org.thoughtcrime.securesms.database.MessageDatabase;
@@ -13,7 +13,6 @@ import org.thoughtcrime.securesms.database.model.SmsMessageRecord;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.jobmanager.Data;
 import org.thoughtcrime.securesms.jobmanager.Job;
-import org.thoughtcrime.securesms.jobmanager.impl.BackoffUtil;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.recipients.RecipientUtil;
@@ -30,18 +29,17 @@ import org.whispersystems.signalservice.api.crypto.UntrustedIdentityException;
 import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
-import org.whispersystems.signalservice.api.push.exceptions.NonSuccessfulResponseCodeException;
+import org.whispersystems.signalservice.api.push.exceptions.ProofRequiredException;
 import org.whispersystems.signalservice.api.push.exceptions.ServerRejectedException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class PushTextSendJob extends PushSendJob {
 
   public static final String KEY = "PushTextSendJob";
 
-  private static final String TAG = PushTextSendJob.class.getSimpleName();
+  private static final String TAG = Log.tag(PushTextSendJob.class);
 
   private static final String KEY_MESSAGE_ID = "message_id";
 
@@ -72,8 +70,8 @@ public class PushTextSendJob extends PushSendJob {
   }
 
   @Override
-  public void onPushSend() throws IOException, NoSuchMessageException, UndeliverableMessageException {
-    ExpiringMessageManager expirationManager = ApplicationContext.getInstance(context).getExpiringMessageManager();
+  public void onPushSend() throws IOException, NoSuchMessageException, UndeliverableMessageException, RetryLaterException {
+    ExpiringMessageManager expirationManager = ApplicationDependencies.getExpiringMessageManager();
     MessageDatabase        database          = DatabaseFactory.getSmsDatabase(context);
     SmsMessageRecord       record            = database.getSmsMessage(messageId);
 
@@ -83,7 +81,7 @@ public class PushTextSendJob extends PushSendJob {
     }
 
     try {
-      log(TAG, String.valueOf(record.getDateSent()), "Sending message: " + messageId);
+      log(TAG, String.valueOf(record.getDateSent()), "Sending message: " + messageId + ",  Recipient: " + record.getRecipient().getId() + ", Thread: " + record.getThreadId());
 
       RecipientUtil.shareProfileIfFirstSecureMessage(context, record.getRecipient());
 
@@ -132,6 +130,8 @@ public class PushTextSendJob extends PushSendJob {
       database.markAsSentFailed(record.getId());
       database.markAsPush(record.getId());
       RetrieveProfileJob.enqueue(recipientId);
+    } catch (ProofRequiredException e) {
+      handleProofRequiredException(e, record.getRecipient(), record.getThreadId(), messageId, false);
     }
   }
 
@@ -184,6 +184,10 @@ public class PushTextSendJob extends PushSendJob {
     } catch (ServerRejectedException e) {
       throw new UndeliverableMessageException(e);
     }
+  }
+
+  public static long getMessageId(@NonNull Data data) {
+    return data.getLong(KEY_MESSAGE_ID);
   }
 
   public static class Factory implements Job.Factory<PushTextSendJob> {

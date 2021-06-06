@@ -8,7 +8,6 @@ import androidx.annotation.WorkerThread;
 import com.annimon.stream.Stream;
 
 import org.signal.core.util.logging.Log;
-import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.attachments.Attachment;
 import org.thoughtcrime.securesms.crypto.UnidentifiedAccessUtil;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
@@ -41,6 +40,7 @@ import org.whispersystems.signalservice.api.messages.SignalServiceDataMessage.Pr
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
 import org.whispersystems.signalservice.api.messages.shared.SharedContact;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
+import org.whispersystems.signalservice.api.push.exceptions.ProofRequiredException;
 import org.whispersystems.signalservice.api.push.exceptions.ServerRejectedException;
 import org.whispersystems.signalservice.api.push.exceptions.UnregisteredUserException;
 
@@ -53,7 +53,7 @@ public class PushMediaSendJob extends PushSendJob {
 
   public static final String KEY = "PushMediaSendJob";
 
-  private static final String TAG = PushMediaSendJob.class.getSimpleName();
+  private static final String TAG = Log.tag(PushMediaSendJob.class);
 
   private static final String KEY_MESSAGE_ID = "message_id";
 
@@ -105,11 +105,12 @@ public class PushMediaSendJob extends PushSendJob {
 
   @Override
   public void onPushSend()
-      throws IOException, MmsException, NoSuchMessageException, UndeliverableMessageException
+      throws IOException, MmsException, NoSuchMessageException, UndeliverableMessageException, RetryLaterException
   {
-    ExpiringMessageManager expirationManager = ApplicationContext.getInstance(context).getExpiringMessageManager();
+    ExpiringMessageManager expirationManager = ApplicationDependencies.getExpiringMessageManager();
     MessageDatabase        database          = DatabaseFactory.getMmsDatabase(context);
     OutgoingMediaMessage   message           = database.getOutgoingMessage(messageId);
+    long                   threadId          = database.getMessageRecord(messageId).getThreadId();
 
     if (database.isSent(messageId)) {
       warn(TAG, String.valueOf(message.getSentTimeMillis()), "Message " + messageId + " was already sent. Ignoring.");
@@ -117,7 +118,7 @@ public class PushMediaSendJob extends PushSendJob {
     }
 
     try {
-      log(TAG, String.valueOf(message.getSentTimeMillis()), "Sending message: " + messageId);
+      log(TAG, String.valueOf(message.getSentTimeMillis()), "Sending message: " + messageId + ", Recipient: " + message.getRecipient().getId() + ", Thread: " + threadId);
 
       RecipientUtil.shareProfileIfFirstSecureMessage(context, message.getRecipient());
 
@@ -171,6 +172,8 @@ public class PushMediaSendJob extends PushSendJob {
       database.addMismatchedIdentity(messageId, recipientId, uie.getIdentityKey());
       database.markAsSentFailed(messageId);
       RetrieveProfileJob.enqueue(recipientId);
+    } catch (ProofRequiredException e) {
+      handleProofRequiredException(e, DatabaseFactory.getThreadDatabase(context).getRecipientForThreadId(threadId), threadId, messageId, true);
     }
   }
 
@@ -232,6 +235,10 @@ public class PushMediaSendJob extends PushSendJob {
     } catch (ServerRejectedException e) {
       throw new UndeliverableMessageException(e);
     }
+  }
+
+  public static long getMessageId(@NonNull Data data) {
+    return data.getLong(KEY_MESSAGE_ID);
   }
 
   public static final class Factory implements Job.Factory<PushMediaSendJob> {

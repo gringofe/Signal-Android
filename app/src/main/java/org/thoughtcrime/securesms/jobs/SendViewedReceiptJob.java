@@ -11,6 +11,7 @@ import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.jobmanager.Data;
 import org.thoughtcrime.securesms.jobmanager.Job;
 import org.thoughtcrime.securesms.jobmanager.impl.NetworkConstraint;
+import org.thoughtcrime.securesms.net.NotPushRegisteredException;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientId;
 import org.thoughtcrime.securesms.recipients.RecipientUtil;
@@ -32,7 +33,7 @@ public class SendViewedReceiptJob extends BaseJob {
 
   public static final String KEY = "SendViewedReceiptJob";
 
-  private static final String TAG = SendViewedReceiptJob.class.getSimpleName();
+  private static final String TAG = Log.tag(SendViewedReceiptJob.class);
 
   private static final String KEY_THREAD          = "thread";
   private static final String KEY_ADDRESS         = "address";
@@ -57,7 +58,7 @@ public class SendViewedReceiptJob extends BaseJob {
                            .build(),
          threadId,
          recipientId,
-         syncTimestamps,
+         SendReadReceiptJob.ensureSize(syncTimestamps, SendReadReceiptJob.MAX_TIMESTAMPS),
          System.currentTimeMillis());
   }
 
@@ -91,6 +92,10 @@ public class SendViewedReceiptJob extends BaseJob {
 
   @Override
   public void onRun() throws IOException, UntrustedIdentityException {
+    if (!Recipient.self().isRegistered()) {
+      throw new NotPushRegisteredException();
+    }
+
     if (!TextSecurePreferences.isReadReceiptsEnabled(context) || syncTimestamps.isEmpty() || !FeatureFlags.sendViewedReceipts()) return;
 
     if (!RecipientUtil.isMessageRequestAccepted(context, threadId)) {

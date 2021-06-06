@@ -2,10 +2,8 @@ package org.thoughtcrime.securesms.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,8 +20,6 @@ import com.bumptech.glide.request.target.CustomViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import org.thoughtcrime.securesms.R;
-import org.thoughtcrime.securesms.color.MaterialColor;
-import org.thoughtcrime.securesms.contacts.avatars.ContactColors;
 import org.thoughtcrime.securesms.contacts.avatars.ContactPhoto;
 import org.thoughtcrime.securesms.contacts.avatars.GeneratedContactPhoto;
 import org.thoughtcrime.securesms.contacts.avatars.ProfileContactPhoto;
@@ -108,18 +104,26 @@ public final class AvatarUtil {
   @WorkerThread
   public static @NonNull Icon getIconForShortcut(@NonNull Context context, @NonNull Recipient recipient) {
     try {
-      return Icon.createWithAdaptiveBitmap(GlideApp.with(context).asBitmap().load(new ConversationShortcutPhoto(recipient)).submit().get());
+      GlideRequest<Bitmap> glideRequest = GlideApp.with(context).asBitmap().load(new ConversationShortcutPhoto(recipient));
+      if (recipient.shouldBlurAvatar()) {
+        glideRequest = glideRequest.transform(new BlurTransformation(context, 0.25f, BlurTransformation.MAX_RADIUS));
+      }
+      return Icon.createWithAdaptiveBitmap(glideRequest.submit().get());
     } catch (ExecutionException | InterruptedException e) {
-      throw new AssertionError("This call should not fail.");
+      throw new AssertionError("This call should not fail.", e);
     }
   }
 
   @WorkerThread
   public static @NonNull IconCompat getIconCompatForShortcut(@NonNull Context context, @NonNull Recipient recipient) {
     try {
-      return IconCompat.createWithAdaptiveBitmap(GlideApp.with(context).asBitmap().load(new ConversationShortcutPhoto(recipient)).submit().get());
+      GlideRequest<Bitmap> glideRequest = GlideApp.with(context).asBitmap().load(new ConversationShortcutPhoto(recipient));
+      if (recipient.shouldBlurAvatar()) {
+        glideRequest = glideRequest.transform(new BlurTransformation(context, 0.25f, BlurTransformation.MAX_RADIUS));
+      }
+      return IconCompat.createWithAdaptiveBitmap(glideRequest.submit().get());
     } catch (ExecutionException | InterruptedException e) {
-      throw new AssertionError("This call should not fail.");
+      throw new AssertionError("This call should not fail.", e);
     }
   }
 
@@ -152,19 +156,20 @@ public final class AvatarUtil {
       photo = recipient.getContactPhoto();
     }
 
-    return glideRequest.load(photo)
-                       .error(getFallback(context, recipient))
-                       .diskCacheStrategy(DiskCacheStrategy.ALL);
+    final GlideRequest<T> request = glideRequest.load(photo)
+                                                .error(getFallback(context, recipient))
+                                                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+    if (recipient.shouldBlurAvatar()) {
+      return request.transform(new BlurTransformation(context, 0.25f, BlurTransformation.MAX_RADIUS));
+    } else {
+      return request;
+    }
   }
 
   private static Drawable getFallback(@NonNull Context context, @NonNull Recipient recipient) {
-    String        name          = Optional.fromNullable(recipient.getDisplayName(context)).or("");
-    MaterialColor fallbackColor = recipient.getColor();
+    String name = Optional.fromNullable(recipient.getDisplayName(context)).or("");
 
-    if (fallbackColor == ContactColors.UNKNOWN_COLOR && !TextUtils.isEmpty(name)) {
-      fallbackColor = ContactColors.generateFor(name);
-    }
-
-    return new GeneratedContactPhoto(name, R.drawable.ic_profile_outline_40).asDrawable(context, fallbackColor.toAvatarColor(context));
+    return new GeneratedContactPhoto(name, R.drawable.ic_profile_outline_40).asDrawable(context, recipient.getAvatarColor().colorInt());
   }
 }

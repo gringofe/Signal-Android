@@ -22,6 +22,7 @@ import org.webrtc.CameraVideoCapturer;
 import org.webrtc.CapturerObserver;
 import org.webrtc.EglBase;
 import org.webrtc.SurfaceTextureHelper;
+import org.webrtc.VideoFrame;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class Camera implements CameraControl, CameraVideoCapturer.CameraSwitchHa
   @NonNull  private       CameraState.Direction activeDirection;
             private       boolean               enabled;
             private       boolean               isInitialized;
+            private       int                   orientation;
 
   public Camera(@NonNull Context context,
                 @NonNull CameraEventListener cameraEventListener,
@@ -80,7 +82,8 @@ public class Camera implements CameraControl, CameraVideoCapturer.CameraSwitchHa
     if (capturer != null) {
       capturer.initialize(SurfaceTextureHelper.create("WebRTC-SurfaceTextureHelper", eglBase.getEglBaseContext()),
                           context,
-                          observer);
+                          new CameraCapturerWrapper(observer));
+      capturer.setOrientation(orientation);
       isInitialized = true;
     }
   }
@@ -97,6 +100,15 @@ public class Camera implements CameraControl, CameraVideoCapturer.CameraSwitchHa
     }
     activeDirection = PENDING;
     capturer.switchCamera(this);
+  }
+
+  @Override
+  public void setOrientation(@Nullable Integer orientation) {
+    this.orientation = orientation;
+
+    if (isInitialized && capturer != null) {
+      capturer.setOrientation(orientation);
+    }
   }
 
   @Override
@@ -284,6 +296,32 @@ public class Camera implements CameraControl, CameraVideoCapturer.CameraSwitchHa
                                                        @Nullable CameraVideoCapturer.CameraEventsHandler eventsHandler)
     {
       return new Camera2Capturer(context, deviceName, eventsHandler, new FilteredCamera2Enumerator(context));
+    }
+  }
+
+  private class CameraCapturerWrapper implements CapturerObserver {
+    private final CapturerObserver observer;
+
+    public CameraCapturerWrapper(@NonNull CapturerObserver observer) {
+      this.observer = observer;
+    }
+
+    @Override
+    public void onCapturerStarted(boolean success) {
+      observer.onCapturerStarted(success);
+      if (success) {
+        cameraEventListener.onFullyInitialized();
+      }
+    }
+
+    @Override
+    public void onCapturerStopped() {
+      observer.onCapturerStopped();
+    }
+
+    @Override
+    public void onFrameCaptured(VideoFrame videoFrame) {
+      observer.onFrameCaptured(videoFrame);
     }
   }
 }

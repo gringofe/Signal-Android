@@ -8,7 +8,6 @@ import com.annimon.stream.Stream;
 
 import org.signal.core.util.logging.Log;
 import org.signal.ringrtc.CallException;
-import org.signal.ringrtc.CallManager;
 import org.signal.ringrtc.GroupCall;
 import org.signal.ringrtc.PeekInfo;
 import org.thoughtcrime.securesms.BuildConfig;
@@ -123,7 +122,17 @@ public class GroupPreJoinActionProcessor extends GroupActionProcessor {
                                                                          .clearParticipantMap();
 
     for (Recipient recipient : callParticipants) {
-      builder.putParticipant(recipient, CallParticipant.createRemote(new CallParticipantId(recipient), recipient, null, new BroadcastVideoSink(null), true, true, 0, false, 0, CallParticipant.DeviceOrdinal.PRIMARY));
+      builder.putParticipant(recipient, CallParticipant.createRemote(new CallParticipantId(recipient),
+                                                                     recipient,
+                                                                     null,
+                                                                     new BroadcastVideoSink(),
+                                                                     true,
+                                                                     true,
+                                                                     0,
+                                                                     false,
+                                                                     0,
+                                                                     false,
+                                                                     CallParticipant.DeviceOrdinal.PRIMARY));
     }
 
     return builder.build();
@@ -145,8 +154,8 @@ public class GroupPreJoinActionProcessor extends GroupActionProcessor {
 
     webRtcInteractor.updatePhoneState(WebRtcUtil.getInCallPhoneState(context));
     webRtcInteractor.initializeAudioForCall();
-    webRtcInteractor.setWantsBluetoothConnection(true);
     webRtcInteractor.setCallInProgressNotification(TYPE_OUTGOING_RINGING, currentState.getCallInfoState().getCallRecipient());
+    webRtcInteractor.setWantsBluetoothConnection(true);
 
     try {
       groupCall.setOutgoingVideoSource(currentState.getVideoState().requireLocalSink(), currentState.getVideoState().requireCamera());
@@ -164,6 +173,9 @@ public class GroupPreJoinActionProcessor extends GroupActionProcessor {
                        .changeCallInfoState()
                        .callState(WebRtcViewModel.State.CALL_OUTGOING)
                        .groupCallState(WebRtcViewModel.GroupCallState.CONNECTED_AND_JOINING)
+                       .commit()
+                       .changeLocalDeviceState()
+                       .wantsBluetooth(true)
                        .build();
   }
 
