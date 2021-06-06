@@ -51,6 +51,15 @@ class ChatsSettingsFragment : DSLSettingsFragment(R.string.preferences_chats__ch
         }
       )
 
+      switchPref(
+        title = DSLSettingsText.from(R.string.preferences__absolute_time),
+        summary = DSLSettingsText.from(R.string.preferences__use_absolute_time),
+        isChecked = state.absoluteMessageTime,
+        onClick = {
+          viewModel.setUseAbsoluteMessageTime(!state.absoluteMessageTime)
+        }
+      )
+
       dividerPref()
 
       sectionHeaderPref(R.string.ChatsSettingsFragment__keyboard)

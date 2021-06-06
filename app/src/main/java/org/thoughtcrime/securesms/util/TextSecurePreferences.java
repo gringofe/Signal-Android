@@ -74,6 +74,7 @@ public class TextSecurePreferences {
   public  static final String PASSPHRASE_TIMEOUT_PREF          = "pref_timeout_passphrase";
   public  static final String SCREEN_SECURITY_PREF             = "pref_screen_security";
   private static final String ENTER_SENDS_PREF                 = "pref_enter_sends";
+  public static final  String ABSOLUTE_MESSAGE_TIME            = "pref_absolute_time";
   private static final String ENTER_PRESENT_PREF               = "pref_enter_key";
   private static final String SMS_DELIVERY_REPORT_PREF         = "pref_delivery_report_sms";
   public  static final String MMS_USER_AGENT                   = "pref_mms_user_agent";
@@ -757,6 +758,11 @@ public class TextSecurePreferences {
   @Deprecated
   public static boolean isEnterSendsEnabled(Context context) {
     return getBooleanPreference(context, ENTER_SENDS_PREF, false);
+  }
+
+  @Deprecated
+  public static boolean isAbsoluteMessageTime(Context context) {
+    return getBooleanPreference(context, ABSOLUTE_MESSAGE_TIME, true);
   }
 
   public static boolean isPasswordDisabled(Context context) {

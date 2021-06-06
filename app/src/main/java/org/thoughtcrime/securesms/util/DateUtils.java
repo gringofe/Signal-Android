@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 
 import org.signal.core.util.logging.Log;
 import org.thoughtcrime.securesms.R;
+import org.thoughtcrime.securesms.keyvalue.SignalStore;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -40,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 public class DateUtils extends android.text.format.DateUtils {
 
   @SuppressWarnings("unused")
-  private static final String                        TAG                = Log.tag(DateUtils.class);
+  private static final String                        TAG                = DateUtils.class.getSimpleName();
   private static final ThreadLocal<SimpleDateFormat> DATE_FORMAT        = new ThreadLocal<>();
   private static final ThreadLocal<SimpleDateFormat> BRIEF_EXACT_FORMAT = new ThreadLocal<>();
 
@@ -66,9 +67,23 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getBriefRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
-    if (isSameDay(timestamp)) {
-      return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
-    } else if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
+    if(SignalStore.settings().isAbsoluteMessageTime()){
+      if (isSameDay(timestamp)) {
+        return getFormattedDateTime(timestamp, getTimeFormat(c), locale);
+      }
+    } else {
+      if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
+        return c.getString(R.string.DateUtils_just_now);
+      } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
+        int mins = convertDelta(timestamp, TimeUnit.MINUTES);
+        return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
+      } else if (isWithin(timestamp, 1, TimeUnit.DAYS)) {
+        int hours = convertDelta(timestamp, TimeUnit.HOURS);
+        return c.getResources().getQuantityString(R.plurals.hours_ago, hours, hours);
+      }
+    }
+
+    if (isWithin(timestamp, 6, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "EEE", locale);
     } else if (isWithin(timestamp, 365, TimeUnit.DAYS)) {
       return getFormattedDateTime(timestamp, "MMM d", locale);
@@ -93,6 +108,15 @@ public class DateUtils extends android.text.format.DateUtils {
   }
 
   public static String getExtendedRelativeTimeSpanString(final Context c, final Locale locale, final long timestamp) {
+    if(!SignalStore.settings().isAbsoluteMessageTime()){
+      if (isWithin(timestamp, 1, TimeUnit.MINUTES)) {
+        return c.getString(R.string.DateUtils_just_now);
+      } else if (isWithin(timestamp, 1, TimeUnit.HOURS)) {
+        int mins = (int)TimeUnit.MINUTES.convert(System.currentTimeMillis() - timestamp, TimeUnit.MILLISECONDS);
+        return c.getResources().getString(R.string.DateUtils_minutes_ago, mins);
+      }
+    }
+
     StringBuilder format = new StringBuilder();
     if (!isSameDay(timestamp)) {
       if (isWithin(timestamp, 6, TimeUnit.DAYS)) format.append("EEE ");
